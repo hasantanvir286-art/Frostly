@@ -35,8 +35,9 @@ Products, prices, and stock are explicitly demo data. Contact values are placeho
 6. Run [`supabase/migrations/202610200005_default_delivery_address.sql`](supabase/migrations/202610200005_default_delivery_address.sql) to enable a customer's default saved delivery address.
 7. Run [`supabase/migrations/202610200006_admin_product_image_uploads.sql`](supabase/migrations/202610200006_admin_product_image_uploads.sql) to enable public product image delivery and admin-only uploads.
 8. Run [supabase/migrations/202610200007_storefront_settings_slider.sql](supabase/migrations/202610200007_storefront_settings_slider.sql) to enable dashboard editing for the storefront name, logo, and homepage slides.
-9. Create a customer account through Frostly. Confirm its email if Supabase email confirmation is enabled.
-10. Bootstrap the first administrator from the Supabase SQL Editor. Replace the email with the administrator account created in step 9:
+9. Run [supabase/migrations/202610200008_site_contact_settings.sql](supabase/migrations/202610200008_site_contact_settings.sql) to add editable storefront contact and payment details.
+10. Create a customer account through Frostly. Confirm its email if Supabase email confirmation is enabled.
+11. Bootstrap the first administrator from the Supabase SQL Editor. Replace the email with the administrator account created in step 10:
 
    ```sql
    begin;
