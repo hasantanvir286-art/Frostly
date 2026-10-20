@@ -20,7 +20,7 @@ Then visit `http://localhost:8000`. Product imagery and Google Fonts are loaded 
 - Client-side wishlist and Bangla/English product-name switch.
 - Customer assistant panel with catalog-grounded answers from the local sample data. It is not an OpenAI integration.
 - A responsive admin console at `admin.html` with live metrics, order management, catalog editing, inventory, delivery areas, and customer summaries.
-- Supabase email/password sign-up and sign-in, customer account/order history, a protected admin dashboard with live order/inventory metrics and order status updates, and server-validated Cash on Delivery checkout are implemented behind Supabase configuration and the migration below.
+- Supabase email/password sign-up and sign-in, editable customer profiles with photo uploads and password recovery, a separate customer order drawer, a protected admin dashboard with live order/inventory metrics, and server-validated Cash on Delivery checkout are implemented behind Supabase configuration and the migrations below.
 - Newsletter signups remain disabled until a newsletter action is wired to the database.
 
 Products, prices, and stock are explicitly demo data. Contact values are placeholders. Reviews are identified as demo content. No authentic customer, company, or payment claims are made.
@@ -31,8 +31,9 @@ Products, prices, and stock are explicitly demo data. Contact values are placeho
 2. In the Supabase SQL Editor, run [`supabase/migrations/202610200001_frostly_core.sql`](supabase/migrations/202610200001_frostly_core.sql). It creates Auth profiles, bilingual demo catalog, customer-owned data, orders, inventory/status history, restrictive RLS policies, and database functions.
 3. Run [`supabase/migrations/202610200002_chattogram_delivery_zones.sql`](supabase/migrations/202610200002_chattogram_delivery_zones.sql) to enable Inside Chattogram Town (৳80) and Outside Chattogram Town (৳120). It is safe to re-run.
 4. Run [`supabase/migrations/202610200003_admin_inventory_adjustment.sql`](supabase/migrations/202610200003_admin_inventory_adjustment.sql) to enable secure inventory adjustments with movement history from the admin dashboard.
-5. Create a customer account through Frostly. Confirm its email if Supabase email confirmation is enabled.
-6. Bootstrap the first administrator from the Supabase SQL Editor. Replace the email with the administrator account created in step 5:
+5. Run [`supabase/migrations/202610200004_customer_profile_settings.sql`](supabase/migrations/202610200004_customer_profile_settings.sql) to add profile phone/photo fields and secure customer avatar uploads.
+6. Create a customer account through Frostly. Confirm its email if Supabase email confirmation is enabled.
+7. Bootstrap the first administrator from the Supabase SQL Editor. Replace the email with the administrator account created in step 6:
 
    ```sql
    begin;
