@@ -32,8 +32,10 @@ Products, prices, and stock are explicitly demo data. Contact values are placeho
 3. Run [`supabase/migrations/202610200002_chattogram_delivery_zones.sql`](supabase/migrations/202610200002_chattogram_delivery_zones.sql) to enable Inside Chattogram Town (৳80) and Outside Chattogram Town (৳120). It is safe to re-run.
 4. Run [`supabase/migrations/202610200003_admin_inventory_adjustment.sql`](supabase/migrations/202610200003_admin_inventory_adjustment.sql) to enable secure inventory adjustments with movement history from the admin dashboard.
 5. Run [`supabase/migrations/202610200004_customer_profile_settings.sql`](supabase/migrations/202610200004_customer_profile_settings.sql) to add profile phone/photo fields and secure customer avatar uploads.
-6. Create a customer account through Frostly. Confirm its email if Supabase email confirmation is enabled.
-7. Bootstrap the first administrator from the Supabase SQL Editor. Replace the email with the administrator account created in step 6:
+6. Run [`supabase/migrations/202610200005_default_delivery_address.sql`](supabase/migrations/202610200005_default_delivery_address.sql) to enable a customer's default saved delivery address.
+7. Run [`supabase/migrations/202610200006_admin_product_image_uploads.sql`](supabase/migrations/202610200006_admin_product_image_uploads.sql) to enable public product image delivery and admin-only uploads.
+8. Create a customer account through Frostly. Confirm its email if Supabase email confirmation is enabled.
+9. Bootstrap the first administrator from the Supabase SQL Editor. Replace the email with the administrator account created in step 8:
 
    ```sql
    begin;
