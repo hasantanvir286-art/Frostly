@@ -46,11 +46,19 @@ function addBubble(text,who){const el=document.createElement('div');el.className
 $('#chatForm').onsubmit=e=>{e.preventDefault();let input=$('#chatInput'),v=input.value.trim();if(!v)return;addBubble(v,'user');input.value='';setTimeout(()=>addBubble(answer(v),'assistant'),250);};document.querySelectorAll('.suggestions button').forEach(b=>b.onclick=()=>{let input=$('#chatInput');input.value=b.textContent;$('#chatForm').requestSubmit();});
 $('#checkoutButton').onclick=()=>toast(words[language].checkoutNotice);
 $('#newsletterForm').onsubmit=e=>{e.preventDefault();toast(words[language].newsletterError);};
-function changeLanguage(value){language=value==='bn'?'bn':'en';localStorage.setItem('frostly-language-v2',language);applyLanguage();$('#ordersButton').setAttribute('aria-label',language==='bn'?'অর্ডার':'Orders');}
+function changeLanguage(value){language=value==='bn'?'bn':'en';localStorage.setItem('frostly-language-v2',language);applyLanguage();updateAccountButton(currentSession);$('#ordersButton').setAttribute('aria-label',language==='bn'?'অর্ডার':'Orders');}
 $('#languageSelect').onchange=e=>changeLanguage(e.target.value);$('#footerLanguage').onchange=e=>changeLanguage(e.target.value);
 const SUPABASE_CONFIG=window.FROSTLY_SUPABASE_CONFIG||{};
 const supabaseClient=(window.supabase&&SUPABASE_CONFIG.url&&SUPABASE_CONFIG.anonKey)?window.supabase.createClient(SUPABASE_CONFIG.url,SUPABASE_CONFIG.anonKey):null;
 let currentSession=null,accountMode='signin',zones=[];
+function updateAccountButton(session,name=''){
+  const button=$('#accountButton'),bn=language==='bn',label=String(name||session?.user?.user_metadata?.full_name||session?.user?.email?.split('@')[0]||(bn?'অ্যাকাউন্ট':'Account')).trim();
+  button.classList.toggle('is-signed-in',Boolean(session));
+  button.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c.4-3.7 3.2-6 7-6s6.6 2.3 7 6"/></svg>';
+  if(session){const nameNode=document.createElement('span');nameNode.className='account-name';nameNode.textContent=label;button.append(nameNode);}
+  button.setAttribute('aria-label',session?(bn?`অ্যাকাউন্ট: ${label}`:`Account: ${label}`):(bn?'অ্যাকাউন্ট':'Account'));
+  button.title=session?label:(bn?'অ্যাকাউন্ট':'Account');
+}
 const accountWords={en:{setup:'Connect a Supabase project to enable real accounts and orders.',setupSteps:'Add your project URL and publishable anon key in supabase-config.js, then apply the SQL migration in supabase/migrations.',signin:'Sign in',register:'Create account',name:'Full name',email:'Email address',password:'Password',haveAccount:'Already have an account? Sign in',needAccount:'New to Frostly? Create an account',continueEmail:'Check your email to confirm your new account, then sign in.',account:'My account',orders:'Your orders',noOrders:'No orders yet.',signout:'Sign out',admin:'Open admin dashboard',loadError:'Could not load your account. Please try again.',checkout:'Checkout',cod:'Cash on Delivery (COD)',codOnly:'COD is the only enabled payment method.',customer:'Customer name',phone:'Bangladesh phone number',address:'Full delivery address',area:'Delivery area',chooseArea:'Choose an area',instructions:'Delivery instructions (optional)',notes:'Order notes (optional)',summary:'Order summary',subtotal:'Subtotal',deliveryFee:'Delivery fee',calculated:'Final total is recalculated securely when the order is placed.',placeOrder:'Place COD order',noZones:'No delivery areas are configured yet. Add active areas and actual fees in Supabase before checkout.',signInFirst:'Sign in or create an account before checkout.',emptyCart:'Your cart is empty.',orderCreated:'Order confirmed',orderRef:'Order reference',orderPlaced:'Your COD order was placed.',pending:'Pending confirmation',confirmed:'Confirmed',preparing:'Preparing',packed:'Packed',out:'Out for delivery',delivered:'Delivered',cancelled:'Cancelled',statusError:'Could not update status',required:'Please complete all required fields.',signoutOk:'You have signed out.',publicKey:'The anon/publishable key is intended for browser use. Never enter a service role or secret key here.'},bn:{setup:'বাস্তব অ্যাকাউন্ট ও অর্ডার চালু করতে Supabase প্রকল্প সংযুক্ত করুন।',setupSteps:'supabase-config.js ফাইলে প্রকল্পের URL ও publishable anon key দিন, তারপর supabase/migrations-এর SQL migration চালান।',signin:'সাইন ইন',register:'অ্যাকাউন্ট তৈরি করুন',name:'পুরো নাম',email:'ইমেইল ঠিকানা',password:'পাসওয়ার্ড',haveAccount:'আগে থেকেই অ্যাকাউন্ট আছে? সাইন ইন করুন',needAccount:'Frostly-তে নতুন? অ্যাকাউন্ট তৈরি করুন',continueEmail:'নতুন অ্যাকাউন্ট নিশ্চিত করতে ইমেইল দেখুন, তারপর সাইন ইন করুন।',account:'আমার অ্যাকাউন্ট',orders:'আপনার অর্ডার',noOrders:'এখনো কোনো অর্ডার নেই।',signout:'সাইন আউট',admin:'অ্যাডমিন ড্যাশবোর্ড খুলুন',loadError:'অ্যাকাউন্ট লোড করা যায়নি। আবার চেষ্টা করুন।',checkout:'চেকআউট',cod:'ক্যাশ অন ডেলিভারি (COD)',codOnly:'শুধু COD পেমেন্ট চালু আছে।',customer:'ক্রেতার নাম',phone:'বাংলাদেশি ফোন নম্বর',address:'সম্পূর্ণ ডেলিভারি ঠিকানা',area:'ডেলিভারি এলাকা',chooseArea:'এলাকা নির্বাচন করুন',instructions:'ডেলিভারি নির্দেশনা (ঐচ্ছিক)',notes:'অর্ডার নোট (ঐচ্ছিক)',summary:'অর্ডারের সারাংশ',subtotal:'সাবটোটাল',deliveryFee:'ডেলিভারি চার্জ',calculated:'অর্ডার দেওয়ার সময় সার্ভারে চূড়ান্ত মোট হিসাব হবে।',placeOrder:'COD অর্ডার দিন',noZones:'এখনো ডেলিভারি এলাকা কনফিগার করা নেই। চেকআউটের আগে Supabase-এ সক্রিয় এলাকা ও প্রকৃত চার্জ যোগ করুন।',signInFirst:'চেকআউটের আগে সাইন ইন বা অ্যাকাউন্ট তৈরি করুন।',emptyCart:'আপনার কার্ট খালি।',orderCreated:'অর্ডার নিশ্চিত হয়েছে',orderRef:'অর্ডার রেফারেন্স',orderPlaced:'আপনার COD অর্ডারটি জমা হয়েছে।',pending:'নিশ্চিতকরণের অপেক্ষায়',confirmed:'নিশ্চিত',preparing:'প্রস্তুত হচ্ছে',packed:'প্যাক করা হয়েছে',out:'ডেলিভারির পথে',delivered:'ডেলিভারি সম্পন্ন',cancelled:'বাতিল',statusError:'অবস্থা পরিবর্তন করা যায়নি',required:'প্রয়োজনীয় সব তথ্য পূরণ করুন।',signoutOk:'আপনি সাইন আউট করেছেন।',publicKey:'Anon/publishable key ব্রাউজারে ব্যবহারের জন্য। এখানে কখনো service role বা secret key দেবেন না।'}};
 accountWords.en.addresses='Saved addresses';accountWords.en.noAddresses='No saved addresses.';accountWords.en.saveAddress='Save this delivery address to my account';
 accountWords.bn.addresses='সংরক্ষিত ঠিকানা';accountWords.bn.noAddresses='কোনো ঠিকানা সংরক্ষিত নেই।';accountWords.bn.saveAddress='এই ঠিকানাটি আমার অ্যাকাউন্টে সংরক্ষণ করুন';
@@ -94,8 +102,8 @@ async function renderAccount(){
   if(!supabaseClient){renderAccountAuth();return;}
   const {data:{session},error}=await supabaseClient.auth.getSession();
   if(error){renderAccountAuth();showAccountError(supabaseMessage(error));return;}
-  currentSession=session;
-  if(!session){renderAccountAuth();return;}
+  currentSession=session;updateAccountButton(session);
+  if(!session){updateAccountButton(null);renderAccountAuth();return;}
   const [profileResult,orderResult,addressResult]=await Promise.all([
     supabaseClient.from('profiles').select('full_name,role').eq('id',session.user.id).maybeSingle(),
     supabaseClient.from('orders').select('id,order_number,status,payment_method,total_bdt,subtotal_bdt,delivery_fee_bdt,delivery_area,delivery_address,created_at,order_items(product_name_en,product_name_bn,sku,package_size_en,package_size_bn,unit_price_bdt,quantity,line_total_bdt)').eq('user_id',session.user.id).order('created_at',{ascending:false}),
@@ -103,6 +111,7 @@ async function renderAccount(){
   ]);
   if(profileResult.error||orderResult.error||addressResult.error){renderAccountAuth();showAccountError(supabaseMessage(profileResult.error||orderResult.error||addressResult.error));return;}
   const profile=profileResult.data||{full_name:session.user.user_metadata?.full_name||'',role:'customer'},orders=orderResult.data||[];
+  updateAccountButton(session,profile.full_name||session.user.user_metadata?.full_name||session.user.email?.split('@')[0]);
   const displayName=escapeHtml(profile.full_name||session.user.email);
   $('#accountTitle').textContent=t.account;$('#accountSubtitle').textContent=profile.full_name||session.user.email;
   const activeCount=orders.filter(o=>!['delivered','cancelled'].includes(o.status)).length,deliveredCount=orders.filter(o=>o.status==='delivered').length,cancelledCount=orders.filter(o=>o.status==='cancelled').length;
@@ -140,5 +149,5 @@ async function submitCodOrder(e){
 $('#accountButton').onclick=()=>{setOverlay('accountOverlay',true);renderAccount();};
 $('#checkoutButton').onclick=openCheckout;
 window.refreshSupabaseUi=()=>{if($('#accountOverlay').classList.contains('open'))renderAccount();if($('#checkoutOverlay').classList.contains('open')&&currentSession)renderCheckoutForm();};
-if(supabaseClient){supabaseClient.auth.onAuthStateChange((_event,session)=>{currentSession=session;});loadSupabaseCatalog();}
+if(supabaseClient){supabaseClient.auth.onAuthStateChange((_event,session)=>{currentSession=session;updateAccountButton(session);});loadSupabaseCatalog();}
 if(new URLSearchParams(location.search).get('account')==='1'){setOverlay('accountOverlay',true);renderAccount();}
