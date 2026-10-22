@@ -8,7 +8,7 @@
 
 ## 1. Project overview
 
-Frostly is a responsive storefront for browsing frozen-food products, using a cart, placing Cash on Delivery (COD) orders, and viewing account/order information. The administrator console manages catalog data, stock, delivery zones, order statuses, and selected storefront settings.
+Frostly is a responsive storefront for browsing frozen-food products, using a cart, placing orders with Cash on Delivery (COD) or manually verified bKash, Nagad, and Rocket transfers, and viewing account/order information. The administrator console manages catalog data, stock, delivery zones, order statuses, payment options, and selected storefront settings.
 
 The site is a static frontend, not a server-rendered framework application. Supabase provides the backend services. On Cloudflare Pages, browser Supabase HTTP requests are routed through a same-origin Pages Function reverse proxy. The Supabase JavaScript SDK itself and some imagery/fonts are loaded from external CDNs, so those resources need network access.
 
@@ -61,15 +61,18 @@ flowchart TD
   E -- Yes --> G[Enter recipient, phone, address and delivery area]
   G --> H{Active delivery area exists?}
   H -- No --> I[Checkout cannot be submitted; admin must configure zones]
-  H -- Yes --> J[Submit COD order to create_cod_order RPC]
-  J --> K[Server validates customer, area, current price and stock]
-  K --> L[Create order and item snapshots; decrement inventory once]
-  L --> M[Show unique customer reference and link to order list]
-  M --> N[Admin processes and updates order status]
-  N --> O[Customer views status/details]
-  O --> P{Delivered?}
-  P -- Yes --> Q[Eligible customer may rate purchased product]
+  H -- Yes --> J[Choose enabled payment method]
+  J --> K[Submit order to place_store_order RPC]
+  K --> L[Server validates customer, area, payment, current price and stock]
+  L --> M[Create order and item snapshots; decrement inventory once]
+  M --> N[Show unique customer reference and link to order list]
+  N --> O[Admin processes and updates order/payment status]
+  O --> P[Customer views status/details]
+  P --> Q{Delivered?}
+  Q -- Yes --> R[Eligible customer may rate purchased product]
 ```
+
+Wallet orders save a transaction ID as pending verification. Staff must verify the transfer independently in the wallet account before marking payment verified; the site does not initiate or automatically verify transfers.
 
 The displayed reference is formatted from the order UUID and date (`FST-YYYY-…`), while the database can retain an internal numeric order number. Do not use the display reference as an authorization credential. Order access is governed by user ownership and database policies.
 
@@ -110,14 +113,18 @@ Supabase is the system of record for accounts, products, orders, delivery zones,
 8. `202610200008_site_contact_settings.sql` — editable service area, phone, email and payment display settings.
 9. `202610220009_product_ratings.sql` — verified delivered-order product ratings and reviews.
 10. `202610220010_staff_roles_and_user_management.sql` — staff roles, RLS/RPC authorization, superadmin-only account role management and manager permissions.
+11. `202610220011_homepage_copy_settings.sql` — editable bilingual homepage copy.
+12. `202610220012_superadmin_delete_customer.sql` — superadmin-only customer deletion.
+13. `202610220013_superadmin_delete_staff.sql` — superadmin-only staff account deletion with role protections.
+14. `202610220014_manual_mobile_payments.sql` — configurable COD/bKash/Nagad/Rocket options, wallet receiving numbers, transaction references, pending verification, and secure multi-method order RPC.
 
 Use the Supabase SQL Editor to run each migration in order for a new project. Existing projects should apply only migrations not already applied. Do not paste Markdown formatting or backticks into the SQL Editor. Review SQL and back up production data before schema changes.
 
 Staff roles are `superadmin`, `admin`, `ordermanager`, `stockmanager`, `catalogmanager`, `deliverymanager`, and `settingsmanager`, alongside customer and delivery roles. The migration promotes the earliest existing administrator to superadmin if no superadmin exists. Superadmins assign roles to existing accounts through security-definer RPCs; role changes are audited, direct profile role edits are blocked, and the last superadmin cannot be removed. If a new installation has no existing admin, bootstrap its first superadmin from the trusted SQL Editor using the profile-role trigger procedure in `README.md`.
 
-### COD checkout integrity
+### Checkout and payment integrity
 
-The `create_cod_order` database function is the authoritative checkout operation. It validates the authenticated customer, products and quantities, reads current catalog prices and stock, checks the active delivery zone and fee, stores item snapshots, calculates the total, changes inventory, and uses a request ID for retry idempotency. The client-side total is an estimate only. COD is the configured payment method; no online payment gateway is implemented.
+The `place_store_order` database function is the authoritative checkout operation. It validates the authenticated customer, products and quantities, reads current catalog prices and stock, checks the active delivery zone and fee, enforces enabled payment settings, stores item snapshots and payment references, calculates the total, changes inventory, and uses a request ID for retry idempotency. The client-side total is an estimate only. Wallet payment is manual transfer with staff verification; there is no integrated gateway or automatic transfer verification. The legacy `create_cod_order` function routes through the same validation.
 
 ## 6. Security model and operational cautions
 
@@ -129,7 +136,7 @@ The `create_cod_order` database function is the authoritative checkout operation
 - Public product media and selected storefront settings are intentionally readable. Admin writes/uploads are restricted by policies.
 - Verify email confirmation, Site URL, and redirect URLs in Supabase Auth for local and production origins. Password recovery depends on a valid redirect configuration.
 - Replace demo products, image URLs, contact details, and any demo copy before operating a real shop. Do not represent demo reviews or stock as verified.
-- The customer assistant is catalog-grounded demo behavior, not an OpenAI-backed assistant. Newsletter signup persistence is not wired. No payment gateway, delivery-staff workflow, or full business policy system is implemented.
+- The customer assistant is catalog-grounded demo behavior, not an OpenAI-backed assistant. Newsletter signup persists emails but has no subscriber management screen. Mobile-wallet payment is manual and does not use a payment gateway or automatic verification. Delivery-staff assignment screens and a full business policy system are not implemented.
 - Supabase should be treated as a single configured project/database here. No database sharding or read-replica routing is currently implemented.
 
 ## 7. Local development
@@ -159,13 +166,13 @@ No build step transforms these files. A successful upload does not prove that da
 ## 9. Configuration checklist for a new environment
 
 1. Create a Supabase project and set `url` and public anon/publishable key in `supabase-config.js`.
-2. Apply migrations 1–9 in sequence.
+2. Apply migrations 1–14 in sequence.
 3. Configure Supabase Auth email confirmation, Site URL, and allowed redirect URLs for localhost and the live site.
 4. Create an account through the storefront; promote the trusted initial admin using the SQL in `README.md`.
 5. Sign in and check that the admin console passes role validation.
 6. Replace demo catalog values; verify product prices, inventory, images, delivery areas/fees, contact values and site branding.
-7. Place a low-value COD test order, verify order ownership and unique display reference, update its status in admin, and validate delivered-order rating eligibility before public launch.
-9. Configure Cloudflare Pages root/output settings and deploy the production branch.
+7. Test a low-value COD order and a wallet order; verify that wallet orders remain pending until staff independently verify the transfer. Check order ownership, display reference, status updates, and delivered-order rating eligibility.
+8. Configure Cloudflare Pages root/output settings and deploy the production branch.
 
 ## 10. Troubleshooting
 
@@ -174,6 +181,7 @@ No build step transforms these files. A successful upload does not prove that da
 | `localhost` times out | Keep `py -m http.server 8000` running in the correct repo directory; open `http://localhost:8000`, not HTTPS. |
 | Storefront loads but live data does not | Check `supabase-config.js`, browser console/network requests, Supabase project availability, and whether required migrations were applied. |
 | Checkout says no delivery areas | Apply migration 2 and confirm active rows exist in `delivery_zones`. |
+| Wallet methods are missing or wallet order submission fails | Apply migration 14; check method toggles and receiving numbers in Admin → Settings. Wallet orders remain pending until staff verifies the transfer. |
 | Admin page is blank/denied | Sign in first; confirm the signed-in user's `profiles.role` is `admin`; ensure migrations and RLS policies are present. The obscure filename does not bypass the role check. |
 | Product/settings image upload fails | Apply the corresponding storage migration; use JPG, PNG, or WebP within the configured 5 MB limit; confirm the account is admin. |
 | Footer contact fields are absent/stale | Apply migration 8; save values in Admin → Settings; confirm the deployed browser loads the current `app.js`; inspect the `site_settings` row with id `main` and the read policy. |
