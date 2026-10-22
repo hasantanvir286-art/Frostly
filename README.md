@@ -19,7 +19,7 @@ Then visit `http://localhost:8000`. Product imagery and Google Fonts are loaded 
 - Client-side demo cart with quantity controls and totals, persisted in browser local storage.
 - Client-side wishlist and Bangla/English product-name switch.
 - Customer assistant panel with catalog-grounded answers from the local sample data. It is not an OpenAI integration.
-- A responsive admin console at `admin.html` with live metrics, order management, catalog editing, inventory, delivery areas, and customer summaries.
+- A responsive admin console at `console-a84d8903f59b4d358c8cc927633a11f6.html` with live metrics, order management, catalog editing, inventory, delivery areas, and customer summaries.
 - Supabase email/password sign-up and sign-in, editable customer profiles with photo uploads and password recovery, a separate customer order drawer, a protected admin dashboard with live order/inventory metrics, and server-validated Cash on Delivery checkout are implemented behind Supabase configuration and the migrations below.
 - Newsletter signups remain disabled until a newsletter action is wired to the database.
 
