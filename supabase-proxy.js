@@ -11,6 +11,12 @@
       return directFetch(request);
     }
 
+    // Supabase Auth is designed for browser CORS requests. Keep its JSON
+    // sign-in, sign-up, and token-refresh bodies out of the Pages proxy path.
+    if (url.pathname.startsWith('/auth/v1/')) {
+      return directFetch(request);
+    }
+
     const proxyUrl = new URL(`/api/supabase${url.pathname}${url.search}`, window.location.origin);
     return directFetch(new Request(proxyUrl, request));
   };
