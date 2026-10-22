@@ -58,4 +58,6 @@ The admin console includes live order metrics and status updates, catalog editin
 
 This is not a Next.js/server-rendered application. Address-book editing UI, delivery staff screens/assignment UI, advanced reporting, a production customer-service policy set, OpenAI assistants, and newsletter signup storage are not yet implemented. The database includes initial operational tables for some of those later features. Demo products and images must be replaced; no real business contact, inventory, or review data is included. Review the migration and delivery rules before using the project with real customers.
 
+Product ratings are added by `supabase/migrations/202610220009_product_ratings.sql`. Run this migration in the Supabase SQL Editor before enabling customer ratings. Only customers with a delivered order containing that product may submit or update one rating per product; public visitors can read ratings and reviews.
+
 Only the public Supabase URL and anon/publishable key belong in `supabase-config.js`. There is no service-role key, AI key, or online-payment credential in the browser.

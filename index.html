@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
+  <div id="startupLoader" class="startup-loader" role="status" aria-label="Loading Frostly"><span class="startup-spinner"></span></div>
   <div class="announce"><span id="announcementText">❄ &nbsp;Frozen food delivered across Chattogram</span><span class="announce-right"><label class="sr-only" for="languageSelect">Language</label><select id="languageSelect" class="language-select" aria-label="Select language"><option value="en">English</option><option value="bn">বাংলা</option></select></span></div>
   <header class="site-header">
     <a class="brand" href="#home" aria-label="Frostly home"><span class="snowflake">❄</span><span><span class="brand-name">Frostly</span><small>Frozen Food for a Better Tomorrow</small></span></a>
@@ -47,6 +48,7 @@
   <div class="toast" id="toast" role="status"></div>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="supabase-config.js"></script>
-  <script src="app.js?v=20261022-footer-contact-icons"></script>
+  <script src="app.js?v=20261022-ratings-and-loader"></script>
+  <script>document.addEventListener('DOMContentLoaded',()=>setTimeout(()=>document.getElementById('startupLoader')?.classList.add('is-done'),220),{once:true});setTimeout(()=>document.getElementById('startupLoader')?.classList.add('is-done'),3500);</script>
 </body>
 </html>
