@@ -241,7 +241,7 @@ async function submitCodOrder(e){
   sessionStorage.removeItem('frostly-order-request');cart={};saveCart();
   const {data:order}=await supabaseClient.from('orders').select('order_number,total_bdt,created_at').eq('id',orderId).maybeSingle();
   $('#checkoutContent').innerHTML=`<div class="auth-message"><h3>${t.orderCreated}</h3><p>${t.orderPlaced}</p><b>${t.orderRef}: ${formatOrderReference(order||{order_number:orderId,created_at:new Date().toISOString()})}</b><p>${t.cod} · ৳ ${Number(order?.total_bdt||0)}</p>${addressSaveError?`<small>${language==='bn'?'অর্ডার হয়েছে, তবে ঠিকানাটি সংরক্ষণ করা যায়নি।':'Order placed, but the address could not be saved.'}</small>`:''}</div><button id="viewOrders" class="button primary full">${t.orders}</button>`;
-  $('#viewOrders').onclick=()=>{setOverlay('checkoutOverlay',false);setOverlay('accountOverlay',true);renderAccount();};
+  $('#viewOrders').onclick=()=>{setOverlay('checkoutOverlay',false);openOrdersDrawer();};
 }
 $('#accountButton').onclick=()=>{setOverlay('accountOverlay',true);renderAccount();};
 $('#checkoutButton').onclick=openCheckout;
