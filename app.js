@@ -92,7 +92,8 @@ $('#newsletterForm').onsubmit=e=>{e.preventDefault();toast(words[language].newsl
 function changeLanguage(value){language=value==='bn'?'bn':'en';localStorage.setItem('frostly-language-v2',language);applyLanguage();updateAccountButton(currentSession);$('#ordersButton').setAttribute('aria-label',language==='bn'?'অর্ডার':'Orders');}
 $('#languageSelect').onchange=e=>changeLanguage(e.target.value);$('#footerLanguage').onchange=e=>changeLanguage(e.target.value);
 const SUPABASE_CONFIG=window.FROSTLY_SUPABASE_CONFIG||{};
-const supabaseClient=(window.supabase&&SUPABASE_CONFIG.url&&SUPABASE_CONFIG.anonKey)?window.supabase.createClient(SUPABASE_CONFIG.url,SUPABASE_CONFIG.anonKey):null;
+const supabaseEndpoint=SUPABASE_CONFIG.apiLoadBalancerUrl||SUPABASE_CONFIG.url;
+const supabaseClient=(window.supabase&&supabaseEndpoint&&SUPABASE_CONFIG.anonKey)?window.supabase.createClient(supabaseEndpoint,SUPABASE_CONFIG.anonKey):null;
 let currentSession=null,accountMode='signin',zones=[];
 function updateAccountButton(session,name='',avatarUrl=''){
   const button=$('#accountButton'),bn=language==='bn',label=String(name||session?.user?.user_metadata?.full_name||session?.user?.email?.split('@')[0]||(bn?'অ্যাকাউন্ট':'Account')).trim();
