@@ -137,7 +137,7 @@ function renderAccountAuth(){
   $('#authForm').onsubmit=async e=>{e.preventDefault();const form=new FormData(e.currentTarget),email=String(form.get('email')).trim(),password=String(form.get('password'));let result;if(accountMode==='signup')result=await supabaseClient.auth.signUp({email,password,options:{data:{full_name:String(form.get('full_name')).trim()}}});else result=await supabaseClient.auth.signInWithPassword({email,password});if(result.error){showAccountError(supabaseMessage(result.error));return;}if(accountMode==='signup'&&!result.data.session){$('#authMessage').textContent=t.continueEmail;return;}currentSession=result.data.session;await renderAccount();};
 }
 function orderStatusLabel(status){const t=aw();return ({pending_confirmation:t.pending,confirmed:t.confirmed,preparing:t.preparing,packed:t.packed,out_for_delivery:t.out,delivered:t.delivered,cancelled:t.cancelled})[status]||status;}
-function formatOrderReference(order){const year=new Date(order.created_at||Date.now()).getFullYear(),number=Number(order.order_number),suffix=Number.isFinite(number)&&number>0?String(number).padStart(6,'0'):String(order.id||order.order_number||'ORDER').replace(/-/g,'').slice(0,8).toUpperCase();return `FST-${year}-${suffix}`;}
+function formatOrderReference(order){const year=new Date(order.created_at||Date.now()).getFullYear(),uuid=String(order.id||'').toUpperCase();return `FST-${year}-${uuid||String(order.order_number||'ORDER').padStart(6,'0')}`;}
 function renderCustomerOrderCards(rows,filter='all'){
   const visible=rows.filter(o=>filter==='all'||filter==='delivered'&&o.status==='delivered'||filter==='cancelled'&&o.status==='cancelled'||filter==='active'&&!['delivered','cancelled'].includes(o.status));
   if(!visible.length)return `<p class="order-list-empty">${rows.length?aw().noMatchingOrders:aw().noOrders}</p>`;
@@ -239,8 +239,8 @@ async function submitCodOrder(e){
     addressSaveError=error;
   }
   sessionStorage.removeItem('frostly-order-request');cart={};saveCart();
-  const {data:order}=await supabaseClient.from('orders').select('order_number,total_bdt,created_at').eq('id',orderId).maybeSingle();
-  $('#checkoutContent').innerHTML=`<div class="auth-message"><h3>${t.orderCreated}</h3><p>${t.orderPlaced}</p><b>${t.orderRef}: ${formatOrderReference(order||{order_number:orderId,created_at:new Date().toISOString()})}</b><p>${t.cod} · ৳ ${Number(order?.total_bdt||0)}</p>${addressSaveError?`<small>${language==='bn'?'অর্ডার হয়েছে, তবে ঠিকানাটি সংরক্ষণ করা যায়নি।':'Order placed, but the address could not be saved.'}</small>`:''}</div><button id="viewOrders" class="button primary full">${t.orders}</button>`;
+  const {data:order}=await supabaseClient.from('orders').select('id,order_number,total_bdt,created_at').eq('id',orderId).maybeSingle();
+  $('#checkoutContent').innerHTML=`<div class="auth-message"><h3>${t.orderCreated}</h3><p>${t.orderPlaced}</p><b>${t.orderRef}: ${formatOrderReference(order||{id:orderId,created_at:new Date().toISOString()})}</b><p>${t.cod} · ৳ ${Number(order?.total_bdt||0)}</p>${addressSaveError?`<small>${language==='bn'?'অর্ডার হয়েছে, তবে ঠিকানাটি সংরক্ষণ করা যায়নি।':'Order placed, but the address could not be saved.'}</small>`:''}</div><button id="viewOrders" class="button primary full">${t.orders}</button>`;
   $('#viewOrders').onclick=()=>{setOverlay('checkoutOverlay',false);openOrdersDrawer();};
 }
 $('#accountButton').onclick=()=>{setOverlay('accountOverlay',true);renderAccount();};
