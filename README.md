@@ -21,6 +21,7 @@ Then visit `http://localhost:8000`. Product imagery and Google Fonts are loaded 
 - Customer assistant panel with catalog-grounded answers from the local sample data. It is not an OpenAI integration.
 - A responsive admin console at `console-a84d8903f59b4d358c8cc927633a11f6.html` with live metrics, order management, catalog editing, inventory, delivery areas, and customer summaries.
 - Supabase email/password sign-up and sign-in, editable customer profiles with photo uploads and password recovery, a separate customer order drawer, a protected admin dashboard with live order/inventory metrics, and server-validated Cash on Delivery checkout are implemented behind Supabase configuration and the migrations below.
+- On Cloudflare Pages, Supabase Auth, Data API, Storage API, and Functions HTTP calls go through the same-origin `/api/supabase/*` Pages Function. Set `FROSTLY_SUPABASE_URL` in Pages variables if the project URL changes; otherwise the function uses the configured Frostly project. `_routes.json` limits Function invocation to proxy requests, keeping static assets on the normal Pages path. Local HTTP servers continue to call Supabase directly.
 - Newsletter signups remain disabled until a newsletter action is wired to the database.
 
 Products, prices, and stock are explicitly demo data. Contact values are placeholders. Reviews are identified as demo content. No authentic customer, company, or payment claims are made.
