@@ -1,5 +1,7 @@
 # Frostly
 
+Full project architecture, database, security and deployment notes are in [`docs/PROJECT_DOCUMENTATION.md`](docs/PROJECT_DOCUMENTATION.md). Customer and administrator instructions are in [`docs/USER_MANUAL.md`](docs/USER_MANUAL.md).
+
 A responsive storefront based on the supplied Frostly visual reference. The workspace contained no existing application, so this remains plain HTML, CSS, and JavaScript and does not require a build step. Supabase's browser SDK is loaded from its official CDN for optional authentication and database features.
 
 ## Run locally
@@ -37,23 +39,25 @@ Products, prices, and stock are explicitly demo data. Contact values are placeho
 7. Run [`supabase/migrations/202610200006_admin_product_image_uploads.sql`](supabase/migrations/202610200006_admin_product_image_uploads.sql) to enable public product image delivery and admin-only uploads.
 8. Run [supabase/migrations/202610200007_storefront_settings_slider.sql](supabase/migrations/202610200007_storefront_settings_slider.sql) to enable dashboard editing for the storefront name, logo, and homepage slides.
 9. Run [supabase/migrations/202610200008_site_contact_settings.sql](supabase/migrations/202610200008_site_contact_settings.sql) to add editable storefront contact and payment details. It fills blank contact fields with sample values `01837685147` and `hello@frostly.com`, while preserving any non-empty values. Replace the samples in Admin → Settings with your real details.
-10. Create a customer account through Frostly. Confirm its email if Supabase email confirmation is enabled.
-11. Bootstrap the first administrator from the Supabase SQL Editor. Replace the email with the administrator account created in step 10:
+10. Run [supabase/migrations/202610220009_product_ratings.sql](supabase/migrations/202610220009_product_ratings.sql) to add verified delivered-order product reviews.
+11. Run [supabase/migrations/202610220010_staff_roles_and_user_management.sql](supabase/migrations/202610220010_staff_roles_and_user_management.sql) to enable superadmin, admin, order manager, stock manager, catalog manager, delivery manager, and settings manager roles. It promotes the earliest existing admin to superadmin when no superadmin exists.
+12. Create a customer account through Frostly. Confirm its email if Supabase email confirmation is enabled.
+13. If the project has no existing administrator/superadmin, bootstrap the first superadmin through the Supabase SQL Editor. Replace the email with the trusted account created in step 12:
 
    ```sql
    begin;
    alter table public.profiles disable trigger protect_frostly_profile_role;
    update public.profiles
-   set role = 'admin'
+   set role = 'superadmin'
    where id = (select id from auth.users where email = 'admin@example.com');
    alter table public.profiles enable trigger protect_frostly_profile_role;
    commit;
    ```
 
-   Verify the `UPDATE 1` result. Do not expose a public admin-registration flow. The admin dashboard checks the profile role, while RLS and database functions enforce access independently.
-7. Replace all demo catalog rows and contact placeholders with verified Frostly business information before taking live orders. Confirm Supabase Auth email, site URL, and redirect settings for your local and production domains.
+   Verify the `UPDATE 1` result. Do not expose a public staff-registration flow. The admin dashboard checks profile roles, while RLS and database functions enforce access independently.
+14. Replace all demo catalog rows and contact placeholders with verified Frostly business information before taking live orders. Confirm Supabase Auth email, site URL, and redirect settings for your local and production domains.
 
-The admin console includes live order metrics and status updates, catalog editing, inventory adjustments with a ledger, delivery-zone and fee management, and customer summaries derived from orders. The COD RPC `create_cod_order` requires an authenticated customer, locks products, reads current prices and stock, validates the configured delivery zone, records immutable order item snapshots, decrements stock once, and uses an idempotency ID on retries. Admin status changes are checked against permitted transitions and logged. The first administrator must be bootstrapped through the trusted SQL Editor.
+The admin console includes live order metrics and status updates, catalog editing, inventory adjustments with a ledger, delivery-zone and fee management, storefront settings, and superadmin-only staff role management. Roles are enforced by RLS and database functions, not only by hidden navigation. Superadmins can assign existing accounts as superadmin, admin, order manager, stock manager, catalog manager, delivery manager, settings manager, delivery staff, or customer. Admin profile email changes require password reauthentication and confirmation through Supabase Auth.
 
 ## Still to build or configure
 
