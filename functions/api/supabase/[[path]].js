@@ -21,7 +21,20 @@ export async function onRequest({ request, env }) {
   }
 
   const target = new URL(`${path}${incoming.search}`, upstream.origin);
-  const forwardRequest = new Request(target, request);
+  // Rebuild the upstream request explicitly. Pages can otherwise forward an
+  // already-consumed/cloned body as an empty stream for auth POST requests.
+  const headers = new Headers(request.headers);
+  headers.delete('host');
+  headers.delete('content-length');
+  const requestInit = {
+    method: request.method,
+    headers,
+    redirect: request.redirect,
+  };
+  if (request.method !== 'GET' && request.method !== 'HEAD') {
+    requestInit.body = await request.arrayBuffer();
+  }
+  const forwardRequest = new Request(target, requestInit);
 
   try {
     const response = await fetch(forwardRequest);
