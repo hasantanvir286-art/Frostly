@@ -14,19 +14,19 @@ python -m http.server 8000
 
 Then visit `http://localhost:8000`. Product imagery and Google Fonts are loaded from external services, so they require internet access. Local storage keeps the sample cart, wishlist, and language preference in the current browser.
 
-## What works in this prototype
+## Storefront and admin features
 
-- Responsive Bangla storefront with category cards, search, sample products, promo panels, FAQ, storage guidance, and complete footer.
+- Responsive bilingual storefront. Products and categories load from the live Supabase catalog; an empty catalog stays empty instead of showing sample products as real stock.
 - English-default bilingual storefront with synchronized header and footer language dropdowns; the selected language is saved in the browser.
-- Client-side demo cart with quantity controls and totals, persisted in browser local storage.
+- Customer cart and wishlist with quantity controls and totals, persisted in browser local storage.
 - Client-side wishlist and Bangla/English product-name switch.
 - Customer assistant panel with catalog-grounded answers from the local sample data. It is not an OpenAI integration.
 - A responsive admin console at `console-a84d8903f59b4d358c8cc927633a11f6.html` with live metrics, order management, catalog editing, inventory, delivery areas, and customer summaries.
 - Supabase email/password sign-up and sign-in, editable customer profiles with photo uploads and password recovery, a separate customer order drawer, a protected admin dashboard with live order/inventory metrics, and server-validated Cash on Delivery checkout are implemented behind Supabase configuration and the migrations below.
 - On Cloudflare Pages, Supabase Auth, Data API, Storage API, and Functions HTTP calls go through the same-origin `/api/supabase/*` Pages Function. Set `FROSTLY_SUPABASE_URL` in Pages variables if the project URL changes; otherwise the function uses the configured Frostly project. `_routes.json` limits Function invocation to proxy requests, keeping static assets on the normal Pages path. Local HTTP servers continue to call Supabase directly.
-- Newsletter signups remain disabled until a newsletter action is wired to the database.
+- Newsletter form saves unique email subscriptions in the existing `newsletter_subscriptions` table.
 
-Products, prices, and stock are explicitly demo data. Contact values are placeholders. Reviews are identified as demo content. No authentic customer, company, or payment claims are made.
+The public catalog is database-backed. Replace any seed catalog rows and demo images with verified products, prices, and stock before taking live orders. The visual layout is shipped in the frontend; the dashboard edits the brand, logo, hero slides, bilingual homepage copy, contact/payment details, product catalog, categories, delivery zones, and staff roles.
 
 ## Connect Supabase
 
@@ -41,8 +41,9 @@ Products, prices, and stock are explicitly demo data. Contact values are placeho
 9. Run [supabase/migrations/202610200008_site_contact_settings.sql](supabase/migrations/202610200008_site_contact_settings.sql) to add editable storefront contact and payment details. It fills blank contact fields with sample values `01837685147` and `hello@frostly.com`, while preserving any non-empty values. Replace the samples in Admin → Settings with your real details.
 10. Run [supabase/migrations/202610220009_product_ratings.sql](supabase/migrations/202610220009_product_ratings.sql) to add verified delivered-order product reviews.
 11. Run [supabase/migrations/202610220010_staff_roles_and_user_management.sql](supabase/migrations/202610220010_staff_roles_and_user_management.sql) to enable superadmin, admin, order manager, stock manager, catalog manager, delivery manager, and settings manager roles. It promotes the earliest existing admin to superadmin when no superadmin exists.
-12. Create a customer account through Frostly. Confirm its email if Supabase email confirmation is enabled.
-13. If the project has no existing administrator/superadmin, bootstrap the first superadmin through the Supabase SQL Editor. Replace the email with the trusted account created in step 12:
+12. Run [supabase/migrations/202610220011_homepage_copy_settings.sql](supabase/migrations/202610220011_homepage_copy_settings.sql) to enable bilingual homepage copy editing from Admin → Settings.
+13. Create a customer account through Frostly. Confirm its email if Supabase email confirmation is enabled.
+14. If the project has no existing administrator/superadmin, bootstrap the first superadmin through the Supabase SQL Editor. Replace the email with the trusted account created in step 13:
 
    ```sql
    begin;
@@ -55,13 +56,13 @@ Products, prices, and stock are explicitly demo data. Contact values are placeho
    ```
 
    Verify the `UPDATE 1` result. Do not expose a public staff-registration flow. The admin dashboard checks profile roles, while RLS and database functions enforce access independently.
-14. Replace all demo catalog rows and contact placeholders with verified Frostly business information before taking live orders. Confirm Supabase Auth email, site URL, and redirect settings for your local and production domains.
+15. Replace any sample catalog rows with verified Frostly products, images, prices, and stock before taking live orders. Confirm Supabase Auth email, site URL, and redirect settings for your local and production domains.
 
-The admin console includes live order metrics and status updates, catalog editing, inventory adjustments with a ledger, delivery-zone and fee management, storefront settings, and superadmin-only staff role management. Roles are enforced by RLS and database functions, not only by hidden navigation. Superadmins can assign existing accounts as superadmin, admin, order manager, stock manager, catalog manager, delivery manager, settings manager, delivery staff, or customer. Admin profile email changes require password reauthentication and confirmation through Supabase Auth.
+The admin console includes live order metrics and status updates, product and category editing, inventory adjustments with a ledger, delivery-zone and fee management, storefront settings, and superadmin-only staff role management. Roles are enforced by RLS and database functions, not only by hidden navigation. Superadmins can assign existing accounts as superadmin, admin, order manager, stock manager, catalog manager, delivery manager, settings manager, delivery staff, or customer. Admin profile email changes require password reauthentication and confirmation through Supabase Auth.
 
 ## Still to build or configure
 
-This is not a Next.js/server-rendered application. Address-book editing UI, delivery staff screens/assignment UI, advanced reporting, a production customer-service policy set, OpenAI assistants, and newsletter signup storage are not yet implemented. The database includes initial operational tables for some of those later features. Demo products and images must be replaced; no real business contact, inventory, or review data is included. Review the migration and delivery rules before using the project with real customers.
+This is a static frontend backed by Supabase, not a server-rendered application. Newsletter subscriptions are captured in Supabase but there is no subscriber-management screen yet. Homepage copy, FAQ wording, brand, slider, contact, products, categories, orders, delivery zones, and ratings are database-backed; visual layout and service behavior remain code-managed. Delivery staff assignment screens and a production AI assistant are not implemented. Review the database setup, replace any seeded sample products, and confirm business policies before using the project with real customers.
 
 Product ratings are added by `supabase/migrations/202610220009_product_ratings.sql`. Run this migration in the Supabase SQL Editor before enabling customer ratings. Only customers with a delivered order containing that product may submit or update one rating per product; public visitors can read ratings and reviews.
 
