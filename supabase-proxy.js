@@ -18,6 +18,12 @@
     }
 
     const proxyUrl = new URL(`/api/supabase${url.pathname}${url.search}`, window.location.origin);
+    if (request.method === 'GET' || request.method === 'HEAD') {
+      return directFetch(new Request(proxyUrl, request)).then(response => {
+        if ([404, 500, 502, 503].includes(response.status)) return directFetch(request);
+        return response;
+      }).catch(() => directFetch(request));
+    }
     return directFetch(new Request(proxyUrl, request));
   };
 
