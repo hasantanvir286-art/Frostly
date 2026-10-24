@@ -117,6 +117,7 @@ Supabase is the system of record for accounts, products, orders, delivery zones,
 12. `202610220012_superadmin_delete_customer.sql` — superadmin-only customer deletion.
 13. `202610220013_superadmin_delete_staff.sql` — superadmin-only staff account deletion with role protections.
 14. `202610220014_manual_mobile_payments.sql` — configurable COD/bKash/Nagad/Rocket options, wallet receiving numbers, transaction references, pending verification, and secure multi-method order RPC.
+15. `202610240015_order_manager_status_access.sql` — redefines status updates to authorize order managers, admins, and superadmins on existing deployments.
 
 Use the Supabase SQL Editor to run each migration in order for a new project. Existing projects should apply only migrations not already applied. Do not paste Markdown formatting or backticks into the SQL Editor. Review SQL and back up production data before schema changes.
 
@@ -166,8 +167,8 @@ No build step transforms these files. A successful upload does not prove that da
 ## 9. Configuration checklist for a new environment
 
 1. Create a Supabase project and set `url` and public anon/publishable key in `supabase-config.js`.
-2. Apply migrations 1–14 in sequence.
-3. Configure Supabase Auth email confirmation, Site URL, and allowed redirect URLs for localhost and the live site.
+2. Apply migrations 1–15 in sequence.
+3. Configure Supabase Auth email confirmation; set Site URL to the production site and allow-list the production URL plus local development URL. Signup passes its current origin as the confirmation redirect.
 4. Create an account through the storefront; promote the trusted initial admin using the SQL in `README.md`.
 5. Sign in and check that the admin console passes role validation.
 6. Replace demo catalog values; verify product prices, inventory, images, delivery areas/fees, contact values and site branding.
@@ -182,6 +183,8 @@ No build step transforms these files. A successful upload does not prove that da
 | Storefront loads but live data does not | Check `supabase-config.js`, browser console/network requests, Supabase project availability, and whether required migrations were applied. |
 | Checkout says no delivery areas | Apply migration 2 and confirm active rows exist in `delivery_zones`. |
 | Wallet methods are missing or wallet order submission fails | Apply migration 14; check method toggles and receiving numbers in Admin → Settings. Wallet orders remain pending until staff verifies the transfer. |
+| Superadmin/order manager cannot change order status; error says `Administrator access required` | Apply migration 15 in Supabase SQL Editor. It replaces the original admin-only status RPC with the current order-manager authorization check. |
+| Signup email points to localhost or errors after clicking | Set Supabase Auth Site URL to the live origin and add it to Redirect URLs. Deploy the updated frontend; its signup form passes the current site URL as the redirect target. |
 | Admin page is blank/denied | Sign in first; confirm the signed-in user's `profiles.role` is `admin`; ensure migrations and RLS policies are present. The obscure filename does not bypass the role check. |
 | Product/settings image upload fails | Apply the corresponding storage migration; use JPG, PNG, or WebP within the configured 5 MB limit; confirm the account is admin. |
 | Footer contact fields are absent/stale | Apply migration 8; save values in Admin → Settings; confirm the deployed browser loads the current `app.js`; inspect the `site_settings` row with id `main` and the read policy. |

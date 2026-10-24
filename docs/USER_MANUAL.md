@@ -203,7 +203,7 @@ Run the command from the Frostly project folder. Keep the terminal open while us
 
 1. Create/open the Supabase project. Put its Project URL and public anon/publishable key in supabase-config.js. Never put a service-role key or database password in frontend files or Cloudflare public variables.
 2. Run the ordered migrations in Appendix A through Supabase SQL Editor. Existing projects should apply only migrations they have not already applied.
-3. Configure Supabase Auth email confirmation, Site URL, and allowed redirect URLs for localhost and the live Pages domain.
+3. Configure Supabase Auth email confirmation, set Site URL to the live Pages domain (or custom domain), and allow-list that origin plus localhost. Signup emails now redirect to the site where registration began.
 4. Register the trusted owner account in Frostly and promote it to superadmin using the controlled bootstrap procedure in Appendix B if no superadmin exists.
 5. Replace demo products, images, sample contact details, prices, and stock. Verify the two delivery fees and configure wallet numbers before inviting customers.
 
@@ -246,6 +246,8 @@ Keep functions/api/supabase/[[path]].js, supabase-proxy.js, and _routes.json in 
 | Checkout fields reset while typing | Hard-refresh after the checkout-render fix deploys; this behavior was caused by repeated settings reloads. |
 | No delivery areas appear | Admin > Delivery: activate an area and set a real fee. Confirm delivery_zones contains active rows. |
 | Wallets do not appear or order cannot submit | Apply migration 202610220014_manual_mobile_payments.sql; verify the method toggle and receiving number in Admin > Settings. |
+| Signup email points to localhost or errors after clicking | Set the Supabase Auth Site URL to the production origin and add it to Redirect URLs; signup passes the current site URL as its confirmation redirect. |
+| Superadmin/order manager cannot change order status | Apply migration 202610240015_order_manager_status_access.sql in Supabase SQL Editor to replace the original admin-only status function. |
 | Wallet payment remains pending | This is expected until an authorized staff member verifies the transfer and marks it verified. |
 | Admin says no access | Sign in with a staff account and verify its public.profiles.role. URL secrecy does not grant staff permissions. |
 | Site settings do not save | Check role permission, RLS and required migration in Supabase; make sure the Save confirmation appears. |
@@ -273,6 +275,7 @@ Run these files once, in order, for a new project. For an existing project, chec
 | 12 | 202610220012_superadmin_delete_customer.sql | Protected superadmin customer deletion function. |
 | 13 | 202610220013_superadmin_delete_staff.sql | Protected superadmin staff deletion function. |
 | 14 | 202610220014_manual_mobile_payments.sql | Wallet settings, payment references, pending verification, and secure multi-method order RPC. |
+| 15 | 202610240015_order_manager_status_access.sql | Allows order managers, admins and superadmins to update valid order statuses. |
 
 # Appendix B. First superadmin bootstrap
 
