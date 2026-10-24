@@ -37,7 +37,6 @@ body{background:linear-gradient(180deg,#f5fbfd 0,#fff 380px);-webkit-font-smooth
 .auth-form label{font-size:12px;color:#345069;letter-spacing:.01em}
 .auth-form input{height:46px;border:1px solid #d7e5eb;border-radius:10px;background:#fbfdfe;padding:0 13px;margin-top:7px;transition:border-color .18s,box-shadow .18s,background .18s}
 .auth-form input:focus{outline:none;border-color:#0b9a7a;background:#fff;box-shadow:0 0 0 4px #0b9a7a18}
-.auth-form .signup-verification-code{height:58px;text-align:center;font-size:24px;font-weight:700;letter-spacing:.48em;font-variant-numeric:tabular-nums;padding-left:calc(13px + .48em);}
 .auth-form .button{height:46px;border-radius:10px;font-size:14px;margin-top:3px}
 .auth-switch{width:100%;margin-top:8px;border-top:1px solid #e7eff2;padding-top:16px;color:#087e69;font-weight:600}
 .auth-message{border-radius:10px;line-height:1.6}

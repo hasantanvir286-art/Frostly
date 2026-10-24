@@ -168,7 +168,7 @@ No build step transforms these files. A successful upload does not prove that da
 
 1. Create a Supabase project and set `url` and public anon/publishable key in `supabase-config.js`.
 2. Apply migrations 1–15 in sequence.
-3. Configure Supabase Auth email confirmation; set Site URL to the production site and allow-list the production URL plus local development URL. For the signup code-entry screen, set the Confirm signup email template to include `{{ .Token }}` and omit `{{ .ConfirmationURL }}`. Signup also passes its current origin as the redirect for any link-based Auth emails.
+3. Configure Supabase Auth email confirmation; set Site URL to the production site and allow-list the production root URL plus local development URL. Signup passes its current site root as the redirect. The Confirm signup template should include a link using `{{ .ConfirmationURL }}`.
 4. Create an account through the storefront; promote the trusted initial admin using the SQL in `README.md`.
 5. Sign in and check that the admin console passes role validation.
 6. Replace demo catalog values; verify product prices, inventory, images, delivery areas/fees, contact values and site branding.
@@ -184,8 +184,8 @@ No build step transforms these files. A successful upload does not prove that da
 | Checkout says no delivery areas | Apply migration 2 and confirm active rows exist in `delivery_zones`. |
 | Wallet methods are missing or wallet order submission fails | Apply migration 14; check method toggles and receiving numbers in Admin → Settings. Wallet orders remain pending until staff verifies the transfer. |
 | Superadmin/order manager cannot change order status; error says `Administrator access required` | Apply migration 15 in Supabase SQL Editor. It replaces the original admin-only status RPC with the current order-manager authorization check. |
-| Signup verification code is missing | In Supabase Auth → Email Templates → Confirm signup, use `{{ .Token }}` for the six-digit code; then register with a new email to test. Existing confirmation emails are unchanged. |
-| Auth email link points to localhost | Set Supabase Auth Site URL to the live origin and add the exact live origin to Redirect URLs. Deploy the updated frontend; signup passes its current site URL as the redirect target. |
+| Signup code screen appears or confirmation email has no link | Restore Supabase Auth → Email Templates → Confirm signup to use `{{ .ConfirmationURL }}` and send a new confirmation email. |
+| Auth email link points to localhost | Set Supabase Auth Site URL to the live origin and add the exact production root URL to Redirect URLs. Deploy the updated frontend; signup passes the current site root as its redirect target. |
 | Admin page is blank/denied | Sign in first; confirm the signed-in user's `profiles.role` is `admin`; ensure migrations and RLS policies are present. The obscure filename does not bypass the role check. |
 | Product/settings image upload fails | Apply the corresponding storage migration; use JPG, PNG, or WebP within the configured 5 MB limit; confirm the account is admin. |
 | Footer contact fields are absent/stale | Apply migration 8; save values in Admin → Settings; confirm the deployed browser loads the current `app.js`; inspect the `site_settings` row with id `main` and the read policy. |

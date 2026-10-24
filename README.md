@@ -62,16 +62,16 @@ The public catalog is database-backed. Replace any seed catalog rows and demo im
    Verify the `UPDATE 1` result. Do not expose a public staff-registration flow. The admin dashboard checks profile roles, while RLS and database functions enforce access independently.
 19. Replace any sample catalog rows with verified Frostly products, images, prices, and stock before taking live orders. Confirm Supabase Auth email, site URL, and redirect settings for your local and production domains. Configure and test active delivery areas, payment method toggles, and wallet receiving numbers.
 
-For email confirmation, set **Supabase → Authentication → URL Configuration → Site URL** to `https://frostly-400.pages.dev` (or your custom domain) and allow-list the production URL and local development URL under **Redirect URLs**. The storefront now displays a code-entry screen after signup. To send a 6-digit code, open **Authentication → Email Templates → Confirm signup**, set the subject to `Your Frostly verification code`, and use this body (do not use `{{ .ConfirmationURL }}` in the confirmation template):
+For email confirmation, set **Supabase → Authentication → URL Configuration → Site URL** to `https://frostly-400.pages.dev` (or your custom domain) and allow-list the production root URL and local development URL under **Redirect URLs**. Signup requests now explicitly redirect to the current site root. In **Authentication → Email Templates → Confirm signup**, restore a link-based template using `{{ .ConfirmationURL }}`, for example:
 
    ```html
-   <h2>Verify your Frostly account</h2>
-   <p>Enter this 6-digit code on Frostly to activate your account:</p>
-   <p style="font-size:28px;font-weight:700;letter-spacing:8px">{{ .Token }}</p>
+   <h2>Confirm your Frostly account</h2>
+   <p>Click the link below to verify your email address and activate your account:</p>
+   <p><a href="{{ .ConfirmationURL }}">Confirm my email</a></p>
    <p>If you did not request an account, you can ignore this email.</p>
    ```
 
-Supabase stores this email template in the project dashboard, so pushing code alone does not change it. Existing confirmation emails keep their old links; test by registering with a new email after the template and Pages deployment are updated. Supabase requires redirect targets to match the allowed URL list. See [Supabase redirect URL settings](https://supabase.com/docs/guides/auth/redirect-urls) and [email templates](https://supabase.com/docs/guides/auth/auth-email-templates).
+Supabase stores this email template in the project dashboard, so pushing code does not change it. Replace any OTP-only template before testing; use a newly sent confirmation email because old messages retain their original destination. Supabase requires redirect targets to match the allowed URL list. See [Supabase redirect URL settings](https://supabase.com/docs/guides/auth/redirect-urls) and [email templates](https://supabase.com/docs/guides/auth/auth-email-templates).
 
 The admin console includes live order metrics and status updates, product and category editing, inventory adjustments with a ledger, delivery-zone and fee management, storefront settings, and superadmin-only staff role management. Roles are enforced by RLS and database functions, not only by hidden navigation. Superadmins can assign existing accounts as superadmin, admin, order manager, stock manager, catalog manager, delivery manager, settings manager, delivery staff, or customer. Admin profile email changes require password reauthentication and confirmation through Supabase Auth.
 
