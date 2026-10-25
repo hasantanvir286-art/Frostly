@@ -17,6 +17,12 @@
       return directFetch(request);
     }
 
+    // This dashboard RPC only reads aggregate metrics. Keep it in the browser
+    // so a transient Pages-to-Supabase egress failure cannot break the overview.
+    if (request.method === 'POST' && url.pathname === '/rest/v1/rpc/admin_dashboard_metrics') {
+      return directFetch(request);
+    }
+
     const proxyUrl = new URL(`/api/supabase${url.pathname}${url.search}`, window.location.origin);
     if (request.method === 'GET' || request.method === 'HEAD') {
       return directFetch(new Request(proxyUrl, request)).then(response => {
