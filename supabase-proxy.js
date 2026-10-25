@@ -30,6 +30,16 @@
         return response;
       }).catch(() => directFetch(request));
     }
+    const isImageUpload = ['POST', 'PUT'].includes(request.method)
+      && /^\/storage\/v1\/object\/(frostly-avatars|frostly-products|frostly-site-assets)\//.test(url.pathname);
+    if (isImageUpload) {
+      return directFetch(new Request(proxyUrl, request.clone())).then(response => {
+        // The Storage service still enforces the bucket's MIME, size and RLS
+        // rules. Retry direct only when the Pages proxy rejects image sniffing.
+        if (response.status === 415) return directFetch(request);
+        return response;
+      });
+    }
     return directFetch(new Request(proxyUrl, request));
   };
 
