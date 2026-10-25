@@ -92,7 +92,7 @@
         </section>
         <section class="view" id="view-orders">
           <div class="page-head"><div><h1>Orders</h1><p>Review orders and keep customers up to date.</p></div><button class="admin-btn" data-refresh>↻ Refresh orders</button></div>
-          <div class="toolbar"><input class="admin-input" id="orderSearch" placeholder="Search order, customer, phone, area…"/><select class="admin-select" id="orderStatusFilter"><option value="">All statuses</option><option value="pending_confirmation">Awaiting confirmation</option><option value="confirmed">Confirmed</option><option value="preparing">Preparing</option><option value="packed">Packed</option><option value="out_for_delivery">Out for delivery</option><option value="delivered">Delivered</option><option value="cancelled">Cancelled</option></select></div><div class="order-quick-filters" role="tablist" aria-label="Order groups"><button type="button" id="processingOrdersButton" class="admin-btn" role="tab" aria-selected="false"><span id="processingOrdersLabel">Processing orders</span><b id="processingOrderCount">0</b></button><button type="button" id="deliveredOrdersButton" class="admin-btn" role="tab" aria-selected="false"><span id="deliveredOrdersLabel">Delivered orders</span><b id="deliveredOrderCount">0</b></button></div>
+          <div class="toolbar"><input class="admin-input" id="orderSearch" placeholder="Search order, customer, phone, area…"/><select class="admin-select" id="orderStatusFilter"><option value="">All statuses</option><option value="pending_confirmation">Awaiting confirmation</option><option value="confirmed">Confirmed</option><option value="preparing">Preparing</option><option value="packed">Packed</option><option value="out_for_delivery">Out for delivery</option><option value="delivered">Delivered</option><option value="cancelled">Cancelled</option></select><button type="button" class="admin-btn primary" id="downloadProcessingInvoicesButton">Download processing invoices</button></div><div class="order-quick-filters" role="tablist" aria-label="Order groups"><button type="button" id="processingOrdersButton" class="admin-btn" role="tab" aria-selected="false"><span id="processingOrdersLabel">Processing orders</span><b id="processingOrderCount">0</b></button><button type="button" id="deliveredOrdersButton" class="admin-btn" role="tab" aria-selected="false"><span id="deliveredOrdersLabel">Delivered orders</span><b id="deliveredOrderCount">0</b></button></div>
           <article class="admin-card table-card" style="margin-top:0"><div class="table-wrap"><table class="data-table"><thead><tr><th>ORDER</th><th>CUSTOMER</th><th>DELIVERY ADDRESS</th><th>ITEMS / TOTAL</th><th>PLACED</th><th>STATUS</th></tr></thead><tbody id="ordersBody"></tbody></table></div></article>
         </section>
         <section class="view" id="view-products">
@@ -150,6 +150,6 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.118.0"></script>
   <script src="supabase-config.js"></script>
   <script src="supabase-proxy.js?v=20261025-direct-supabase-api"></script>
-  <script src="admin-app.js?v=20261025-product-price-constraint"></script>
+  <script src="admin-app.js?v=20261025-order-invoices"></script>
 </body>
 </html>
