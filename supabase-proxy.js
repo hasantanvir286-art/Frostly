@@ -35,10 +35,10 @@
     if (isImageUpload) {
       return directFetch(new Request(proxyUrl, request.clone())).then(response => {
         // The Storage service still enforces the bucket's MIME, size and RLS
-        // rules. Retry direct only when the Pages proxy rejects image sniffing.
-        if (response.status === 415) return directFetch(request);
+        // rules. Retry direct when the Pages proxy rejects or cannot reach it.
+        if ([415, 502, 503].includes(response.status)) return directFetch(request);
         return response;
-      });
+      }).catch(() => directFetch(request));
     }
     return directFetch(new Request(proxyUrl, request));
   };
