@@ -6,38 +6,10 @@
 
   window.FROSTLY_SUPABASE_FETCH = (input, init) => {
     const request = input instanceof Request ? new Request(input, init) : new Request(input, init);
-    const url = new URL(request.url);
-    if (url.origin !== supabaseOrigin || window.location.protocol !== 'https:') {
-      return directFetch(request);
-    }
-
-    // Supabase Auth is designed for browser CORS requests. Keep its JSON
-    // sign-in, sign-up, and token-refresh bodies out of the Pages proxy path.
-    if (url.pathname.startsWith('/auth/v1/')) {
-      return directFetch(request);
-    }
-
-    // This dashboard RPC only reads aggregate metrics. Keep it in the browser
-    // so a transient Pages-to-Supabase egress failure cannot break the overview.
-    if (request.method === 'POST' && url.pathname === '/rest/v1/rpc/admin_dashboard_metrics') {
-      return directFetch(request);
-    }
-
-    const proxyUrl = new URL(`/api/supabase${url.pathname}${url.search}`, window.location.origin);
-    if (request.method === 'GET' || request.method === 'HEAD') {
-      return directFetch(new Request(proxyUrl, request)).then(response => {
-        if ([404, 500, 502, 503].includes(response.status)) return directFetch(request);
-        return response;
-      }).catch(() => directFetch(request));
-    }
-    const isImageUpload = ['POST', 'PUT'].includes(request.method)
-      && /^\/storage\/v1\/object\/(frostly-avatars|frostly-products|frostly-site-assets)\//.test(url.pathname);
-    if (isImageUpload) {
-      // Uploads go straight to Supabase Storage so the original File body is
-      // preserved. Storage enforces each bucket's size, MIME and RLS policies.
-      return directFetch(request);
-    }
-    return directFetch(new Request(proxyUrl, request));
+    // Supabase's browser API is protected by its public anon key and database
+    // RLS. Call it directly so a Pages-to-Supabase proxy outage cannot break
+    // profile, dashboard, checkout, or storage operations.
+    return directFetch(request);
   };
 
   window.frostlySupabaseAssetUrl = (value) => {
