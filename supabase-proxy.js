@@ -48,6 +48,9 @@
     try {
       const url = new URL(value, window.location.href);
       if (url.origin !== supabaseOrigin || !url.pathname.startsWith('/storage/v1/')) return value;
+      // Public objects are already served by Supabase's CDN. Avoid routing
+      // storefront <img> requests through the Pages API proxy.
+      if (url.pathname.startsWith('/storage/v1/object/public/')) return value;
       return `${window.location.origin}/api/supabase${url.pathname}${url.search}${url.hash}`;
     } catch {
       return value;
