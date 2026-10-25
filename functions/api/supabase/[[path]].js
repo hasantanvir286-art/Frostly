@@ -41,12 +41,12 @@ async function readBodyLimited(request, limit) {
   return body;
 }
 
-function imageTypeMatches(body, contentType) {
+function imageMimeType(body) {
   const starts = (...bytes) => bytes.every((byte, index) => body[index] === byte);
-  if (contentType === 'image/jpeg') return starts(0xff, 0xd8, 0xff);
-  if (contentType === 'image/png') return starts(0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a);
-  if (contentType === 'image/webp') return starts(0x52, 0x49, 0x46, 0x46) && body.length >= 12 && body[8] === 0x57 && body[9] === 0x45 && body[10] === 0x42 && body[11] === 0x50;
-  return false;
+  if (starts(0xff, 0xd8, 0xff)) return 'image/jpeg';
+  if (starts(0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a)) return 'image/png';
+  if (body.length >= 12 && starts(0x52, 0x49, 0x46, 0x46) && body[8] === 0x57 && body[9] === 0x45 && body[10] === 0x42 && body[11] === 0x50) return 'image/webp';
+  return '';
 }
 
 export async function onRequest({ request, env }) {
@@ -99,7 +99,11 @@ export async function onRequest({ request, env }) {
     if (!body) return response('Request body too large', 413);
     if (imageBucket && ['POST', 'PUT'].includes(request.method)) {
       const contentType = (headers.get('content-type') || '').split(';', 1)[0].trim().toLowerCase();
-      if (!imageTypeMatches(body, contentType)) return response('Only valid JPEG, PNG, and WebP image uploads are accepted', 415);
+      const actualType = imageMimeType(body);
+      if (!actualType) return response('Upload a valid JPEG, PNG, or WebP image', 415);
+      // Some browsers and image editors send a missing or nonstandard MIME
+      // label. Trust the verified file signature and forward its canonical MIME.
+      if (contentType !== actualType) headers.set('content-type', actualType);
     }
     requestInit.body = body;
   }
