@@ -33,12 +33,9 @@
     const isImageUpload = ['POST', 'PUT'].includes(request.method)
       && /^\/storage\/v1\/object\/(frostly-avatars|frostly-products|frostly-site-assets)\//.test(url.pathname);
     if (isImageUpload) {
-      return directFetch(new Request(proxyUrl, request.clone())).then(response => {
-        // The Storage service still enforces the bucket's MIME, size and RLS
-        // rules. Retry direct when the Pages proxy rejects or cannot reach it.
-        if ([415, 502, 503].includes(response.status)) return directFetch(request);
-        return response;
-      }).catch(() => directFetch(request));
+      // Uploads go straight to Supabase Storage so the original File body is
+      // preserved. Storage enforces each bucket's size, MIME and RLS policies.
+      return directFetch(request);
     }
     return directFetch(new Request(proxyUrl, request));
   };
