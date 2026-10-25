@@ -132,6 +132,7 @@
             <div class="settings-save-row"><p>Changes appear on the storefront after saving.</p><button type="submit" class="admin-btn primary" id="saveSiteSettings">Save settings</button></div>
           </form>
           <section class="settings-copy-editor"><div class="card-head"><div><h2>Homepage wording</h2><small>Edit English and Bangla storefront headings, promotions, FAQs, and footer copy. Leave a field blank to use its built-in default.</small></div></div><form id="homepageCopyForm"><div id="homepageCopyFields" class="admin-form"></div><div class="settings-save-row"><p>Saved wording is applied in the selected storefront language.</p><button type="submit" class="admin-btn primary" id="saveHomepageCopy">Save homepage wording</button></div></form></section>
+          <section class="settings-copy-editor" id="newsletterCampaignSection"><div class="card-head"><div><h2>Gmail newsletter</h2><small>Send a campaign to subscribed customers using the configured Gmail sender.</small></div></div><form id="newsletterCampaignForm" class="settings-form"><label>Subject<input class="admin-input" name="subject" maxlength="160" required/></label><label>Message<textarea class="admin-input" name="message" rows="6" maxlength="8000" required></textarea></label><p id="newsletterCampaignStatus" role="status" hidden></p><button class="admin-btn primary" id="sendNewsletterCampaign" type="submit">Send newsletter</button></form></section>
           </article>
         </section>
         <section class="view" id="view-users">
