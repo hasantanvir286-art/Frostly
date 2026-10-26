@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="cake-builder.css?v=20261026-color-preview"/>
+  <link rel="stylesheet" href="cake-builder.css?v=20261026-cake-mockup"/>
 </head>
 <body>
   <header class="cake-header"><a href="index.html" class="cake-brand" aria-label="Frostly home"><span class="brand-mark">❄</span><span><b>Frostly</b><small>Frozen Food for a Better Tomorrow</small></span></a><div class="cake-header-actions"><a href="index.html" class="back-store">← <span data-en="Back to store" data-bn="স্টোরে ফিরে যান">Back to store</span></a><label class="sr-only" for="cakeLanguage">Language</label><select id="cakeLanguage" aria-label="Language"><option value="en">English</option><option value="bn">বাংলা</option></select></div></header>
@@ -18,9 +18,10 @@
     <section id="cakeStudio" class="cake-studio" hidden>
       <div class="cake-builder-layout">
         <section class="cake-preview-panel" aria-label="Cake preview">
-          <div class="preview-topline"><span class="preview-pill"><i></i><span data-en="Live cake preview" data-bn="কেকের লাইভ প্রিভিউ">Live cake preview</span></span><button type="button" id="zoomCake" class="zoom-button" aria-label="Zoom cake photo" title="Zoom photo"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 5 5M8 10.8h5.6M10.8 8v5.6"/></svg><span data-en="Zoom" data-bn="জুম">Zoom</span></button></div>
-          <div id="cakePreview" class="cake-photo shape-round"><img id="cakePhoto" alt="Photograph of a finished custom cake" src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=1400&q=90"/><span id="icingPreview" class="icing-preview" aria-hidden="true"></span><span id="shapeBadge" class="shape-badge">Round</span><span id="designBadge" class="design-badge">Classic</span></div>
-          <p class="photo-caption" data-en="Real cake photos show the selected style. Color and shape previews are visual guides; the bakery will confirm the final design with you." data-bn="এখানে বাস্তব কেকের ছবি দেখানো হয়। রং ও আকারের প্রিভিউ নমুনা; চূড়ান্ত ডিজাইন বেকারি আপনার সাথে নিশ্চিত করবে।">Real cake photos show the selected style. Color and shape previews are visual guides; the bakery will confirm the final design with you.</p>
+          <div class="preview-topline"><span class="preview-pill"><i></i><span data-en="Live cake mock-up" data-bn="কেকের লাইভ মডেল">Live cake mock-up</span></span><span class="preview-hint" data-en="Shape and icing update here" data-bn="আকার ও আইসিং এখানে বদলাবে">Shape and icing update here</span></div>
+          <div id="cakePreview" class="cake-model-panel shape-round"><div id="cakeModel" class="cake-model" role="img" aria-label="Custom cake preview"></div><span id="shapeBadge" class="shape-badge">Round</span><span id="designBadge" class="design-badge">Classic</span></div>
+          <div class="real-cake-reference"><img id="cakePhoto" alt="Real cake design reference" src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=1000&q=88"/><div><small data-en="REAL CAKE REFERENCE" data-bn="বাস্তব কেকের নমুনা">REAL CAKE REFERENCE</small><b id="referenceDesignName">Classic</b><p data-en="Your selected style, shown as a real cake photo." data-bn="আপনার নির্বাচিত ডিজাইনের বাস্তব কেকের ছবি।">Your selected style, shown as a real cake photo.</p><button type="button" id="zoomCake" class="zoom-button"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 5 5M8 10.8h5.6M10.8 8v5.6"/></svg><span data-en="Zoom photo" data-bn="ছবি জুম করুন">Zoom photo</span></button></div></div>
+          <p class="photo-caption" data-en="The cake mock-up changes to your selected full shape and icing color. Real photos below help you choose the decoration style; the bakery confirms the final finish with you." data-bn="কেকের মডেল আপনার বেছে নেওয়া সম্পূর্ণ আকার ও আইসিংয়ের রং দেখায়। নিচের বাস্তব ছবিগুলো সাজসজ্জার ধরন বেছে নিতে সাহায্য করে; চূড়ান্ত ডিজাইন বেকারি নিশ্চিত করবে।">The cake mock-up changes to your selected full shape and icing color. Real photos below help you choose the decoration style; the bakery confirms the final finish with you.</p>
           <div class="design-heading"><h2 data-en="Choose a real cake design" data-bn="বাস্তব কেকের ডিজাইন বেছে নিন">Choose a real cake design</h2><span data-en="Tap a photo to preview" data-bn="ছবি বেছে প্রিভিউ দেখুন">Tap a photo to preview</span></div>
           <div id="designChoices" class="design-choices" role="group" aria-label="Cake designs"></div>
         </section>
@@ -42,6 +43,6 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.118.0"></script>
   <script src="supabase-config.js"></script>
   <script src="supabase-proxy.js?v=20261025-direct-supabase-api"></script>
-  <script src="cake-builder.js?v=20261026-color-preview"></script>
+  <script src="cake-builder.js?v=20261026-cake-mockup"></script>
 </body>
 </html>
