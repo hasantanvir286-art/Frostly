@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=20261026-dynamic-content" />
+  <link rel="stylesheet" href="styles.css?v=20261026-cake-builder" />
 </head>
 <body>
   <div id="startupLoader" class="startup-loader" role="status" aria-label="Loading Frostly"><span class="startup-spinner"></span></div>
@@ -20,7 +20,7 @@
     <button class="location chip" aria-label="Delivery location"><svg class="location-pin" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg><span id="locationText">Chattogram</span><svg class="location-chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m7 10 5 5 5-5"/></svg></button>
     <div class="header-actions"><button class="icon-button profile-button" id="accountButton" aria-label="Account"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c.4-3.7 3.2-6 7-6s6.6 2.3 7 6"/></svg></button><button class="icon-button" id="wishlistButton" aria-label="Wishlist">♡</button><button class="icon-button orders-button" id="ordersButton" aria-label="Orders"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3.5h12v17l-6-3.3-6 3.3z"/><path d="M9 8h6M9 11.5h6"/></svg></button><button class="icon-button cart-trigger" id="cartButton" aria-label="Shopping cart">🛒<i id="cartCount">0</i></button><button class="menu-button" id="menuButton" aria-label="Open navigation">☰</button></div>
   </header>
-  <nav class="nav" id="nav"><a href="#home" data-i18n="navHome">Home</a><a href="#categories" data-i18n="navCategories">Categories</a><a href="#bestsellers" data-i18n="navBest">Best Sellers</a><a href="#new" data-i18n="navNew">New Arrivals</a><a href="#offers" data-i18n="navOffers">Offers</a><a href="#faq" data-i18n="navFaq">FAQ</a><a href="#about" data-i18n="navAbout">About Us</a><a href="https://frostly-400.pages.dev/#footer" data-i18n="navContact">Contact</a></nav>
+  <nav class="nav" id="nav"><a href="#home" data-i18n="navHome">Home</a><a href="#categories" data-i18n="navCategories">Categories</a><a href="#bestsellers" data-i18n="navBest">Best Sellers</a><a href="#new" data-i18n="navNew">New Arrivals</a><a href="#offers" data-i18n="navOffers">Offers</a><a id="cakeNavLink" href="#cake-studio" hidden>Design a cake</a><a href="#faq" data-i18n="navFaq">FAQ</a><a href="#about" data-i18n="navAbout">About Us</a><a href="https://frostly-400.pages.dev/#footer" data-i18n="navContact">Contact</a></nav>
 
   <main id="home">
     <section class="hero wrap">
@@ -28,6 +28,7 @@
       <div class="hero-photo"><img src="https://images.unsplash.com/photo-1510130387422-82bed34b37e9?auto=format&fit=crop&w=1200&q=85" alt="Fresh frozen salmon, vegetables and seafood" /><div class="fresh-badge">100%<br/><small>FRESH<br/>FROZEN</small></div><div class="hero-ai"><span>✦</span><div><b>Frostly Shopping Assistant</b><small data-i18n="aiTagline">Find products in our catalog</small></div><button class="open-chat" aria-label="Open product finder" data-i18n="chatNow">Chat Now</button></div><div class="hero-slider-controls" id="heroSliderControls" hidden><button type="button" id="heroSlidePrev" aria-label="Previous slide">‹</button><div id="heroSlideDots"></div><button type="button" id="heroSlideNext" aria-label="Next slide">›</button></div></div>
     </section>
 
+    <section class="cake-studio wrap section" id="cake-studio" hidden aria-labelledby="cakeStudioTitle"><div class="cake-studio-heading"><span class="eyebrow" id="cakeStudioEyebrow">MADE FOR YOUR CELEBRATION</span><h2 id="cakeStudioTitle">Design a cake that feels like yours</h2><p id="cakeStudioCopy">Choose a real cake style, size, flavor, and finish. Your estimate updates as you design.</p></div><div id="cakeBuilderContent"></div></section>
     <section class="section wrap" id="categories"><div class="section-heading"><h2 data-i18n="categoriesTitle">Shop by Category</h2><a href="#bestsellers" data-i18n="seeAll">See all →</a></div><div class="category-grid" id="categoryGrid"></div></section>
     <section class="section wrap" id="bestsellers"><div class="section-heading" id="all-products"><div><h2 data-i18n="bestTitle">Best Sellers</h2><p data-i18n="bestCopy">Family favourites, frozen fresh</p></div><a href="#all-products" data-i18n="allProducts">View all products →</a></div><div class="product-grid" id="productGrid"></div></section>
     <section class="promos wrap" id="offers"><article class="promo promo-one"><div><small>পরিবারের সবার জন্য</small><h3>ফ্যামিলি প্যাক</h3><a href="#bestsellers">দেখুন →</a></div><img src="https://images.unsplash.com/photo-1607623814075-e51df1bdc82f?auto=format&fit=crop&w=500&q=80" alt="Frozen family meal" /></article><article class="promo promo-two"><div><small>সহজে রান্না, দারুণ স্বাদ</small><h3>রেডি টু কুক</h3><a href="#bestsellers">দেখুন →</a></div><img src="https://images.unsplash.com/photo-1565680018434-b513d5e5fd47?auto=format&fit=crop&w=500&q=80" alt="Ready to cook food" /></article><article class="promo promo-ai"><div><small>আপনার ব্যক্তিগত সহকারী</small><h3>Frostly Assistant</h3><p>আপনার পছন্দ বুঝে দেবে খাবারের পরামর্শ</p><button class="button primary open-chat">চ্যাট শুরু করুন</button></div><span class="robot">🤖</span></article></section>
@@ -50,7 +51,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.118.0"></script>
   <script src="supabase-config.js"></script>
   <script src="supabase-proxy.js?v=20261025-direct-supabase-api"></script>
-  <script src="app.js?v=20261026-dynamic-social"></script>
+  <script src="app.js?v=20261026-cake-builder"></script>
   <script src="startup.js"></script>
 </body>
 </html>
