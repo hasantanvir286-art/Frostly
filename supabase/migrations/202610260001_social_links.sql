@@ -1,7 +1,11 @@
--- Make storefront social profile destinations editable through Admin > Settings.
+-- Storefront social destinations and policy-page copy are editable through Admin > Settings.
 alter table public.site_settings
   add column if not exists social_links jsonb not null default '{"facebook":"","instagram":"","youtube":""}'::jsonb
   check (jsonb_typeof(social_links) = 'object');
+
+alter table public.site_settings
+  add column if not exists policy_pages jsonb not null default '{}'::jsonb
+  check (jsonb_typeof(policy_pages) = 'object');
 
 update public.site_settings
 set social_links = jsonb_build_object(
