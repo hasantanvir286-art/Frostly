@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="theme-color" content="#0c2942"/>
+  <title>Design your cake | Frostly</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="cake-builder.css?v=20261026-shapes"/>
+</head>
+<body>
+  <header class="cake-header"><a href="index.html" class="cake-brand" aria-label="Frostly home"><span class="brand-mark">❄</span><span><b>Frostly</b><small>Frozen Food for a Better Tomorrow</small></span></a><div class="cake-header-actions"><a href="index.html" class="back-store">← <span data-en="Back to store" data-bn="স্টোরে ফিরে যান">Back to store</span></a><label class="sr-only" for="cakeLanguage">Language</label><select id="cakeLanguage" aria-label="Language"><option value="en">English</option><option value="bn">বাংলা</option></select></div></header>
+  <main class="cake-page">
+    <div class="cake-title"><span class="eyebrow" data-en="MADE FOR YOUR CELEBRATION" data-bn="আপনার আনন্দের জন্য তৈরি">MADE FOR YOUR CELEBRATION</span><h1 data-en="Create your custom cake" data-bn="আপনার পছন্দের কেক তৈরি করুন">Create your custom cake</h1><p data-en="Choose a real cake design, then customize its shape, icing, flavor, and message. Your estimate updates as you go." data-bn="বাস্তব কেকের ডিজাইন বেছে নিয়ে আকার, আইসিং, ফ্লেভার ও বার্তা ঠিক করুন। পছন্দ অনুযায়ী আনুমানিক দাম দেখুন।">Choose a real cake design, then customize its shape, icing, flavor, and message. Your estimate updates as you go.</p></div>
+    <div id="cakeUnavailable" class="cake-alert" role="status" hidden></div>
+    <section id="cakeStudio" class="cake-studio" hidden>
+      <div class="cake-builder-layout">
+        <section class="cake-preview-panel" aria-label="Cake preview">
+          <div class="preview-topline"><span class="preview-pill"><i></i><span data-en="Live cake preview" data-bn="কেকের লাইভ প্রিভিউ">Live cake preview</span></span><button type="button" id="zoomCake" class="zoom-button" aria-label="Zoom cake photo" title="Zoom photo"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 5 5M8 10.8h5.6M10.8 8v5.6"/></svg><span data-en="Zoom" data-bn="জুম">Zoom</span></button></div>
+          <div id="cakePreview" class="cake-photo shape-round"><img id="cakePhoto" alt="Photograph of a finished custom cake" src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=1400&q=90"/><span id="icingPreview" class="icing-preview" aria-hidden="true"></span><span id="shapeBadge" class="shape-badge">Round</span><span id="designBadge" class="design-badge">Classic</span></div>
+          <p class="photo-caption" data-en="Real cake photos show the selected style. Color and shape previews are visual guides; the bakery will confirm the final design with you." data-bn="এখানে বাস্তব কেকের ছবি দেখানো হয়। রং ও আকারের প্রিভিউ নমুনা; চূড়ান্ত ডিজাইন বেকারি আপনার সাথে নিশ্চিত করবে।">Real cake photos show the selected style. Color and shape previews are visual guides; the bakery will confirm the final design with you.</p>
+          <div class="design-heading"><h2 data-en="Choose a real cake design" data-bn="বাস্তব কেকের ডিজাইন বেছে নিন">Choose a real cake design</h2><span data-en="Tap a photo to preview" data-bn="ছবি বেছে প্রিভিউ দেখুন">Tap a photo to preview</span></div>
+          <div id="designChoices" class="design-choices" role="group" aria-label="Cake designs"></div>
+        </section>
+        <form id="cakeForm" class="cake-options">
+          <section class="option-group"><div class="group-heading"><span>01</span><div><h2 data-en="Cake shape" data-bn="কেকের আকার">Cake shape</h2><p data-en="Choose the shape for your cake build." data-bn="আপনার কেকের আকার বেছে নিন।">Choose the shape for your cake build.</p></div></div><div id="shapeChoices" class="shape-choices" role="group" aria-label="Cake shape"></div></section>
+          <section class="option-group"><div class="group-heading"><span>02</span><div><h2 data-en="Size and flavor" data-bn="সাইজ ও ফ্লেভার">Size and flavor</h2><p data-en="Base price and flavor extras are set by the bakery." data-bn="মূল্য ও ফ্লেভারের অতিরিক্ত দাম বেকারি নির্ধারণ করে।">Base price and flavor extras are set by the bakery.</p></div></div><label class="field-label"><span data-en="Cake size" data-bn="কেকের সাইজ">Cake size</span><select name="size" required><option value="half_kg">½ kg</option><option value="one_kg" selected>1 kg</option><option value="two_kg">2 kg</option></select></label><label class="field-label"><span data-en="Flavor" data-bn="ফ্লেভার">Flavor</span><select name="flavor" required><option value="vanilla">Vanilla</option><option value="chocolate">Chocolate</option><option value="strawberry">Strawberry</option><option value="red_velvet">Red velvet</option></select></label></section>
+          <section class="option-group"><div class="group-heading"><span>03</span><div><h2 data-en="Icing color" data-bn="আইসিংয়ের রং">Icing color</h2><p data-en="Select a finish color for your cake." data-bn="কেকের আইসিংয়ের রং বেছে নিন।">Select a finish color for your cake.</p></div></div><div id="colorChoices" class="color-choices" role="group" aria-label="Icing color"></div></section>
+          <section class="option-group message-group"><div class="group-heading"><span>04</span><div><h2 data-en="Make it personal" data-bn="আপনার বার্তা যোগ করুন">Make it personal</h2><p data-en="Add a short message and your contact details." data-bn="ছোট একটি বার্তা ও যোগাযোগের তথ্য দিন।">Add a short message and your contact details.</p></div></div><label class="field-label"><span data-en="Message on cake" data-bn="কেকে যে বার্তা লিখবেন">Message on cake</span><input name="message" maxlength="60" placeholder="Happy birthday!"/></label><label class="field-label"><span data-en="Your name" data-bn="আপনার নাম">Your name</span><input name="customer_name" autocomplete="name" minlength="2" maxlength="100" required/></label><label class="field-label"><span data-en="Mobile number" data-bn="মোবাইল নম্বর">Mobile number</span><input name="customer_phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="01XXXXXXXXX" required/></label></section>
+          <section class="estimate-card"><div><span data-en="Estimated cake price" data-bn="কেকের আনুমানিক দাম">Estimated cake price</span><small id="priceBreakdown">Choose your options to see the price.</small></div><strong id="cakeEstimate">—</strong></section>
+          <button id="submitCake" class="submit-cake" type="submit" disabled><span data-en="Request this cake" data-bn="এই কেকের অনুরোধ পাঠান">Request this cake</span><b aria-hidden="true">→</b></button>
+          <p class="confirmation-note" data-en="This is a request, not a confirmed order. Our team will contact you to verify the design, delivery charge, and final price." data-bn="এটি একটি অনুরোধ, নিশ্চিত অর্ডার নয়। ডিজাইন, ডেলিভারি চার্জ ও চূড়ান্ত দাম নিশ্চিত করতে আমাদের টিম আপনার সাথে যোগাযোগ করবে।">This is a request, not a confirmed order. Our team will contact you to verify the design, delivery charge, and final price.</p>
+          <p id="cakeMessage" class="cake-message" role="status" aria-live="polite"></p><div id="authPrompt" class="auth-prompt" hidden><span data-en="Sign in to send your cake request." data-bn="কেকের অনুরোধ পাঠাতে সাইন ইন করুন।">Sign in to send your cake request.</span><a href="index.html?account=1" target="_blank" rel="noopener"><span data-en="Open sign in" data-bn="সাইন ইন খুলুন">Open sign in</span> ↗</a><button id="checkSession" type="button" data-en="I've signed in" data-bn="সাইন ইন করেছি">I've signed in</button></div>
+        </form>
+      </div>
+    </section>
+  </main>
+  <footer class="cake-footer"><a href="index.html">❄ Frostly</a><span data-en="Custom cake requests are confirmed by our team." data-bn="কাস্টম কেকের অনুরোধ আমাদের টিম নিশ্চিত করবে।">Custom cake requests are confirmed by our team.</span></footer>
+  <dialog id="cakeZoomDialog" class="cake-zoom-dialog"><button id="closeCakeZoom" type="button" aria-label="Close zoom">×</button><img id="zoomedCakePhoto" alt="Zoomed cake design photo"/><p id="zoomedCakeCaption">Cake design</p></dialog>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.118.0"></script>
+  <script src="supabase-config.js"></script>
+  <script src="supabase-proxy.js?v=20261025-direct-supabase-api"></script>
+  <script src="cake-builder.js?v=20261026-shapes"></script>
+</body>
+</html>
