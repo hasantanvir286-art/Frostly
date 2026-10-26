@@ -7,7 +7,7 @@ function readStoredJson(key,fallback){try{const value=localStorage.getItem(key);
 function readStoredValue(key){try{return localStorage.getItem(key)||'';}catch{return '';}}
 function writeStoredValue(key,value){try{localStorage.setItem(key,value);}catch{}}
 let newsletterSubscribedForSession=(()=>{try{return sessionStorage.getItem('frostly-newsletter-subscribed')==='1';}catch{return false;}})();
-function syncNewsletterSubscriptionState(){const actions=$('#newsletterActions'),message=$('#newsletterMessage');if(!actions||!message)return;actions.hidden=newsletterSubscribedForSession;if(newsletterSubscribedForSession)message.textContent=words[language].newsletterSaved;}
+function syncNewsletterSubscriptionState(){const actions=$('#newsletterActions'),message=$('#newsletterMessage'),section=$('#newsletter');if(!actions||!message||!section)return;actions.hidden=newsletterSubscribedForSession;section.classList.toggle('is-subscribed',newsletterSubscribedForSession);if(newsletterSubscribedForSession)message.textContent=words[language].newsletterSaved;}
 function markNewsletterSubscribed(){newsletterSubscribedForSession=true;try{sessionStorage.setItem('frostly-newsletter-subscribed','1');}catch{}syncNewsletterSubscriptionState();}
 let cart=readStoredJson('frostly-cart',{}),storedWishlist=readStoredJson('frostly-wishlist',[]),wishlist=new Set(Array.isArray(storedWishlist)?storedWishlist:[]),language=readStoredValue('frostly-language-v2')==='bn'?'bn':'en',activeCategory='';
 if(!cart||typeof cart!=='object'||Array.isArray(cart))cart={};
