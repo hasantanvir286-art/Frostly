@@ -237,3 +237,18 @@ html{scroll-padding-top:90px}#faq,#about,#footer{scroll-margin-top:90px}.newslet
 .product-reviews-wide .product-review-form>button{grid-column:1;grid-row:2;width:100%;align-self:end}
 .product-reviews-wide .product-review-form .review-message{grid-column:1/-1;grid-row:3}
 @media(max-width:700px){.product-reviews-wide .product-review-form{grid-template-columns:1fr;grid-template-rows:auto}.product-reviews-wide .product-review-form label:first-child,.product-reviews-wide .product-review-form label:nth-child(2),.product-reviews-wide .product-review-form>button,.product-reviews-wide .product-review-form .review-message{grid-column:1;grid-row:auto}.product-reviews-wide .product-review-form label:nth-child(2) textarea{height:auto;min-height:86px}}
+
+/* Product cards use a normal clickable hand; zoom is intentional after opening. */
+.product-image-trigger{cursor:pointer!important}.product-card:hover .product-image-trigger img{transform:none!important}
+.product-detail-image-frame{cursor:zoom-in}.product-detail-image-frame.is-hover-zoom img{transform:none!important}
+.product-reviews-wide>.auth-link-button{justify-self:center}
+.product-review-form .review-rating-field{grid-column:1;grid-row:1;min-width:0;margin:0;padding:0;border:0}
+.product-review-form .review-rating-field legend{margin-bottom:6px;color:#39576b;font-size:11px;font-weight:700}
+.review-star-choice{display:flex;align-items:center;gap:3px;min-height:42px}
+.review-star-choice label{position:relative;display:inline-grid!important;place-items:center;cursor:pointer}
+.review-star-choice input{position:absolute;width:1px;height:1px;opacity:0}
+.review-star-choice .star{color:#cfd9dc;font-size:28px;line-height:1;transition:color .14s,transform .14s}
+.review-star-choice label.selected .star,.review-star-choice label:hover .star{color:#eaaa16}
+.review-star-choice label:hover .star{transform:scale(1.1)}
+.review-star-choice input:focus-visible+.star{outline:3px solid #13c296;outline-offset:3px;border-radius:4px}
+@media(max-width:700px){.product-review-form .review-rating-field{grid-column:1;grid-row:auto}.review-star-choice{min-height:38px}.review-star-choice .star{font-size:27px}}
