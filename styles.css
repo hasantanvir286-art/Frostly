@@ -252,3 +252,6 @@ html{scroll-padding-top:90px}#faq,#about,#footer{scroll-margin-top:90px}.newslet
 .review-star-choice label:hover .star{transform:scale(1.1)}
 .review-star-choice input:focus-visible+.star{outline:3px solid #13c296;outline-offset:3px;border-radius:4px}
 @media(max-width:700px){.product-review-form .review-rating-field{grid-column:1;grid-row:auto}.review-star-choice{min-height:38px}.review-star-choice .star{font-size:27px}}
+
+.product-reviews-wide>.review-eligibility-note{grid-column:1/-1;justify-self:center;max-width:640px;margin:0;padding:0;border:0;background:none;color:#647b88;text-align:center;font-size:12px;line-height:1.6}
+.product-reviews-wide>.auth-link-button{justify-self:center}
