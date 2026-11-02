@@ -112,6 +112,9 @@ details[open]{border-color:#b6ddd5;box-shadow:0 6px 18px #087d6910}
 .customer-order-item b{display:block;color:#29475c;font-size:10px}
 .customer-order-item small{display:block;margin-top:3px;color:#8092a0;font-size:9px}
 .customer-order-item>strong{font-size:10px;color:#385970;white-space:nowrap}
+.customer-order-rate-button{display:inline-flex;align-items:center;justify-content:center;margin-top:7px;padding:5px 9px;border:1px solid #b9ddd2;border-radius:7px;background:#eff9f5;color:#087e69;font-family:inherit;font-size:10px;font-weight:700;line-height:1.2;cursor:pointer;transition:background .15s ease,transform .15s ease}
+.customer-order-rate-button:hover{background:#dff3eb;transform:translateY(-1px)}
+.customer-order-rate-button:focus-visible{outline:3px solid #13c296;outline-offset:2px}
 .customer-order-totals{padding-top:6px}
 .customer-order-totals>div{display:flex;justify-content:space-between;gap:10px;padding:4px 0;color:#6f8494;font-size:9px}
 .customer-order-totals>div b{color:#3a586d}
