@@ -1,17 +1,27 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Nawrah Kitchen">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="title">
+  <title id="title">Nawrah Kitchen logo</title>
   <defs>
-    <linearGradient id="g" x1="8" y1="5" x2="56" y2="60" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#167d67"/>
-      <stop offset="1" stop-color="#0d4050"/>
+    <linearGradient id="leaf" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#80b918"/><stop offset="1" stop-color="#267a36"/>
     </linearGradient>
-    <linearGradient id="a" x1="22" y1="10" x2="42" y2="26" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#ffe29a"/>
-      <stop offset="1" stop-color="#efb94e"/>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#f8d979"/><stop offset="1" stop-color="#c78b19"/>
     </linearGradient>
   </defs>
-  <rect x="2" y="2" width="60" height="60" rx="19" fill="url(#g)"/>
-  <path d="M32 10c-5 4-7 8-6 12 4 0 7-2 8-6 1 4 4 6 8 6 1-5-3-10-10-12Z" fill="url(#a)"/>
-  <path d="M32 22v5m-7-1c-5 2-9 6-10 11h34c-1-5-5-9-10-11" fill="none" stroke="#f8fff9" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"/>
-  <path d="M18 40c2 7 7 11 14 11s12-4 14-11M23 45h18" fill="none" stroke="#f8fff9" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"/>
-  <circle cx="32" cy="35" r="2" fill="#efbd57"/>
+  <!-- Transparent canvas lets the mark sit naturally on every site surface. -->
+  <path d="M22 72c2-27 20-46 44-49 20-3 38 7 46 24" fill="none" stroke="url(#gold)" stroke-width="4" stroke-linecap="round"/>
+  <path d="M18 83c8 20 26 31 47 30 20-1 36-12 44-29" fill="none" stroke="url(#gold)" stroke-width="3" stroke-linecap="round"/>
+  <text x="39" y="91" fill="#10452d" font-family="Georgia, 'Times New Roman', serif" font-size="78" font-weight="700">N</text>
+  <!-- Chef toque -->
+  <path d="M44 39c-7-1-11-6-10-12 1-6 6-9 12-8 1-8 7-13 15-13 7 0 12 4 14 10 7-4 16 0 17 8 1 7-4 12-11 13" fill="#fff" stroke="url(#gold)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M43 39c8-7 23-11 39-8l8 8c-17-3-31 0-43 8" fill="url(#gold)"/>
+  <!-- Fresh leaves -->
+  <path d="M39 99C21 99 11 91 9 75c17 0 28 7 30 24Z" fill="url(#leaf)"/>
+  <path d="M38 104c-15 7-27 4-35-9 14-7 26-5 35 9Z" fill="url(#leaf)"/>
+  <path d="m12 77 24 20M7 97l29 7" fill="none" stroke="#e7f2c8" stroke-width="1.8" stroke-linecap="round"/>
+  <!-- Snowflake accent for frozen freshness -->
+  <g transform="translate(105 71)" fill="none" stroke="#197c91" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M0-20v40M-17-10l34 20M17-10l-34 20"/>
+    <path d="m0-20-5 5m5-5 5 5M0 20l-5-5m5 5 5-5M-17-10h7m-7 0 3 6M17 10h-7m7 0-3-6M17-10h-7m7 0-3 6M-17 10h7m-7 0 3-6"/>
+  </g>
 </svg>
