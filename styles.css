@@ -242,6 +242,7 @@ html{scroll-padding-top:90px}#faq,#about,#footer{scroll-margin-top:90px}.newslet
 .product-image-trigger{cursor:pointer!important}.product-card:hover .product-image-trigger img{transform:none!important}
 .product-detail-image-frame{cursor:zoom-in}.product-detail-image-frame.is-hover-zoom img{transform:none!important}
 .product-reviews-wide>.auth-link-button{justify-self:center}
+.product-reviews-wide>.auth-link-button{grid-column:1/-1;justify-self:stretch;width:100%;min-height:50px;display:flex;align-items:center;justify-content:center;text-align:center}
 .product-review-form .review-rating-field{grid-column:1;grid-row:1;min-width:0;margin:0;padding:0;border:0}
 .product-review-form .review-rating-field legend{margin-bottom:6px;color:#39576b;font-size:11px;font-weight:700}
 .review-star-choice{display:flex;align-items:center;gap:3px;min-height:42px}
