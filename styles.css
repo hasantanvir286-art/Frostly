@@ -227,3 +227,13 @@ html{scroll-padding-top:90px}#faq,#about,#footer{scroll-margin-top:90px}.newslet
 @media(prefers-reduced-motion:reduce){.product-detail-image-frame img,.similar-product-card,.product-zoom-toggle{transition:none}}
 
 .product-overlay .product-dialog-close{position:fixed;top:14px;right:max(14px,calc((100vw - 1450px)/2 + 14px));z-index:20}
+
+/* Align review controls cleanly; let an empty rating state use the full row. */
+.product-reviews-wide .product-review-summary.is-empty{grid-column:1/-1;width:100%;min-height:58px;align-items:center;padding:14px 18px}
+.product-reviews-wide .product-review-form{grid-template-columns:minmax(190px,.34fr) minmax(0,1fr);grid-template-rows:auto auto auto;align-items:stretch}
+.product-reviews-wide .product-review-form label:first-child{grid-column:1;grid-row:1}
+.product-reviews-wide .product-review-form label:nth-child(2){grid-column:2;grid-row:1/span 2}
+.product-reviews-wide .product-review-form label:nth-child(2) textarea{height:100%;min-height:108px}
+.product-reviews-wide .product-review-form>button{grid-column:1;grid-row:2;width:100%;align-self:end}
+.product-reviews-wide .product-review-form .review-message{grid-column:1/-1;grid-row:3}
+@media(max-width:700px){.product-reviews-wide .product-review-form{grid-template-columns:1fr;grid-template-rows:auto}.product-reviews-wide .product-review-form label:first-child,.product-reviews-wide .product-review-form label:nth-child(2),.product-reviews-wide .product-review-form>button,.product-reviews-wide .product-review-form .review-message{grid-column:1;grid-row:auto}.product-reviews-wide .product-review-form label:nth-child(2) textarea{height:auto;min-height:86px}}
