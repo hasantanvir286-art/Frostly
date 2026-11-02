@@ -185,3 +185,11 @@ html{scroll-padding-top:90px}#faq,#about,#footer{scroll-margin-top:90px}.newslet
 .empty-cart-orbit{position:absolute;width:106px;height:36px;border:1px dashed #8bd4c1;border-radius:50%;transform:rotate(-17deg);animation:empty-cart-orbit 5s linear infinite}.cart-spark{position:absolute;color:#16a17d;font-size:18px;animation:empty-cart-spark 2s ease-in-out infinite}.spark-one{top:17px;right:26px}.spark-two{top:38px;left:23px;color:#6dbdaf;animation-delay:.8s}
 @keyframes empty-cart-float{0%,100%{transform:translateY(1px)}50%{transform:translateY(-7px)}}@keyframes empty-cart-orbit{to{transform:rotate(343deg)}}@keyframes empty-cart-spark{0%,100%{opacity:.35;transform:scale(.8)}50%{opacity:1;transform:scale(1.15)}}
 @media(prefers-reduced-motion:reduce){.empty-cart-art svg,.empty-cart-orbit,.cart-spark{animation:none}}
+
+/* Use Frostly's green brand treatment consistently in product details. */
+.product-detail-price{color:#087e69!important}
+.product-detail-price .offer-price-current{color:#087e69!important}
+.product-detail-actions .button.outline{border-color:#168c75!important;color:#087e69!important;background:#fff!important}
+.product-detail-actions .button.outline:hover{background:#edf9f5!important}
+.product-detail-actions .button.primary{border-color:#087e69!important;background:linear-gradient(120deg,#009b72,#008465)!important;color:#fff!important}
+.product-detail-actions .button.primary:hover{filter:brightness(.95)}
