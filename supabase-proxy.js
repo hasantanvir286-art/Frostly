@@ -17,11 +17,15 @@
     // requests through the same-origin Pages Function for request validation,
     // upload size/type checks, and consistent security headers.
     const proxyUrl = new URL(`/api/supabase${target.pathname}${target.search}`, window.location.origin);
+    const safeRead = ['GET', 'HEAD'].includes(request.method);
     return directFetch(new Request(proxyUrl, request)).then((response) => {
       // A Pages proxy outage must not blank the storefront or customer profile.
       // Fall back only for safe reads; all mutations stay behind proxy checks.
-      if (response.status === 502 && ['GET', 'HEAD'].includes(request.method)) return directFetch(request);
+      if (response.status === 502 && safeRead) return directFetch(request);
       return response;
+    }).catch((error) => {
+      if (safeRead) return directFetch(request);
+      throw error;
     });
   };
 
