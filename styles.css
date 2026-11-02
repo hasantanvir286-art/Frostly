@@ -260,6 +260,6 @@ html{scroll-padding-top:90px}#faq,#about,#footer{scroll-margin-top:90px}.newslet
 .product-reviews-wide>.review-eligibility-note{grid-column:1/-1;justify-self:center;max-width:640px;margin:0;padding:0;border:0;background:none;color:#647b88;text-align:center;font-size:12px;line-height:1.6}
 .product-reviews-wide>.auth-link-button{justify-self:center}
 /* Nawrah Kitchen brand mark sizing in storefront header and footer. */
-.brand .site-logo-img{display:block;width:50px;height:50px;flex:none;object-fit:contain;border-radius:16px;filter:drop-shadow(0 3px 7px #0d40501c)}
-.footer-brand .brand.light .site-logo-img{width:52px;height:52px;border-radius:17px;filter:drop-shadow(0 3px 8px #0003)}
+.brand .site-logo-img{display:block;width:50px;height:50px;flex:none;object-fit:contain;padding:3px;border-radius:15px;background:#fffaf0;filter:drop-shadow(0 3px 7px #0d40501c)}
+.footer-brand .brand.light .site-logo-img{width:52px;height:52px;padding:3px;border-radius:16px;background:#fffaf0;filter:drop-shadow(0 3px 8px #0003)}
 @media(max-width:600px){.brand .site-logo-img{width:42px;height:42px}.footer-brand .brand.light .site-logo-img{width:44px;height:44px}}
