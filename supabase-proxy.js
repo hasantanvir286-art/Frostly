@@ -13,18 +13,23 @@
       target.pathname.startsWith('/storage/v1/') || target.pathname === '/storage/v1';
     if (target.origin !== supabaseOrigin || !apiPath) return directFetch(request);
 
+    const safeRead = ['GET', 'HEAD'].includes(request.method);
+    const readOnlyRpc = request.method === 'POST' &&
+      /^\/rest\/v1\/rpc\/(admin_dashboard_metrics|superadmin_list_users)$/.test(target.pathname);
+    const canFallback = safeRead || readOnlyRpc;
+    const fallbackRequest = canFallback ? request.clone() : null;
     // Keep auth endpoints on Supabase, while routing database and storage
     // requests through the same-origin Pages Function for request validation,
     // upload size/type checks, and consistent security headers.
     const proxyUrl = new URL(`/api/supabase${target.pathname}${target.search}`, window.location.origin);
-    const safeRead = ['GET', 'HEAD'].includes(request.method);
     return directFetch(new Request(proxyUrl, request)).then((response) => {
       // A Pages proxy outage must not blank the storefront or customer profile.
-      // Fall back only for safe reads; all mutations stay behind proxy checks.
-      if (response.status === 502 && safeRead) return directFetch(request);
+      // Only allow safe reads and explicitly read-only, role-checked RPCs to
+      // fall back; order and inventory mutations stay behind proxy checks.
+      if (response.status === 502 && canFallback) return directFetch(fallbackRequest);
       return response;
     }).catch((error) => {
-      if (safeRead) return directFetch(request);
+      if (canFallback) return directFetch(fallbackRequest);
       throw error;
     });
   };
