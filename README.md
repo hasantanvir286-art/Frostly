@@ -1,8 +1,8 @@
-# Frostly
+# Nawrah Kitchen
 
 Full project architecture, database, security and deployment notes are in [`docs/PROJECT_DOCUMENTATION.md`](docs/PROJECT_DOCUMENTATION.md). Customer and administrator instructions are in [`docs/USER_MANUAL.md`](docs/USER_MANUAL.md).
 
-A responsive storefront based on the supplied Frostly visual reference. The workspace contained no existing application, so this remains plain HTML, CSS, and JavaScript and does not require a build step. Supabase's browser SDK is loaded from its official CDN for optional authentication and database features.
+A responsive storefront based on the supplied Nawrah Kitchen visual reference. The workspace contained no existing application, so this remains plain HTML, CSS, and JavaScript and does not require a build step. Supabase's browser SDK is loaded from its official CDN for optional authentication and database features.
 
 ## Run locally
 
@@ -23,7 +23,7 @@ Then visit `http://localhost:8000`. Product imagery and Google Fonts are loaded 
 - Customer assistant panel with catalog-grounded answers from the local sample data. It is not an OpenAI integration.
 - A responsive admin console at `console-a84d8903f59b4d358c8cc927633a11f6.html` with live metrics, order management, catalog editing, inventory, delivery areas, and customer summaries.
 - Supabase email/password sign-up and sign-in, editable customer profiles with photo uploads and password recovery, a separate customer order drawer, a protected admin dashboard with live order/inventory metrics, and server-validated checkout are implemented behind Supabase configuration and the migrations below. Checkout supports Cash on Delivery and manual bKash/Nagad/Rocket transfers; wallet transfers require a transaction ID and independent staff verification and are not processed by an integrated payment gateway.
-- On Cloudflare Pages, Supabase Auth, Data API, Storage API, and Functions HTTP calls go through the same-origin `/api/supabase/*` Pages Function. Set `FROSTLY_SUPABASE_URL` in Pages variables if the project URL changes; otherwise the function uses the configured Frostly project. `_routes.json` limits Function invocation to proxy requests, keeping static assets on the normal Pages path. Local HTTP servers continue to call Supabase directly.
+- On Cloudflare Pages, Supabase Auth, Data API, Storage API, and Functions HTTP calls go through the same-origin `/api/supabase/*` Pages Function. Set `FROSTLY_SUPABASE_URL` in Pages variables if the project URL changes; otherwise the function uses the configured Nawrah Kitchen project. `_routes.json` limits Function invocation to proxy requests, keeping static assets on the normal Pages path. Local HTTP servers continue to call Supabase directly.
 - Newsletter form saves unique email subscriptions in the existing `newsletter_subscriptions` table.
 
 The public catalog is database-backed. Replace any seed catalog rows and demo images with verified products, prices, and stock before taking live orders. The visual layout is shipped in the frontend; the dashboard edits the brand, logo, hero slides, bilingual homepage copy, contact/payment details, product catalog, categories, delivery zones, and staff roles.
@@ -46,7 +46,7 @@ The public catalog is database-backed. Replace any seed catalog rows and demo im
 14. Run [supabase/migrations/202610220013_superadmin_delete_staff.sql](supabase/migrations/202610220013_superadmin_delete_staff.sql) to enable superadmin-only staff account deletion with role protections.
 15. Run [supabase/migrations/202610220014_manual_mobile_payments.sql](supabase/migrations/202610220014_manual_mobile_payments.sql) to enable configurable COD, bKash, Nagad, and Rocket checkout methods, wallet receiving numbers, transaction IDs, and pending manual verification.
 16. Run [supabase/migrations/202610240015_order_manager_status_access.sql](supabase/migrations/202610240015_order_manager_status_access.sql) to ensure order managers, admins, and superadmins can update order status on existing databases.
-17. Create a customer account through Frostly. Confirm its email if Supabase email confirmation is enabled.
+17. Create a customer account through Nawrah Kitchen. Confirm its email if Supabase email confirmation is enabled.
 18. If the project has no existing administrator/superadmin, bootstrap the first superadmin through the Supabase SQL Editor. Replace the email with the trusted account created in step 17:
 
    ```sql
@@ -60,12 +60,12 @@ The public catalog is database-backed. Replace any seed catalog rows and demo im
    ```
 
    Verify the `UPDATE 1` result. Do not expose a public staff-registration flow. The admin dashboard checks profile roles, while RLS and database functions enforce access independently.
-19. Replace any sample catalog rows with verified Frostly products, images, prices, and stock before taking live orders. Confirm Supabase Auth email, site URL, and redirect settings for your local and production domains. Configure and test active delivery areas, payment method toggles, and wallet receiving numbers.
+19. Replace any sample catalog rows with verified Nawrah Kitchen products, images, prices, and stock before taking live orders. Confirm Supabase Auth email, site URL, and redirect settings for your local and production domains. Configure and test active delivery areas, payment method toggles, and wallet receiving numbers.
 
 For email confirmation, set **Supabase → Authentication → URL Configuration → Site URL** to `https://frostly-400.pages.dev` (or your custom domain) and allow-list the production root URL and local development URL under **Redirect URLs**. Signup requests now explicitly redirect to the current site root. In **Authentication → Email Templates → Confirm signup**, restore a link-based template using `{{ .ConfirmationURL }}`, for example:
 
    ```html
-   <h2>Confirm your Frostly account</h2>
+   <h2>Confirm your Nawrah Kitchen account</h2>
    <p>Click the link below to verify your email address and activate your account:</p>
    <p><a href="{{ .ConfirmationURL }}">Confirm my email</a></p>
    <p>If you did not request an account, you can ignore this email.</p>

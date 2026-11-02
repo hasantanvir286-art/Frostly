@@ -1,4 +1,4 @@
-# Frostly — Project Documentation
+# Nawrah Kitchen — Project Documentation
 
 **Project type:** Static bilingual frozen-food storefront with Supabase-backed commerce features  
 **Frontend:** HTML, CSS, browser JavaScript  
@@ -8,7 +8,7 @@
 
 ## 1. Project overview
 
-Frostly is a responsive storefront for browsing frozen-food products, using a cart, placing orders with Cash on Delivery (COD) or manually verified bKash, Nagad, and Rocket transfers, and viewing account/order information. The administrator console manages catalog data, stock, delivery zones, order statuses, payment options, and selected storefront settings.
+Nawrah Kitchen is a responsive storefront for browsing frozen-food products, using a cart, placing orders with Cash on Delivery (COD) or manually verified bKash, Nagad, and Rocket transfers, and viewing account/order information. The administrator console manages catalog data, stock, delivery zones, order statuses, payment options, and selected storefront settings.
 
 The site is a static frontend, not a server-rendered framework application. Supabase provides the backend services. On Cloudflare Pages, browser REST and Storage requests route through a same-origin Pages Function; Auth connects directly to Supabase. A small allowlist of safe reads, dashboard read-only RPCs, and verified review upserts can fall back to Supabase if the proxy fails. The Supabase JavaScript SDK itself and some imagery/fonts are loaded from external CDNs, so those resources need network access.
 

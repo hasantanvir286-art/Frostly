@@ -1,11 +1,11 @@
-# Frostly Complete User Manual and Workflows
+# Nawrah Kitchen Complete User Manual and Workflows
 
 Prepared 22 October 2026
 
-This guide explains how customers use Frostly, how staff manage the store, and how the website is configured and deployed. It describes the current implementation: a bilingual storefront backed by Supabase and hosted on Cloudflare Pages. The included flowcharts show the order and administration paths from start to finish.
+This guide explains how customers use Nawrah Kitchen, how staff manage the store, and how the website is configured and deployed. It describes the current implementation: a bilingual storefront backed by Supabase and hosted on Cloudflare Pages. The included flowcharts show the order and administration paths from start to finish.
 
 ## Contents
-- 1. Frostly at a glance
+- 1. Nawrah Kitchen at a glance
 - 2. Customer guide
 - 3. Checkout and mobile wallet payments
 - 4. Orders, delivery, and ratings
@@ -17,9 +17,9 @@ This guide explains how customers use Frostly, how staff manage the store, and h
 - Appendix A. Supabase migrations
 - Appendix B. First superadmin bootstrap
 
-# 1. Frostly at a glance
+# 1. Nawrah Kitchen at a glance
 
-Frostly is a responsive English and Bangla frozen-food storefront. English is the default language. Customers can browse products, manage a cart and profile, place orders, follow order status, and rate eligible delivered purchases. Staff use a role-protected dashboard to manage the catalog, stock, delivery areas, orders, payment instructions, and selected storefront content.
+Nawrah Kitchen is a responsive English and Bangla frozen-food storefront. English is the default language. Customers can browse products, manage a cart and profile, place orders, follow order status, and rate eligible delivered purchases. Staff use a role-protected dashboard to manage the catalog, stock, delivery areas, orders, payment instructions, and selected storefront content.
 
 | Area | Managed from | Notes |
 | --- | --- | --- |
@@ -154,7 +154,7 @@ Open Delivery to add or edit a delivery area, set the actual fee, and choose whe
 
 ## Admin profile and email
 
-Open the administrator name/avatar menu to view the signed-in identity and sign out. Change the account email through the profile/email option using password reauthentication and Supabase email verification. Configure Supabase Auth Site URL and redirect allow-list for the live Frostly domain.
+Open the administrator name/avatar menu to view the signed-in identity and sign out. Change the account email through the profile/email option using password reauthentication and Supabase email verification. Configure Supabase Auth Site URL and redirect allow-list for the live Nawrah Kitchen domain.
 
 | Role | Dashboard access |
 | --- | --- |
@@ -197,14 +197,14 @@ py -m http.server 8000
 # Stop the server with Ctrl+C
 ```
 
-Run the command from the Frostly project folder. Keep the terminal open while using the local site. Local HTTP calls Supabase directly; the deployed site routes Supabase HTTP requests through the same-origin Cloudflare Pages Function.
+Run the command from the Nawrah Kitchen project folder. Keep the terminal open while using the local site. Local HTTP calls Supabase directly; the deployed site routes Supabase HTTP requests through the same-origin Cloudflare Pages Function.
 
 ## Connect Supabase
 
 1. Create/open the Supabase project. Put its Project URL and public anon/publishable key in supabase-config.js. Never put a service-role key or database password in frontend files or Cloudflare public variables.
 2. Run the ordered migrations in Appendix A through Supabase SQL Editor. Existing projects should apply only migrations they have not already applied.
-3. Configure Supabase Auth: set Site URL to the live Pages domain (or custom domain), allow-list the production root and local URLs, and make sure Confirm signup uses a link with {{ .ConfirmationURL }}. Frostly signup directs the verification link to the current site root.
-4. Register the trusted owner account in Frostly and promote it to superadmin using the controlled bootstrap procedure in Appendix B if no superadmin exists.
+3. Configure Supabase Auth: set Site URL to the live Pages domain (or custom domain), allow-list the production root and local URLs, and make sure Confirm signup uses a link with {{ .ConfirmationURL }}. Nawrah Kitchen signup directs the verification link to the current site root.
+4. Register the trusted owner account in Nawrah Kitchen and promote it to superadmin using the controlled bootstrap procedure in Appendix B if no superadmin exists.
 5. Replace demo products, images, sample contact details, prices, and stock. Verify the two delivery fees and configure wallet numbers before inviting customers.
 
 ## Cloudflare Pages build settings
@@ -280,7 +280,7 @@ Run these files once, in order, for a new project. For an existing project, chec
 
 # Appendix B. First superadmin bootstrap
 
-Create and confirm the trusted owner account through Frostly first. Run the SQL below in the matching Supabase project’s SQL Editor only if the account exists and no superadmin is available. Replace the sample email with the exact trusted account email. Check that the result says UPDATE 1; do not disable the trigger if the update fails.
+Create and confirm the trusted owner account through Nawrah Kitchen first. Run the SQL below in the matching Supabase project’s SQL Editor only if the account exists and no superadmin is available. Replace the sample email with the exact trusted account email. Check that the result says UPDATE 1; do not disable the trigger if the update fails.
 
 ```text
 begin;
@@ -294,4 +294,4 @@ commit;
 
 > If the query updates zero rows, stop and check that the account is confirmed, the email is exact, and it belongs to this Supabase project. Never paste service-role keys or passwords into the browser console or a public message.
 
-Frostly project files and configuration are maintained in the GitHub repository. Keep this guide and the ordered Supabase migrations together with each release.
+Nawrah Kitchen project files and configuration are maintained in the GitHub repository. Keep this guide and the ordered Supabase migrations together with each release.

@@ -1,4 +1,4 @@
-# Frostly security notes
+# Nawrah Kitchen security notes
 
 ## Implemented in this repository
 
