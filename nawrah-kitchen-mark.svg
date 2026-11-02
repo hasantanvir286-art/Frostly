@@ -7,8 +7,12 @@
     <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
       <stop stop-color="#f8d979"/><stop offset="1" stop-color="#c78b19"/>
     </linearGradient>
+    <linearGradient id="badge" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#fffdf6"/><stop offset="1" stop-color="#f3f8e9"/>
+    </linearGradient>
   </defs>
-  <!-- Transparent canvas lets the mark sit naturally on every site surface. -->
+  <rect x="3" y="3" width="122" height="122" rx="34" fill="url(#badge)" stroke="#ddbd68" stroke-width="2"/>
+  <rect x="7" y="7" width="114" height="114" rx="30" fill="none" stroke="#ffffff" stroke-opacity=".9" stroke-width="1.5"/>
   <path d="M22 72c2-27 20-46 44-49 20-3 38 7 46 24" fill="none" stroke="url(#gold)" stroke-width="4" stroke-linecap="round"/>
   <path d="M18 83c8 20 26 31 47 30 20-1 36-12 44-29" fill="none" stroke="url(#gold)" stroke-width="3" stroke-linecap="round"/>
   <text x="39" y="91" fill="#10452d" font-family="Georgia, 'Times New Roman', serif" font-size="78" font-weight="700">N</text>
