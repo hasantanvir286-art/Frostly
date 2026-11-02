@@ -2,7 +2,7 @@
 
 ## Implemented in this repository
 
-- The browser routes Supabase REST and Storage requests through the same-origin Pages Function. The function only forwards to the configured Frostly Supabase HTTPS host and rejects cross-origin requests, unsupported methods, redirects, and request bodies over 6 MiB. Supabase Auth endpoints remain direct to Supabase.
+- The browser routes Supabase REST and Storage requests through the same-origin Pages Function. The function only forwards to the configured Frostly Supabase HTTPS host and rejects cross-origin requests, unsupported methods, redirects, and request bodies over 6 MiB. Supabase Auth endpoints remain direct to Supabase. If the proxy returns 502, safe GET/HEAD reads fall back to Supabase directly; mutations never bypass proxy checks.
 - Product, site-asset, and avatar uploads through the production proxy are size-limited and checked against JPEG, PNG, or WebP file signatures. Supabase Storage bucket policies remain the authorization boundary for who may upload.
 - Static pages send CSP and baseline browser security headers. The Supabase JavaScript dependency is pinned to version `2.118.0`; the storefront's inline startup script was moved to `startup.js` so the CSP can disallow inline scripts.
 - Additional isolation headers prevent cross-origin opener/resource sharing and legacy cross-domain policy files.
@@ -13,7 +13,7 @@
 ## Latest hardening change
 
 - `supabase/migrations/202611020001_security_hardening.sql` removes implicit `PUBLIC`/anonymous execution rights from public-schema RPC functions and restores only the app's explicit RPC grants. It also separates anonymous active-only reads from authenticated staff catalog reads so public queries do not need staff-role helper execution.
-- This migration must be applied to the production Supabase project before relying on the tightened RPC grants. Deploy the Cloudflare Pages update so the browser begins using the API proxy.
+- This migration must be applied to the production Supabase project before relying on the tightened RPC grants. Deploy the Cloudflare Pages update so the browser uses the API proxy, with read-only fallback for proxy outages.
 
 ## Hosted controls still needed
 
