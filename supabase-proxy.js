@@ -5,11 +5,19 @@
   try { supabaseOrigin = new URL(config.url).origin; } catch {}
 
   window.FROSTLY_SUPABASE_FETCH = (input, init) => {
-    const request = input instanceof Request ? new Request(input, init) : new Request(input, init);
-    // Supabase's browser API is protected by its public anon key and database
-    // RLS. Call it directly so a Pages-to-Supabase proxy outage cannot break
-    // profile, dashboard, checkout, or storage operations.
-    return directFetch(request);
+    const request = new Request(input, init);
+    if (!supabaseOrigin || window.location.protocol !== 'https:') return directFetch(request);
+
+    const target = new URL(request.url);
+    const apiPath = target.pathname.startsWith('/rest/v1/') || target.pathname === '/rest/v1' ||
+      target.pathname.startsWith('/storage/v1/') || target.pathname === '/storage/v1';
+    if (target.origin !== supabaseOrigin || !apiPath) return directFetch(request);
+
+    // Keep auth endpoints on Supabase, while routing database and storage
+    // requests through the same-origin Pages Function for request validation,
+    // upload size/type checks, and consistent security headers.
+    const proxyUrl = new URL(`/api/supabase${target.pathname}${target.search}`, window.location.origin);
+    return directFetch(new Request(proxyUrl, request));
   };
 
   window.frostlySupabaseAssetUrl = (value) => {

@@ -2,12 +2,18 @@
 
 ## Implemented in this repository
 
-- The Supabase Pages proxy only forwards REST and Storage requests to the configured Frostly Supabase HTTPS host. It rejects cross-origin requests, unsupported methods, redirects, and request bodies over 6 MiB.
+- The browser routes Supabase REST and Storage requests through the same-origin Pages Function. The function only forwards to the configured Frostly Supabase HTTPS host and rejects cross-origin requests, unsupported methods, redirects, and request bodies over 6 MiB. Supabase Auth endpoints remain direct to Supabase.
 - Product, site-asset, and avatar uploads through the production proxy are size-limited and checked against JPEG, PNG, or WebP file signatures. Supabase Storage bucket policies remain the authorization boundary for who may upload.
 - Static pages send CSP and baseline browser security headers. The Supabase JavaScript dependency is pinned to version `2.118.0`; the storefront's inline startup script was moved to `startup.js` so the CSP can disallow inline scripts.
+- Additional isolation headers prevent cross-origin opener/resource sharing and legacy cross-domain policy files.
 - Frontend code uses Supabase query builder parameters rather than building SQL strings. SQL functions that use elevated privileges set a fixed `search_path` and check the current user's role. Database tables use RLS policies to constrain customer and staff access.
 - No service-role key or JWT signing secret is included in the browser bundle. The configured anon key is public and non-secret; it relies on RLS for authorization.
 - Production console warnings that printed database error details were removed. No source maps or JavaScript package lockfiles are present in the repository.
+
+## Latest hardening change
+
+- `supabase/migrations/202611020001_security_hardening.sql` removes implicit `PUBLIC`/anonymous execution rights from public-schema RPC functions and restores only the app's explicit RPC grants. It also separates anonymous active-only reads from authenticated staff catalog reads so public queries do not need staff-role helper execution.
+- This migration must be applied to the production Supabase project before relying on the tightened RPC grants. Deploy the Cloudflare Pages update so the browser begins using the API proxy.
 
 ## Hosted controls still needed
 

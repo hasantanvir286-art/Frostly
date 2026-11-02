@@ -22,7 +22,7 @@ The site is a static frontend, not a server-rendered framework application. Supa
 | `console-a84d8903f59b4d358c8cc927633a11f6.html` | Administrator console document (obscure filename is only a convenience; authorization is enforced separately) |
 | `admin-app.js` | Admin authorization, dashboard data, orders, products, inventory, delivery zones and settings |
 | `supabase-config.js` | Public Supabase project URL and anon/publishable key. Never put a service-role key here. |
-| `supabase-proxy.js` | Rewrites Supabase SDK HTTP requests to the same-origin proxy on deployed HTTPS pages |
+| `supabase-proxy.js` | Routes Supabase REST and Storage SDK requests through the same-origin Pages Function on deployed HTTPS pages; Auth stays direct to Supabase |
 | `functions/api/supabase/[[path]].js` | Cloudflare Pages Function that forwards allowed Supabase API traffic |
 | `_routes.json` | Limits Pages Function invocation to `/api/supabase/*` |
 | `supabase/migrations/` | Ordered SQL schema, policies, RPCs, storage and feature migrations |
