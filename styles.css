@@ -263,3 +263,6 @@ html{scroll-padding-top:90px}#faq,#about,#footer{scroll-margin-top:90px}.newslet
 .brand .site-logo-img{display:block;width:50px;height:50px;flex:none;object-fit:contain;padding:0;border-radius:0;background:transparent;filter:drop-shadow(0 3px 7px #0d40501c)}
 .footer-brand .brand.light .site-logo-img{width:52px;height:52px;padding:0;border-radius:0;background:transparent;filter:drop-shadow(0 3px 8px #0003)}
 @media(max-width:600px){.brand .site-logo-img{width:42px;height:42px}.footer-brand .brand.light .site-logo-img{width:44px;height:44px}}
+.logo-frost-animated{animation:nawrah-frost-glow 5.8s ease-in-out infinite;transform-origin:center}
+@keyframes nawrah-frost-glow{0%,100%{filter:drop-shadow(0 2px 4px #39bce733);transform:scale(1)}50%{filter:drop-shadow(0 3px 8px #74e5ff99);transform:scale(1.035)}}
+@media(prefers-reduced-motion:reduce){.logo-frost-animated{animation:none}}
