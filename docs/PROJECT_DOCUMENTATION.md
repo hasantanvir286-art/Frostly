@@ -10,7 +10,7 @@
 
 Frostly is a responsive storefront for browsing frozen-food products, using a cart, placing orders with Cash on Delivery (COD) or manually verified bKash, Nagad, and Rocket transfers, and viewing account/order information. The administrator console manages catalog data, stock, delivery zones, order statuses, payment options, and selected storefront settings.
 
-The site is a static frontend, not a server-rendered framework application. Supabase provides the backend services. On Cloudflare Pages, browser Supabase HTTP requests are routed through a same-origin Pages Function reverse proxy. The Supabase JavaScript SDK itself and some imagery/fonts are loaded from external CDNs, so those resources need network access.
+The site is a static frontend, not a server-rendered framework application. Supabase provides the backend services. On Cloudflare Pages, browser REST and Storage requests route through a same-origin Pages Function; Auth connects directly to Supabase. A small allowlist of safe reads, dashboard read-only RPCs, and verified review upserts can fall back to Supabase if the proxy fails. The Supabase JavaScript SDK itself and some imagery/fonts are loaded from external CDNs, so those resources need network access.
 
 ## 2. Repository map
 
@@ -22,7 +22,7 @@ The site is a static frontend, not a server-rendered framework application. Supa
 | `console-a84d8903f59b4d358c8cc927633a11f6.html` | Administrator console document (obscure filename is only a convenience; authorization is enforced separately) |
 | `admin-app.js` | Admin authorization, dashboard data, orders, products, inventory, delivery zones and settings |
 | `supabase-config.js` | Public Supabase project URL and anon/publishable key. Never put a service-role key here. |
-| `supabase-proxy.js` | Routes Supabase REST and Storage SDK requests through the same-origin Pages Function on deployed HTTPS pages; Auth stays direct to Supabase |
+| `supabase-proxy.js` | Routes Supabase REST and Storage calls through the same-origin proxy, with limited safe fallbacks |
 | `functions/api/supabase/[[path]].js` | Cloudflare Pages Function that forwards allowed Supabase API traffic |
 | `_routes.json` | Limits Pages Function invocation to `/api/supabase/*` |
 | `supabase/migrations/` | Ordered SQL schema, policies, RPCs, storage and feature migrations |
@@ -36,15 +36,15 @@ flowchart LR
   Admin[Admin browser] --> Static
   Static --> App[HTML / CSS / JavaScript]
   App --> SDK[Supabase JS SDK from CDN]
-  App -->|Local HTTP| SB[Supabase Auth / Data API / Storage / RPC]
-  App -->|Deployed HTTPS: /api/supabase/*| Proxy[Cloudflare Pages Function proxy]
+  App -->|Auth HTTPS| SB[Supabase Auth / Data API / Storage / RPC]
+  App -->|REST / Storage| Proxy[Cloudflare Pages Function proxy]
   Proxy --> SB
   SB --> Auth[Supabase Auth]
   SB --> DB[(Postgres + RLS)]
   SB --> Storage[Supabase Storage]
 ```
 
-The browser uses the public anon/publishable key. Row Level Security (RLS), database functions, and role checks must enforce permissions; the key and a hard-to-guess HTML filename do not grant or protect administrator access by themselves. The proxy forwards API calls; it is not an authentication layer and does not replace Supabase policies.
+The browser uses the public anon/publishable key. Row Level Security (RLS), database functions, and role checks must enforce permissions; the key and a hard-to-guess HTML filename do not grant or protect administrator access by themselves. The proxy is not an authentication layer and does not replace Supabase policies.
 
 ## 4. Main flows
 
