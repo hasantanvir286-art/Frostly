@@ -260,9 +260,16 @@ html{scroll-padding-top:90px}#faq,#about,#footer{scroll-margin-top:90px}.newslet
 .product-reviews-wide>.review-eligibility-note{grid-column:1/-1;justify-self:center;max-width:640px;margin:0;padding:0;border:0;background:none;color:#647b88;text-align:center;font-size:12px;line-height:1.6}
 .product-reviews-wide>.auth-link-button{justify-self:center}
 /* Nawrah Kitchen brand mark sizing in storefront header and footer. */
-.brand .site-logo-img{display:block;width:50px;height:50px;flex:none;object-fit:contain;padding:0;border-radius:0;background:transparent;filter:drop-shadow(0 3px 7px #0d40501c)}
-.footer-brand .brand.light .site-logo-img{width:52px;height:52px;padding:0;border-radius:0;background:transparent;filter:drop-shadow(0 3px 8px #0003)}
-@media(max-width:600px){.brand .site-logo-img{width:42px;height:42px}.footer-brand .brand.light .site-logo-img{width:44px;height:44px}}
+.brand .logo-mark{position:relative;display:block;width:50px;height:50px;flex:none;isolation:isolate}
+.brand .site-logo-img{display:block;width:100%;height:100%;object-fit:contain;padding:0;border-radius:0;background:transparent;filter:drop-shadow(0 3px 7px #0d40501c)}
+.footer-brand .brand.light .logo-mark{width:52px;height:52px}
+.footer-brand .brand.light .site-logo-img{filter:drop-shadow(0 3px 8px #0003)}
+.logo-ice-rain{position:absolute;inset:0;pointer-events:none;overflow:visible}
+.logo-ice-rain::before,.logo-ice-rain::after{position:absolute;top:-8px;color:#baf5ff;font:700 8px/1 Inter,sans-serif;text-shadow:0 0 5px #63dafa,0 0 9px #b9f4ff;opacity:0;content:'❄';animation:logo-ice-fall 3.2s linear infinite}
+.logo-ice-rain::before{left:17%;animation-delay:-1.5s}
+.logo-ice-rain::after{left:69%;font-size:7px;animation-delay:-.35s}
+@media(max-width:600px){.brand .logo-mark{width:42px;height:42px}.footer-brand .brand.light .logo-mark{width:44px;height:44px}}
 .logo-frost-animated{animation:nawrah-frost-glow 5.8s ease-in-out infinite;transform-origin:center}
 @keyframes nawrah-frost-glow{0%,100%{filter:drop-shadow(0 2px 4px #39bce733);transform:scale(1)}50%{filter:drop-shadow(0 3px 8px #74e5ff99);transform:scale(1.035)}}
-@media(prefers-reduced-motion:reduce){.logo-frost-animated{animation:none}}
+@keyframes logo-ice-fall{0%{transform:translate3d(0,0,0) rotate(0deg);opacity:0}15%{opacity:.9}82%{opacity:.7}100%{transform:translate3d(4px,58px,0) rotate(125deg);opacity:0}}
+@media(prefers-reduced-motion:reduce){.logo-frost-animated{animation:none}.logo-ice-rain::before,.logo-ice-rain::after{animation:none;display:none}}
