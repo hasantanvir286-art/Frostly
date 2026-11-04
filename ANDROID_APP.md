@@ -1,6 +1,6 @@
 # Nawrah Kitchen on Android
 
-The website is now packaged as an installable Progressive Web App (PWA). Customers use the full storefront; signed-in staff use the existing role-protected admin dashboard. Both use the same Supabase database and permissions as the website.
+The website is packaged as an installable Progressive Web App (PWA) with the gold N and ice emblem on a navy app tile. Customers use the full storefront; signed-in staff use the existing role-protected admin dashboard. Both use the same Supabase database and permissions as the website.
 
 ## Publish and install
 
@@ -9,6 +9,8 @@ The website is now packaged as an installable Progressive Web App (PWA). Custome
 3. Tap **Install app** in the top bar if it appears, or open Chrome's menu and choose **Install app** / **Add to Home screen**.
 4. Launch **Nawrah** from the home screen. Use the account icon to sign in or create a customer account.
 5. Superadmins and authorized staff can open **Admin dashboard** from the installed app's icon shortcuts (long-press the app icon), or open the existing admin dashboard URL in Chrome. Existing database role checks still control access.
+
+If Nawrah was installed before the gold icon update, remove the old home-screen installation and install it again after the latest deployment so Android picks up the new icon.
 
 ## What works in the app
 

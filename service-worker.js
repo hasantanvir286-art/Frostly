@@ -1,4 +1,4 @@
-const CACHE_NAME = 'nawrah-shell-v1';
+const CACHE_NAME = 'nawrah-shell-v2';
 const SHELL_URLS = [
   '/',
   '/index.html',
@@ -10,8 +10,8 @@ const SHELL_URLS = [
   '/supabase-proxy.js?v=20261104-guarded-write-fallback',
   '/manifest.webmanifest',
   '/pwa-install.js?v=20261104-android-pwa',
-  '/icons/nawrah-192.png',
-  '/icons/nawrah-512.png'
+  '/icons/nawrah-gold-192.png',
+  '/icons/nawrah-gold-512.png'
 ];
 
 self.addEventListener('install', (event) => {
