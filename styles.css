@@ -302,3 +302,16 @@ html,body{width:100%;max-width:100%;overflow-x:clip}main,.wrap,.site-header,.nav
 #about .steps small{max-width:210px;color:#657d8b;font-size:14px;line-height:1.55}
 #about .steps>i{display:grid;place-items:center;color:#459986;font-size:22px;font-style:normal;font-weight:700}
 @media(max-width:680px){#about .steps{grid-template-columns:minmax(0,1fr);gap:7px;padding:12px}#about .steps article{grid-template-columns:48px minmax(0,1fr);grid-template-rows:auto auto;align-content:center;justify-items:start;gap:3px 14px;min-height:92px;padding:14px 16px;text-align:left}#about .steps article>span{grid-row:1/3;width:48px;height:48px;border-radius:14px}#about .steps b{font-size:15px}#about .steps small{max-width:none;font-size:13px}#about .steps>i{height:17px;font-size:18px;line-height:1;transform:rotate(90deg)}}
+/* Customer support, service information, reorder, and availability controls */
+.floating-whatsapp{position:fixed;z-index:6;left:20px;bottom:20px;min-height:48px;padding:0 17px;display:inline-flex;align-items:center;justify-content:center;gap:9px;border:1px solid #0c763b;border-radius:999px;background:#128c4a;color:#fff;font-size:14px;font-weight:700;box-shadow:0 6px 20px #06243d35;transition:transform .18s,filter .18s}
+.floating-whatsapp:hover{transform:translateY(-2px);filter:brightness(.96)}
+.floating-whatsapp:focus-visible,.stock-alert-button:focus-visible,.customer-order-reorder-button:focus-visible{outline:3px solid #f7cf65;outline-offset:3px}
+.floating-whatsapp svg{width:22px;height:22px;fill:currentColor}
+.floating-whatsapp[hidden]{display:none!important}
+.footer-service-zones{max-width:270px;line-height:1.55}
+.stock-alert-button{width:100%;min-height:40px;margin-top:7px;padding:8px 10px;border:1px solid #9bd9c8;border-radius:7px;background:#f1fbf7;color:#08765b;font-weight:700}
+.stock-alert-button:disabled{cursor:default;background:#e7f6f1;color:#527c70}
+.customer-order-reorder-row{display:flex;justify-content:flex-end;margin:0 0 10px}
+.customer-order-reorder-button{min-height:40px;padding:8px 14px;border:1px solid #16886d;border-radius:8px;background:#effaf6;color:#08745b;font-weight:700}
+.customer-order-reorder-button:hover{background:#dff5ec}
+@media(max-width:600px){.floating-whatsapp{left:12px;bottom:12px;min-height:46px;padding:0 13px;font-size:12px}.floating-whatsapp svg{width:20px;height:20px}.footer-service-zones{max-width:100%}.customer-order-reorder-row{justify-content:stretch}.customer-order-reorder-button{width:100%}}

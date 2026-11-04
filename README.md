@@ -1,5 +1,9 @@
 # Nawrah Kitchen
 
+Before using the new stock alerts and delivery-hours field, run supabase/migrations/202611040018_customer_stock_alerts_and_delivery_hours.sql in Supabase. The order QA checklist is in docs/ORDER_FLOW_RELEASE_CHECKLIST.md; Android Play preparation is in docs/ANDROID_PLAY_RELEASE.md.
+
+Recent release work: run supabase/migrations/202611040018_customer_stock_alerts_and_delivery_hours.sql in the Supabase SQL Editor before using back-in-stock alerts or saving delivery hours. See docs/ORDER_FLOW_RELEASE_CHECKLIST.md for staging verification and docs/ANDROID_PLAY_RELEASE.md for Android Play preparation.
+
 Full project architecture, database, security and deployment notes are in [`docs/PROJECT_DOCUMENTATION.md`](docs/PROJECT_DOCUMENTATION.md). Customer and administrator instructions are in [`docs/USER_MANUAL.md`](docs/USER_MANUAL.md).
 
 A responsive storefront based on the supplied Nawrah Kitchen visual reference. The workspace contained no existing application, so this remains plain HTML, CSS, and JavaScript and does not require a build step. Supabase's browser SDK is loaded from its official CDN for optional authentication and database features.

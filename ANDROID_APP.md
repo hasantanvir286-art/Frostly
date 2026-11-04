@@ -1,5 +1,7 @@
 # Nawrah Kitchen on Android
 
+For Google Play listing copy, privacy/Data safety preparation, TWA setup, and release gates, see [ANDROID_PLAY_RELEASE.md](docs/ANDROID_PLAY_RELEASE.md). The repository currently supplies the PWA; the signed Android package still needs to be built and registered in your Play Console.
+
 The website is packaged as an installable Progressive Web App (PWA) with the gold N and ice emblem on a navy app tile. Customers use the full storefront; signed-in staff use the existing role-protected admin dashboard. Both use the same Supabase database and permissions as the website.
 
 ## Publish and install
