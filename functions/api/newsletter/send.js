@@ -26,11 +26,11 @@ function mimeMessage({ sender, subject, message, unsubscribeUrl }) {
   const subjectEncoded = encodeBase64(new TextEncoder().encode(subject));
   const safeMessage = escapeHtml(message).replace(/\r?\n/g, '<br>');
   const textBody = `${message}\n\nUnsubscribe: ${unsubscribeUrl}`;
-  const htmlBody = `<div style="font:16px/1.6 Arial,sans-serif;color:#102a43;white-space:normal">${safeMessage}</div><p style="font:12px Arial,sans-serif;color:#627d98;margin-top:28px"><a href="${escapeHtml(unsubscribeUrl)}">Unsubscribe from Frostly emails</a></p>`;
+  const htmlBody = `<div style="font:16px/1.6 Arial,sans-serif;color:#102a43;white-space:normal">${safeMessage}</div><p style="font:12px Arial,sans-serif;color:#627d98;margin-top:28px"><a href="${escapeHtml(unsubscribeUrl)}">Unsubscribe from Nawrah Kitchen emails</a></p>`;
   const textEncoded = encodeBase64(new TextEncoder().encode(textBody));
   const htmlEncoded = encodeBase64(new TextEncoder().encode(htmlBody));
   const raw = [
-    `From: Frostly <${sender}>`,
+    `From: Nawrah Kitchen <${sender}>`,
     `Subject: =?UTF-8?B?${subjectEncoded}?=`,
     'MIME-Version: 1.0',
     'List-Unsubscribe: <' + unsubscribeUrl + '>',

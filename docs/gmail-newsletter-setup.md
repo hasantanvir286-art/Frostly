@@ -1,4 +1,4 @@
-# Frostly newsletter setup
+# Nawrah Kitchen newsletter setup
 
 The storefront can save email subscriptions in Supabase. Visitors may type an email address or choose **Continue with Google** and consent using the Google account email. Administrators with the `superadmin`, `admin`, or `settingsmanager` role can send campaigns from the dashboard settings page.
 
@@ -18,7 +18,7 @@ The Google button uses the existing Google sign-in provider and returns to `http
 
 ## 3. Configure the Gmail sender in Google Cloud
 
-Campaign sending is separate from customer Google sign-in. Create a Google Cloud OAuth client for this purpose, enable the Gmail API, and authorize the Gmail account that will send Frostly emails. The OAuth scope must be:
+Campaign sending is separate from customer Google sign-in. Create a Google Cloud OAuth client for this purpose, enable the Gmail API, and authorize the Gmail account that will send Nawrah Kitchen emails. The OAuth scope must be:
 
 ```text
 https://www.googleapis.com/auth/gmail.send
