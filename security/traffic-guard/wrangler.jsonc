@@ -1,0 +1,16 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "nawrah-traffic-guard",
+  "main": "src/index.js",
+  "compatibility_date": "2026-11-04",
+  "workers_dev": false,
+  "durable_objects": {
+    "bindings": [
+      { "name": "IP_GUARD", "class_name": "IpGuard" }
+    ]
+  },
+  "migrations": [
+    { "tag": "v1", "new_sqlite_classes": ["IpGuard"] }
+  ],
+  "observability": { "enabled": true }
+}

@@ -7,6 +7,40 @@ const IMAGE_BUCKET_LIMITS = new Map([
   ['frostly-site-assets', 5 * 1024 * 1024],
 ]);
 
+async function enforceTrafficGuard(request, env, path, response) {
+  const guard = env.SECURITY_GUARD;
+  const sharedSecret = env.FROSTLY_GUARD_SECRET;
+  if (!guard || !sharedSecret) {
+    if (env.REQUIRE_TRAFFIC_GUARD === 'true') return response('Traffic protection is not configured', 503);
+    console.warn('Traffic guard is not configured; Supabase proxy request passed without application rate limiting');
+    return null;
+  }
+
+  const ip = request.headers.get('CF-Connecting-IP');
+  if (!ip) return response('Traffic protection could not identify the client', 503);
+  const bucket = path.startsWith('/storage/v1/') ? 'storage' : 'api';
+  try {
+    const guardResponse = await guard.fetch('https://traffic-guard/check', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-Frostly-Guard-Secret': sharedSecret },
+      body: JSON.stringify({ ip, bucket }),
+    });
+    if (guardResponse.status === 429) {
+      const retryAfter = guardResponse.headers.get('Retry-After') || '60';
+      const blocked = response('Too many requests. Please wait before trying again.', 429);
+      blocked.headers.set('Retry-After', retryAfter);
+      return blocked;
+    }
+    if (!guardResponse.ok) return response('Traffic protection is temporarily unavailable', 503);
+    const result = await guardResponse.json();
+    if (result.allowed !== true) return response('Traffic protection is temporarily unavailable', 503);
+    return null;
+  } catch (error) {
+    console.error('Traffic guard request failed', { path, error: String(error) });
+    return response('Traffic protection is temporarily unavailable', 503);
+  }
+}
+
 function secureHeaders(headers) {
   headers.set('Cache-Control', 'private, no-store');
   headers.set('X-Content-Type-Options', 'nosniff');
@@ -71,6 +105,9 @@ export async function onRequest({ request, env }) {
   const origin = request.headers.get('Origin');
   if (origin && origin !== incoming.origin) return response('Cross-origin request denied', 403);
   if (request.headers.get('Sec-Fetch-Site') === 'cross-site') return response('Cross-site request denied', 403);
+
+  const limited = await enforceTrafficGuard(request, env, path, response);
+  if (limited) return limited;
 
   let upstream;
   try {

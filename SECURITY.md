@@ -9,6 +9,7 @@
 - Frontend code uses Supabase query builder parameters rather than building SQL strings. SQL functions that use elevated privileges set a fixed `search_path` and check the current user's role. Database tables use RLS policies to constrain customer and staff access.
 - No service-role key or JWT signing secret is included in the browser bundle. The configured anon key is public and non-secret; it relies on RLS for authorization.
 - The Admin app now requires Supabase TOTP MFA for staff roles. Database role helpers also require JWT assurance level `aal2` after `202611040017_staff_totp_mfa.sql` is applied.
+- The Supabase Pages proxy now supports a Cloudflare Durable Object traffic guard. Once the separate Worker is deployed and bound, it limits REST and Storage traffic per IP and temporarily bans repeated abusive IPs. Setup: `security/traffic-guard/README.md`.
 - Production console warnings that printed database error details were removed. No source maps or JavaScript package lockfiles are present in the repository.
 
 ## Deploy the staff MFA change
@@ -22,7 +23,7 @@
 
 These settings live outside Git and are not enabled by these code changes:
 
-1. **Cloudflare rate limits:** No Cloudflare WAF rate-limit rule is configured in this repository. Add one for API requests when using a custom domain/zone, or move the Pages proxy behind a Worker with a Rate Limiting binding. Start with a moderate limit and monitor legitimate orders. Cloudflare's in-Worker counters are approximate and per location; strict global quotas require shared coordination.
+1. **Cloudflare guard deployment:** The Pages proxy passes requests through the Durable Object guard only after `nawrah-traffic-guard` is deployed, its service binding and secrets are configured, and `REQUIRE_TRAFFIC_GUARD=true`. Until then, it warns and fails open so the storefront remains available. The included guard applies exact per-IP windows to the Pages proxy; it does not rate-limit direct Supabase Auth requests or block static files. Configure Supabase Auth throttling separately. For whole-site/manual IP blocks, attach a custom domain and use Cloudflare WAF custom rules.
 2. **Auth throttling and passwords:** Configure Supabase Auth rate limits, email verification, minimum password length, and breached-password protection. Supabase Auth owns password hashing; never store or hash passwords in this frontend.
 3. **JWT signing keys:** Supabase owns JWT signing. Rotate signing keys only through the Supabase project controls and follow its key-rotation guidance; doing so can invalidate sessions and requires checking every deployed client/server integration. Do not place signing or service-role keys in `supabase-config.js`.
 4. **Webhook verification:** This repository has no payment-gateway webhook endpoint. Mobile-wallet orders currently record a customer-entered transaction reference for manual review. If a gateway webhook is added, verify its provider signature and timestamp on a server endpoint before changing payment state.
