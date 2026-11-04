@@ -19,7 +19,7 @@
     // PostgreSQL. Retry them directly against Supabase only when the Pages
     // proxy itself fails, so orders and account actions survive proxy outages.
     const guardedWriteRpc = request.method === 'POST' &&
-      /^\/rest\/v1\/rpc\/(place_store_order|create_cod_order|customer_cancel_order|superadmin_delete_customer|superadmin_delete_staff)$/.test(target.pathname);
+      /^\/rest\/v1\/rpc\/(place_store_order|create_cod_order|customer_cancel_order|admin_set_order_status|admin_adjust_inventory|superadmin_delete_customer|superadmin_delete_staff)$/.test(target.pathname);
     // Product reviews are independently constrained by RLS to a delivered
     // order belonging to the signed-in customer.
     const verifiedReviewUpsert = request.method === 'POST' && target.pathname === '/rest/v1/product_reviews';
