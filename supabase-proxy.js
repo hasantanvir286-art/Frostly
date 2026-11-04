@@ -20,17 +20,22 @@
     // proxy itself fails, so orders and account actions survive proxy outages.
     const guardedWriteRpc = request.method === 'POST' &&
       /^\/rest\/v1\/rpc\/(place_store_order|create_cod_order|customer_cancel_order|admin_set_order_status|admin_adjust_inventory|superadmin_delete_customer|superadmin_delete_staff)$/.test(target.pathname);
+    // Category mutations are protected by the catalog-manager RLS policy. Allow a
+    // narrowly scoped direct retry only when the Pages proxy returns its
+    // explicit upstream 502; do not retry them on arbitrary proxy/network errors.
+    const adminCategoryWrite = ['POST', 'PATCH'].includes(request.method) &&
+      target.pathname === '/rest/v1/categories';
     // Product reviews are independently constrained by RLS to a delivered
     // order belonging to the signed-in customer.
     const verifiedReviewUpsert = request.method === 'POST' && target.pathname === '/rest/v1/product_reviews';
-    const mayFallback = safeRead || safeRpc || verifiedReviewUpsert || guardedWriteRpc;
+    const mayFallback = safeRead || safeRpc || verifiedReviewUpsert || guardedWriteRpc || adminCategoryWrite;
     const fallbackRequest = mayFallback ? request.clone() : null;
     const proxyUrl = new URL(`/api/supabase${target.pathname}${target.search}`, window.location.origin);
     return directFetch(new Request(proxyUrl, request)).then((response) => {
       if (response.status === 502 && mayFallback) return directFetch(fallbackRequest);
       return response;
     }).catch((error) => {
-      if (mayFallback) return directFetch(fallbackRequest);
+      if (safeRead || safeRpc || verifiedReviewUpsert || guardedWriteRpc) return directFetch(fallbackRequest);
       throw error;
     });
   };
