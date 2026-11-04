@@ -121,7 +121,10 @@ export async function onRequest({ request, env }) {
       statusText: upstreamResponse.statusText,
       headers: responseHeaders,
     });
-  } catch {
+  } catch (error) {
+    // Keep the upstream failure visible in Cloudflare logs without exposing
+    // request bodies, credentials, or infrastructure details to storefront users.
+    console.error('Supabase upstream request failed', { method: request.method, path, error: String(error) });
     return response('Supabase is temporarily unavailable', 502);
   }
 }

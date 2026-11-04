@@ -15,12 +15,15 @@
     const safeRead = ['GET', 'HEAD'].includes(request.method);
     const safeRpc = request.method === 'POST' &&
       /^\/rest\/v1\/rpc\/(admin_dashboard_metrics|superadmin_list_users)$/.test(target.pathname);
-    // A product review upsert is independently constrained by RLS to a
-    // delivered order belonging to the signed-in customer. Allow this one
-    // operation to recover if Pages proxying fails; keep order/admin writes
-    // on the validated proxy path.
+    // These narrow RPCs enforce ownership/role checks and validation in
+    // PostgreSQL. Retry them directly against Supabase only when the Pages
+    // proxy itself fails, so orders and account actions survive proxy outages.
+    const guardedWriteRpc = request.method === 'POST' &&
+      /^\/rest\/v1\/rpc\/(place_store_order|create_cod_order|customer_cancel_order|superadmin_delete_customer|superadmin_delete_staff)$/.test(target.pathname);
+    // Product reviews are independently constrained by RLS to a delivered
+    // order belonging to the signed-in customer.
     const verifiedReviewUpsert = request.method === 'POST' && target.pathname === '/rest/v1/product_reviews';
-    const mayFallback = safeRead || safeRpc || verifiedReviewUpsert;
+    const mayFallback = safeRead || safeRpc || verifiedReviewUpsert || guardedWriteRpc;
     const fallbackRequest = mayFallback ? request.clone() : null;
     const proxyUrl = new URL(`/api/supabase${target.pathname}${target.search}`, window.location.origin);
     return directFetch(new Request(proxyUrl, request)).then((response) => {
