@@ -65,6 +65,7 @@ The public catalog is database-backed. Replace any seed catalog rows and demo im
 
    Verify the `UPDATE 1` result. Do not expose a public staff-registration flow. The admin dashboard checks profile roles, while RLS and database functions enforce access independently.
 19. Replace any sample catalog rows with verified Nawrah Kitchen products, images, prices, and stock before taking live orders. Confirm Supabase Auth email, site URL, and redirect settings for your local and production domains. Configure and test active delivery areas, payment method toggles, and wallet receiving numbers.
+20. Deploy the Admin authenticator setup update, then run [`supabase/migrations/202611040017_staff_totp_mfa.sql`](supabase/migrations/202611040017_staff_totp_mfa.sql) in the Supabase SQL Editor. Every staff role must enroll and verify a TOTP authenticator before staff database permissions are granted. Do not run this migration before the Admin update is deployed, or existing staff will be blocked from completing setup.
 
 For email confirmation, set **Supabase → Authentication → URL Configuration → Site URL** to `https://frostly-400.pages.dev` (or your custom domain) and allow-list the production root URL and local development URL under **Redirect URLs**. Signup requests now explicitly redirect to the current site root. In **Authentication → Email Templates → Confirm signup**, restore a link-based template using `{{ .ConfirmationURL }}`, for example:
 
@@ -77,7 +78,7 @@ For email confirmation, set **Supabase → Authentication → URL Configuration 
 
 Supabase stores this email template in the project dashboard, so pushing code does not change it. Replace any OTP-only template before testing; use a newly sent confirmation email because old messages retain their original destination. Supabase requires redirect targets to match the allowed URL list. See [Supabase redirect URL settings](https://supabase.com/docs/guides/auth/redirect-urls) and [email templates](https://supabase.com/docs/guides/auth/auth-email-templates).
 
-The admin console includes live order metrics and status updates, product and category editing, inventory adjustments with a ledger, delivery-zone and fee management, storefront settings, and superadmin-only staff role management. Roles are enforced by RLS and database functions, not only by hidden navigation. Superadmins can assign existing accounts as superadmin, admin, order manager, stock manager, catalog manager, delivery manager, settings manager, delivery staff, or customer. Admin profile email changes require password reauthentication and confirmation through Supabase Auth.
+The admin console includes live order metrics and status updates, product and category editing, inventory adjustments with a ledger, delivery-zone and fee management, storefront settings, and superadmin-only staff role management. Roles and staff MFA are enforced by RLS helper functions and database functions, not only by hidden navigation. Superadmins can assign existing accounts as superadmin, admin, order manager, stock manager, catalog manager, delivery manager, settings manager, delivery staff, or customer. Admin profile email changes require password reauthentication and confirmation through Supabase Auth.
 
 ## Still to build or configure
 
