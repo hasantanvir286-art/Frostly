@@ -1,0 +1,23 @@
+{
+  "id": "/",
+  "name": "Nawrah Kitchen",
+  "short_name": "Nawrah",
+  "description": "Shop Nawrah Kitchen frozen food in Chattogram.",
+  "lang": "en-BD",
+  "dir": "ltr",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#f5fafb",
+  "theme_color": "#0b2943",
+  "categories": ["food", "shopping"],
+  "icons": [
+    { "src": "/icons/nawrah-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/nawrah-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ],
+  "shortcuts": [
+    { "name": "Shop Nawrah Kitchen", "short_name": "Shop", "url": "/#bestsellers", "icons": [{ "src": "/icons/nawrah-192.png", "sizes": "192x192", "type": "image/png" }] },
+    { "name": "Admin dashboard", "short_name": "Admin", "url": "/console-a84d8903f59b4d358c8cc927633a11f6.html", "icons": [{ "src": "/icons/nawrah-192.png", "sizes": "192x192", "type": "image/png" }] }
+  ]
+}

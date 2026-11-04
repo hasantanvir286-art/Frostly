@@ -4,17 +4,23 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#06243d" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Nawrah Kitchen" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="/icons/nawrah-192.png" />
   <link rel="icon" type="image/png" href="/nawrah-emblem-champagne-ice.png?v=20261102-champagne-ice" />
   <meta name="description" content="Nawrah Kitchen — Fresh &amp; Frozen, Made with Care. Premium frozen food delivered across Chattogram." />
   <title>Nawrah Kitchen — Fresh &amp; Frozen, Made with Care</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=20261104-supabase-retry" />
+  <link rel="stylesheet" href="styles.css?v=20261104-android-pwa" />
 </head>
 <body>
   <div id="startupLoader" class="startup-loader" role="status" aria-label="Loading Nawrah Kitchen"><span class="startup-spinner"></span></div>
-  <div class="announce"><span id="announcementText">❄ &nbsp;Frozen food delivered across Chattogram</span><span class="announce-right"><label class="sr-only" for="languageSelect">Language</label><select id="languageSelect" class="language-select" aria-label="Select language"><option value="en">English</option><option value="bn">বাংলা</option></select></span></div>
+  <div class="announce"><span id="announcementText">❄ &nbsp;Frozen food delivered across Chattogram</span><span class="announce-right"><button id="installAppButton" class="install-app-button" type="button" hidden>Install app</button><label class="sr-only" for="languageSelect">Language</label><select id="languageSelect" class="language-select" aria-label="Select language"><option value="en">English</option><option value="bn">বাংলা</option></select></span></div>
   <header class="site-header">
     <a class="brand" href="#home" aria-label="Nawrah Kitchen home"><span class="logo-mark logo-frost-animated"><img class="site-logo-img" src="/nawrah-emblem-champagne-ice.png?v=20261102-champagne-ice" alt=""/><i class="logo-ice-rain" aria-hidden="true"></i></span><span><span class="brand-name">Nawrah Kitchen</span><small>Fresh &amp; frozen, selected with care</small></span></a>
     <label class="searchbox"><span aria-hidden="true">⌕</span><input id="searchInput" placeholder="Search frozen food..." aria-label="Search products" /><button id="searchButton" aria-label="Search">⌕</button></label>
@@ -55,5 +61,6 @@
   <script src="supabase-proxy.js?v=20261104-guarded-write-fallback"></script>
   <script src="app.js?v=20261104-supabase-retry"></script>
   <script src="startup.js"></script>
+  <script src="pwa-install.js?v=20261104-android-pwa"></script>
 </body>
 </html>

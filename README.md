@@ -4,6 +4,10 @@ Full project architecture, database, security and deployment notes are in [`docs
 
 A responsive storefront based on the supplied Nawrah Kitchen visual reference. The workspace contained no existing application, so this remains plain HTML, CSS, and JavaScript and does not require a build step. Supabase's browser SDK is loaded from its official CDN for optional authentication and database features.
 
+## Android app
+
+The storefront is installable on Android as a Progressive Web App, so it uses the same Supabase project, customer features, and role-protected admin dashboard without maintaining a separate app backend. See [`ANDROID_APP.md`](ANDROID_APP.md) for publish and installation instructions. Database transactions and account actions require an internet connection; the service worker only caches the static app shell and never caches `/api/` responses.
+
 ## Run locally
 
 Open `index.html` in a browser, or run a local static server from this folder:
