@@ -1,11 +1,11 @@
-const CACHE_NAME = 'nawrah-shell-v3';
+const CACHE_NAME = 'nawrah-shell-v4';
 const SHELL_URLS = [
   '/',
   '/index.html',
   '/console-a84d8903f59b4d358c8cc927633a11f6.html',
-  '/styles.css?v=20261104-android-pwa',
+  '/styles.css?v=20261104-how-it-works',
   '/app.js?v=20261104-supabase-retry',
-  '/admin-app.js?v=20261104-staff-mfa',
+  '/admin-app.js?v=20261104-mfa-recovery',
   '/supabase-config.js',
   '/supabase-proxy.js?v=20261104-guarded-write-fallback',
   '/manifest.webmanifest',
