@@ -13,6 +13,11 @@ Use a staging project and test accounts before accepting public orders. Do not r
 7. As staff, confirm the order, then advance it through the configured fulfillment states. Confirm a customer can cancel only while it is awaiting confirmation.
 8. Mark the staging order delivered. Confirm the customer sees it in Delivered and can submit a rating only for the delivered product.
 9. Use Reorder on the delivered staging order. Confirm available quantities enter the cart, unavailable products are skipped, and the cart does not exceed live stock.
+10. Favorite a product as a guest, sign in, and confirm the favorite merges into the account. Sign in on a second device and confirm the saved favorite appears there.
+11. With the customer page open, update the test order status from a separate staff session. Confirm the customer sees an in-site status notification without refreshing.
+12. Request a stock alert for an out-of-stock test product, replenish it from the staff session, and confirm the signed-in customer sees the back-in-stock notice.
+13. Enter verified English and Bangla ingredient, allergen, storage, and cooking details in the test product. Confirm only populated details appear on its product page in each language.
+14. Change the test order status as staff and open **WhatsApp update**. Check the recipient and message draft; close without sending unless the test recipient explicitly opted in.
 
 ## Staff and security checks
 

@@ -25,10 +25,15 @@
     // explicit upstream 502; do not retry them on arbitrary proxy/network errors.
     const adminCategoryWrite = ['POST', 'PATCH'].includes(request.method) &&
       target.pathname === '/rest/v1/categories';
+    // These exact customer-owned tables enforce user_id = auth.uid() through RLS.
+    const customerWishlistWrite = ['POST', 'DELETE'].includes(request.method) &&
+      target.pathname === '/rest/v1/product_wishlist';
+    const customerStockAlertWrite = ['POST', 'PATCH'].includes(request.method) &&
+      target.pathname === '/rest/v1/product_stock_alerts';
     // Product reviews are independently constrained by RLS to a delivered
     // order belonging to the signed-in customer.
     const verifiedReviewUpsert = request.method === 'POST' && target.pathname === '/rest/v1/product_reviews';
-    const mayFallback = safeRead || safeRpc || verifiedReviewUpsert || guardedWriteRpc || adminCategoryWrite;
+    const mayFallback = safeRead || safeRpc || verifiedReviewUpsert || guardedWriteRpc || adminCategoryWrite || customerWishlistWrite || customerStockAlertWrite;
     const fallbackRequest = mayFallback ? request.clone() : null;
     const proxyUrl = new URL(`/api/supabase${target.pathname}${target.search}`, window.location.origin);
     return directFetch(new Request(proxyUrl, request)).then((response) => {

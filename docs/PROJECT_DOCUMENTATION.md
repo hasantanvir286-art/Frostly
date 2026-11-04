@@ -118,6 +118,9 @@ Supabase is the system of record for accounts, products, orders, delivery zones,
 13. `202610220013_superadmin_delete_staff.sql` — superadmin-only staff account deletion with role protections.
 14. `202610220014_manual_mobile_payments.sql` — configurable COD/bKash/Nagad/Rocket options, wallet receiving numbers, transaction references, pending verification, and secure multi-method order RPC.
 15. `202610240015_order_manager_status_access.sql` — redefines status updates to authorize order managers, admins, and superadmins on existing deployments.
+16. `202611040017_staff_totp_mfa.sql` — requires verified TOTP enrollment for staff database access; deploy compatible admin setup code first.
+17. `202611040018_customer_stock_alerts_and_delivery_hours.sql` — customer-owned back-in-stock requests and editable delivery-hours setting.
+18. `202611040019_product_details_wishlist_realtime.sql` — bilingual product handling details, customer-owned cross-device favorites, and Realtime publication for customer order/stock events.
 
 Use the Supabase SQL Editor to run each migration in order for a new project. Existing projects should apply only migrations not already applied. Do not paste Markdown formatting or backticks into the SQL Editor. Review SQL and back up production data before schema changes.
 

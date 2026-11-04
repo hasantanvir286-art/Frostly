@@ -1,8 +1,8 @@
 # Nawrah Kitchen
 
-Before using the new stock alerts and delivery-hours field, run supabase/migrations/202611040018_customer_stock_alerts_and_delivery_hours.sql in Supabase. The order QA checklist is in docs/ORDER_FLOW_RELEASE_CHECKLIST.md; Android Play preparation is in docs/ANDROID_PLAY_RELEASE.md.
+Before using the new product information, account-synced wishlist, Realtime updates, stock alerts, and delivery-hours features, run the migrations listed below in Supabase. Use docs/PRODUCTION_GO_LIVE_CHECKLIST.md for the production setup gates, docs/ORDER_FLOW_RELEASE_CHECKLIST.md for staging QA, and docs/ANDROID_PLAY_RELEASE.md for Play Store preparation.
 
-Recent release work: run supabase/migrations/202611040018_customer_stock_alerts_and_delivery_hours.sql in the Supabase SQL Editor before using back-in-stock alerts or saving delivery hours. See docs/ORDER_FLOW_RELEASE_CHECKLIST.md for staging verification and docs/ANDROID_PLAY_RELEASE.md for Android Play preparation.
+Recent release work: run supabase/migrations/202611040018_customer_stock_alerts_and_delivery_hours.sql and supabase/migrations/202611040019_product_details_wishlist_realtime.sql in the Supabase SQL Editor before using stock alerts, delivery hours, detailed product information, account-synced favorites, or live order/stock updates. See docs/PRODUCTION_GO_LIVE_CHECKLIST.md for deployment steps.
 
 Full project architecture, database, security and deployment notes are in [`docs/PROJECT_DOCUMENTATION.md`](docs/PROJECT_DOCUMENTATION.md). Customer and administrator instructions are in [`docs/USER_MANUAL.md`](docs/USER_MANUAL.md).
 
@@ -27,6 +27,9 @@ Then visit `http://localhost:8000`. Product imagery and Google Fonts are loaded 
 - Responsive bilingual storefront. Products and categories load from the live Supabase catalog; an empty catalog stays empty instead of showing sample products as real stock.
 - English-default bilingual storefront with synchronized header and footer language dropdowns; the selected language is saved in the browser.
 - Customer cart and wishlist with quantity controls and totals, persisted in browser local storage.
+- Signed-in wishlist synchronization across devices; signed-out favorites remain browser-local. Customer order status and watched-product restock updates can appear live while the site is open and signed in.
+- Bilingual product ingredients, allergen, storage, and cooking information can be managed in Admin → Products and displayed on product detail pages. Only enter details verified from product packaging or the supplier.
+- Admin order rows include a button to prepare a prefilled WhatsApp status update. It opens a draft for staff review; staff must press Send in WhatsApp.
 - Client-side wishlist and Bangla/English product-name switch.
 - Customer assistant panel with catalog-grounded answers from the local sample data. It is not an OpenAI integration.
 - A responsive admin console at `console-a84d8903f59b4d358c8cc927633a11f6.html` with live metrics, order management, catalog editing, inventory, delivery areas, and customer summaries.
@@ -71,6 +74,8 @@ The public catalog is database-backed. Replace any seed catalog rows and demo im
 19. Replace any sample catalog rows with verified Nawrah Kitchen products, images, prices, and stock before taking live orders. Confirm Supabase Auth email, site URL, and redirect settings for your local and production domains. Configure and test active delivery areas, payment method toggles, and wallet receiving numbers.
 20. Deploy the Admin authenticator setup update, then run [`supabase/migrations/202611040017_staff_totp_mfa.sql`](supabase/migrations/202611040017_staff_totp_mfa.sql) in the Supabase SQL Editor. Every staff role must enroll and verify a TOTP authenticator before staff database permissions are granted. Do not run this migration before the Admin update is deployed, or existing staff will be blocked from completing setup.
 21. Configure API throttling and temporary abusive-IP bans by following [`security/traffic-guard/README.md`](security/traffic-guard/README.md). The Cloudflare guard Worker, Pages service binding, and both matching secrets must be deployed before setting `REQUIRE_TRAFFIC_GUARD=true`.
+22. Run [`supabase/migrations/202611040018_customer_stock_alerts_and_delivery_hours.sql`](supabase/migrations/202611040018_customer_stock_alerts_and_delivery_hours.sql) for customer back-in-stock requests and editable delivery hours.
+23. Run [`supabase/migrations/202611040019_product_details_wishlist_realtime.sql`](supabase/migrations/202611040019_product_details_wishlist_realtime.sql) for bilingual product handling details, private account-synced favorites, and customer order/product Realtime subscriptions.
 
 For email confirmation, set **Supabase → Authentication → URL Configuration → Site URL** to `https://frostly-400.pages.dev` (or your custom domain) and allow-list the production root URL and local development URL under **Redirect URLs**. Signup requests now explicitly redirect to the current site root. In **Authentication → Email Templates → Confirm signup**, restore a link-based template using `{{ .ConfirmationURL }}`, for example:
 

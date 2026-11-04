@@ -315,3 +315,9 @@ html,body{width:100%;max-width:100%;overflow-x:clip}main,.wrap,.site-header,.nav
 .customer-order-reorder-button{min-height:40px;padding:8px 14px;border:1px solid #16886d;border-radius:8px;background:#effaf6;color:#08745b;font-weight:700}
 .customer-order-reorder-button:hover{background:#dff5ec}
 @media(max-width:600px){.floating-whatsapp{left:12px;bottom:12px;min-height:46px;padding:0 13px;font-size:12px}.floating-whatsapp svg{width:20px;height:20px}.footer-service-zones{max-width:100%}.customer-order-reorder-row{justify-content:stretch}.customer-order-reorder-button{width:100%}}
+/* Product facts use only admin-entered packaging and preparation information. */
+.product-info-panels{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin:14px 0}
+.product-info-panels article{min-width:0;padding:12px 13px;border:1px solid #dcebe8;border-radius:11px;background:linear-gradient(145deg,#f7fcfa,#f3f8fb)}
+.product-info-panels h3{margin:0 0 5px;color:#174356;font-size:12px;font-weight:800}
+.product-info-panels p{margin:0;color:#50697a;font-size:12px;line-height:1.65;white-space:pre-line;overflow-wrap:anywhere}
+@media(max-width:700px){.product-info-panels{grid-template-columns:1fr;gap:7px}.product-info-panels article{padding:10px 12px}}

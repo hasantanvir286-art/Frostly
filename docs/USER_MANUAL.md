@@ -96,6 +96,7 @@ For COD, place the order in checkout and pay the delivery person when the order 
 
 - Use the separate Orders icon beside the cart to open your order list. Refresh the list or filter all, in-progress, delivered, and cancelled orders.
 - Select an order reference to expand purchased products, delivery details, totals, payment method, and transaction reference where present.
+- Keep the Orders page open while signed in to receive an in-site notification when staff changes an order status. This is not an email, SMS, or push notification.
 - Order IDs displayed to customers use a date plus a UUID-based reference such as FST-2026-…; the internal numeric sequence is not the security credential.
 - After an order is marked Delivered, a customer can rate a purchased product from 1 to 5 stars and optionally leave a short review. Only eligible verified purchases can be reviewed.
 
@@ -125,13 +126,17 @@ Sign in to the storefront with an account assigned a staff role, then open the a
 2. Check the full customer-facing order reference, customer contact, delivery address, products, total, and payment details.
 3. Choose a permitted order status and save it. Status history is recorded by the database.
 4. For wallet orders, inspect the customer’s transaction ID and verify the transfer in the wallet account independently. Only then choose Mark payment verified.
+5. After changing an order status, use **WhatsApp update** to open a prefilled draft for the customer. Check the number and text; WhatsApp requires staff to press Send.
 
 ## Products and inventory
 
 1. Open Products to create or edit a product or bilingual category.
 2. Set its category, English and Bangla names, description, price, package size, active state, and stock.
 3. Upload a JPG, PNG, or WebP product image (up to 5 MB) when the image option is available.
-4. Save changes and confirm the item is active. Use Inventory for stock adjustments and audit history.
+4. Add verified English and Bangla ingredients, allergen information, storage, and cooking details when available. Leave fields blank when information is not confirmed.
+5. Save changes and confirm the item is active. Use Inventory for stock adjustments and audit history.
+
+Signed-in customer favorites synchronize to the account and can appear on another device. Guest favorites stay in that browser until sign-in merges them. A customer can request a back-in-stock alert; while signed in with the storefront open, the app can show the in-site alert after restocking.
 
 ## Delivery areas
 
