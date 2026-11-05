@@ -6,14 +6,49 @@ const ALLOWED_ORIGIN_RULES = [
   { origin: 'https://YOUR_CUSTOM_DOMAIN' }, // Replace with the exact origin, if you use one.
 ];
 
-const json = (body, status = 200) => new Response(JSON.stringify(body), {
+const json = (body, status = 200, extraHeaders = {}) => new Response(JSON.stringify(body), {
   status,
   headers: {
     'Content-Type': 'application/json; charset=utf-8',
     'X-Content-Type-Options': 'nosniff',
     'Cache-Control': 'no-store',
+    ...extraHeaders,
   },
 });
+
+let trafficGuardWarningLogged = false;
+async function enforceAssistantTrafficGuard(request, env) {
+  const guard = env.SECURITY_GUARD;
+  const sharedSecret = env.FROSTLY_GUARD_SECRET;
+  if (!guard || !sharedSecret) {
+    if (env.REQUIRE_TRAFFIC_GUARD === 'true') return json({ error: 'Assistant unavailable.' }, 503);
+    if (!trafficGuardWarningLogged) {
+      console.warn('Traffic guard is not configured; AI requests are not rate limited.');
+      trafficGuardWarningLogged = true;
+    }
+    return null;
+  }
+
+  const ip = request.headers.get('CF-Connecting-IP');
+  if (!ip) return json({ error: 'Assistant unavailable.' }, 503);
+  try {
+    const response = await guard.fetch('https://traffic-guard/check', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-Frostly-Guard-Secret': sharedSecret },
+      body: JSON.stringify({ ip, bucket: 'assistant' }),
+    });
+    if (response.status === 429) {
+      const retryAfter = response.headers.get('Retry-After') || '60';
+      return json({ error: 'Too many requests. Please wait before trying again.' }, 429, { 'Retry-After': retryAfter });
+    }
+    if (!response.ok) return json({ error: 'Assistant unavailable.' }, 503);
+    const result = await response.json();
+    return result.allowed === true ? null : json({ error: 'Assistant unavailable.' }, 503);
+  } catch (error) {
+    console.error('AI traffic guard request failed', { error: String(error?.message || error).slice(0, 160) });
+    return json({ error: 'Assistant unavailable.' }, 503);
+  }
+}
 
 function isAllowedOrigin(origin) {
   if (!origin || origin === 'null') return false;
@@ -104,6 +139,9 @@ export async function onRequestPost({ request, env }) {
   if (!isAllowedOrigin(request.headers.get('Origin'))) {
     return json({ error: 'Request origin is not allowed.' }, 403);
   }
+
+  const trafficLimit = await enforceAssistantTrafficGuard(request, env);
+  if (trafficLimit) return trafficLimit;
 
   const declaredLength = Number(request.headers.get('Content-Length') || 0);
   if (declaredLength > 4000) return json({ error: 'Request is too large.' }, 413);

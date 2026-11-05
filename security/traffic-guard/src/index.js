@@ -1,6 +1,7 @@
 const WINDOWS = Object.freeze({
   api: { max: 120, durationMs: 60_000 },
   storage: { max: 30, durationMs: 60_000 },
+  assistant: { max: 15, durationMs: 60_000 },
 });
 const BAN_AFTER_WINDOWS = 3;
 const VIOLATION_WINDOW_MS = 15 * 60_000;

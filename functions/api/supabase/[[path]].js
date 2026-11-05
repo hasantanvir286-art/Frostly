@@ -1,6 +1,7 @@
 const DEFAULT_SUPABASE_URL = 'https://ipezhryryolmebgzploa.supabase.co';
 const ALLOWED_PREFIXES = ['/rest/v1', '/storage/v1'];
 const MAX_REQUEST_BYTES = 6 * 1024 * 1024;
+let trafficGuardWarningLogged = false;
 const IMAGE_BUCKET_LIMITS = new Map([
   ['frostly-avatars', 3 * 1024 * 1024],
   ['frostly-products', 5 * 1024 * 1024],
@@ -12,7 +13,10 @@ async function enforceTrafficGuard(request, env, path, response) {
   const sharedSecret = env.FROSTLY_GUARD_SECRET;
   if (!guard || !sharedSecret) {
     if (env.REQUIRE_TRAFFIC_GUARD === 'true') return response('Traffic protection is not configured', 503);
-    console.warn('Traffic guard is not configured; Supabase proxy request passed without application rate limiting');
+    if (!trafficGuardWarningLogged) {
+      console.warn('Traffic guard is not configured; Supabase proxy requests are not rate limited.');
+      trafficGuardWarningLogged = true;
+    }
     return null;
   }
 

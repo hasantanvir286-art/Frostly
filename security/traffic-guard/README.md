@@ -6,8 +6,9 @@ This separate Cloudflare Worker protects requests routed through the Pages Supab
 
 - Supabase REST API: 120 requests per IP per 60-second window.
 - Supabase Storage API: 30 requests per IP per 60-second window.
-- Repeated over-limit activity in three separate windows within 15 minutes triggers a 30-minute temporary ban from the proxied API.
-- A ban ends automatically. It does not block cached/static Pages assets or direct requests sent to Supabase; configure Supabase Auth throttling separately. For whole-site IP blocks, use Cloudflare WAF after adding a custom domain.
+- AI shopping assistant (`POST /api/assistant`): 15 requests per IP per 60-second window.
+- Repeated over-limit activity in three separate windows within 15 minutes triggers a 30-minute temporary ban from guarded APIs, including the assistant.
+- A ban ends automatically. It does not block cached/static Pages assets or direct requests sent to Supabase; configure Supabase Auth throttling separately. For additional defense, use Cloudflare WAF rate limiting on `/api/assistant` and whole-site IP blocks after adding a custom domain.
 
 ## Deploy and connect
 
@@ -30,7 +31,7 @@ This separate Cloudflare Worker protects requests routed through the Pages Supab
 
 4. Add `REQUIRE_TRAFFIC_GUARD` with value `true` to the Pages project’s production environment. Redeploy Pages so the binding and variables are available to Functions.
 
-5. Push/deploy the Pages proxy change. Once it is live, requests are rejected with HTTP 429 when limited, and the guard fails closed with HTTP 503 if the required protection binding becomes unavailable.
+5. Push/deploy the Pages Functions. The Supabase proxy and AI assistant share this guard. Once enabled, limited requests receive HTTP 429 with `Retry-After`, and guarded endpoints fail closed with HTTP 503 if the required protection binding is missing or unavailable.
 
 Do not place either secret in Git, a `.env` file committed to the repository, or browser code. Configure preview bindings separately if preview deployments must use the protected API.
 
