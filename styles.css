@@ -358,7 +358,7 @@ html,body{width:100%;max-width:100%;overflow-x:clip}main,.wrap,.site-header,.nav
 .welcome-points svg{width:16px;height:16px;flex:none;fill:none;stroke:#9ff3df;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .auth-subtitle-link,.auth-create-link{border:0;padding:0;background:none;color:#087e69;font:inherit;font-weight:700;text-decoration:underline;text-underline-offset:2px;cursor:pointer}
 .auth-subtitle-link{margin-left:3px}
-.account-content:has(.auth-form){display:flex;flex-direction:column;justify-content:center;overflow:visible}
+.account-content:has(> .auth-form){display:flex;flex-direction:column;justify-content:center;overflow:visible}
 .account-content:has(.signup-auth-form){justify-content:flex-start;padding-top:10px}
 .auth-form.signup-auth-form{gap:8px;margin-top:0}
 .auth-field{min-width:0}
@@ -385,12 +385,21 @@ html,body{width:100%;max-width:100%;overflow-x:clip}main,.wrap,.site-header,.nav
   #accountOverlay .account-dialog{width:min(860px,100%);min-height:460px;max-height:calc(100dvh - 24px);display:grid;grid-template-columns:.82fr 1.18fr;border-radius:18px}
   #accountOverlay .account-welcome{display:flex;padding:22px}
   #accountOverlay .account-main{padding:19px 24px 20px;min-height:0}
-  #accountOverlay .account-content:has(.auth-form){overflow:visible}
+  #accountOverlay .account-content:has(> .auth-form){overflow:visible}
 }
 @media(max-width:520px){
   #accountOverlay .account-dialog{display:block;width:min(460px,100%);min-height:0;max-height:calc(100dvh - 24px);height:auto}
   #accountOverlay .account-welcome{display:none}
   #accountOverlay .account-main{padding:18px 20px 20px}
-  #accountOverlay .account-content:has(.auth-form){overflow:visible;padding-top:13px}
+  #accountOverlay .account-content:has(> .auth-form){overflow:visible;padding-top:13px}
   #accountOverlay .auth-form.signup-auth-form{gap:7px}
+  #accountOverlay .account-content:has(> .signin-auth-form){justify-content:flex-start;padding-top:24px}
 }
+@media(max-width:420px){#accountOverlay .account-content:has(> .signin-auth-form){justify-content:flex-start;padding-top:24px}}
+
+/* Small sign-in refinements and native password reveal de-duplication. */
+.auth-label-row .auth-link-button{font-size:13px!important;font-weight:500;color:#087e69}
+.auth-label-row .auth-link-button:hover{text-decoration:underline;text-underline-offset:2px}
+.auth-label-row .auth-link-button:focus-visible{outline:2px solid #0b9a7a;outline-offset:3px;border-radius:3px}
+.auth-form input[type="password"]::-ms-reveal,.auth-form input[type="password"]::-ms-clear{display:none}
+.account-content:has(> .signin-auth-form){justify-content:flex-start;padding-top:24px}

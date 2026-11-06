@@ -25,6 +25,12 @@
     // explicit upstream 502; do not retry them on arbitrary proxy/network errors.
     const adminCategoryWrite = ['POST', 'PATCH'].includes(request.method) &&
       target.pathname === '/rest/v1/categories';
+    // Storefront configuration writes are limited to this single table and are
+    // authorized by site_settings_admin_insert/update RLS policies. A direct
+    // retry is permitted only after the Pages proxy returned an explicit 502
+    // (the proxy's IP/rate guard has already accepted that request).
+    const adminSettingsWrite = ['POST', 'PATCH'].includes(request.method) &&
+      target.pathname === '/rest/v1/site_settings';
     // These exact customer-owned tables enforce user_id = auth.uid() through RLS.
     const customerWishlistWrite = ['POST', 'DELETE'].includes(request.method) &&
       target.pathname === '/rest/v1/product_wishlist';
@@ -33,7 +39,7 @@
     // Product reviews are independently constrained by RLS to a delivered
     // order belonging to the signed-in customer.
     const verifiedReviewUpsert = request.method === 'POST' && target.pathname === '/rest/v1/product_reviews';
-    const mayFallback = safeRead || safeRpc || verifiedReviewUpsert || guardedWriteRpc || adminCategoryWrite || customerWishlistWrite || customerStockAlertWrite;
+    const mayFallback = safeRead || safeRpc || verifiedReviewUpsert || guardedWriteRpc || adminCategoryWrite || adminSettingsWrite || customerWishlistWrite || customerStockAlertWrite;
     const fallbackRequest = mayFallback ? request.clone() : null;
     const proxyUrl = new URL(`/api/supabase${target.pathname}${target.search}`, window.location.origin);
     return directFetch(new Request(proxyUrl, request)).then((response) => {
