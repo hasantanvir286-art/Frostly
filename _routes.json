@@ -1,5 +1,5 @@
 {
   "version": 1,
-  "include": ["/api/supabase/*", "/api/newsletter/*"],
+  "include": ["/api/supabase/*", "/api/newsletter/*", "/api/assistant"],
   "exclude": []
 }
