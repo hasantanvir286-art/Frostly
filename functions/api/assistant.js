@@ -48,9 +48,11 @@ export async function onRequestPost({ request, env }) {
         { role: 'user', content: `${context}\n\nCustomer message: ${message}` },
       ],
       max_tokens: 300,
+      chat_template_kwargs: { enable_thinking: false },
     });
 
-    const reply = typeof result?.response === 'string' ? result.response.trim() : '';
+    const replyContent = result?.choices?.[0]?.message?.content ?? result?.response;
+    const reply = typeof replyContent === 'string' ? replyContent.trim() : '';
     if (!reply) return json({ error: 'The assistant returned an empty answer. Please try again.' }, 502);
     return json({ reply });
   } catch (error) {
