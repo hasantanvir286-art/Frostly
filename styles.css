@@ -49,6 +49,7 @@ body{background:linear-gradient(180deg,#f5fbfd 0,#fff 380px);-webkit-font-smooth
 .checkout-form .button{min-height:46px;border-radius:10px}
 .checkout-summary .checkout-grand-total{border-top:1px solid #dce9ee;margin-top:11px;padding-top:11px;font-size:14px;color:var(--deep)}
 .auth-message:empty{display:none}
+
 .brand-name{display:inline-block;font-weight:800;letter-spacing:-.045em;background:linear-gradient(115deg,#0a526c 5%,#078d83 56%,#13a784 100%);background-clip:text;-webkit-background-clip:text;color:transparent}
 .brand.light .brand-name{background-image:linear-gradient(115deg,#9ef6df 5%,#e5ffff 58%,#fff 100%)}
 .brand .snowflake{filter:drop-shadow(0 2px 3px #087f7826)}
@@ -351,3 +352,45 @@ html,body{width:100%;max-width:100%;overflow-x:clip}main,.wrap,.site-header,.nav
 .nw-how__card--visible:hover{transform:translateY(-3px)}
 @media(max-width:767px){.nw-how__steps{grid-template-columns:minmax(0,1fr);gap:28px}.nw-how__card{min-height:0;padding:18px 16px}.nw-how__card:not(:last-child)::after{top:auto;right:auto;bottom:-25px;left:50%;transform:translateX(-50%) rotate(90deg)}.nw-how__actions{width:100%}.nw-how__cta{width:100%}}
 @media(prefers-reduced-motion:reduce){.nw-how__card,.nw-how__card--pending{scroll-behavior:auto;transition:none;animation:none}.nw-how__card:hover,.nw-how__card--visible:hover{transform:none}.nw-how__card--pending{opacity:1;transform:none}}
+
+/* Account dialog layout and controls. Reuses the site's existing colors. */
+.welcome-points>span{display:flex;align-items:center;gap:9px}
+.welcome-points svg{width:16px;height:16px;flex:none;fill:none;stroke:#9ff3df;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.auth-subtitle-link,.auth-create-link{border:0;padding:0;background:none;color:#087e69;font:inherit;font-weight:700;text-decoration:underline;text-underline-offset:2px;cursor:pointer}
+.auth-subtitle-link{margin-left:3px}
+.account-content:has(.auth-form){display:flex;flex-direction:column;justify-content:center;overflow:visible}
+.account-content:has(.signup-auth-form){justify-content:flex-start;padding-top:10px}
+.auth-form.signup-auth-form{gap:8px;margin-top:0}
+.auth-field{min-width:0}
+.auth-field>label,.auth-label-row label{display:block;margin:0;color:#345069;font-size:12px;font-weight:600;letter-spacing:.01em}
+.auth-label-row{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.auth-label-row .auth-link-button{width:auto;flex:none;padding:0;font-size:11px}
+.phone-input-wrap{display:flex;align-items:stretch;min-width:0;margin-top:4px}
+.phone-prefix{display:grid;place-items:center;flex:0 0 66px;height:46px;border:1px solid #d7e5eb;border-right:0;border-radius:10px 0 0 10px;background:#fbfdfe;color:#345069;font-size:13px;font-weight:600}
+.phone-input-wrap input{min-width:0;flex:1;height:46px;margin-top:0!important;border-radius:0 10px 10px 0!important}
+.auth-form .auth-field input:focus-visible,.auth-form .phone-input-wrap input:focus-visible{outline:2px solid #0b9a7a;outline-offset:2px;border-color:#0b9a7a;box-shadow:0 0 0 3px #0b9a7a18}
+.auth-hint{display:block;margin-top:3px;color:#607b8a;font-size:11px;line-height:1.35}
+.field-error{display:block;margin-top:3px;color:#9e3340;font-size:11px;font-weight:500;line-height:1.35}
+.field-error[hidden],.auth-message[hidden]{display:none!important}
+.auth-form .button:focus-visible,.google-auth-button:focus-visible,.auth-link-button:focus-visible,.auth-switch:focus-visible,.auth-create-link:focus-visible,.auth-subtitle-link:focus-visible,.password-visibility:focus-visible,.account-dialog .close:focus-visible{outline:2px solid #0b9a7a;outline-offset:3px}
+.signin-switch{display:flex;align-items:center;justify-content:center;gap:4px;border:0;margin:13px 0 0;padding:0;color:#345069;font-size:12px;font-weight:400}
+.signin-switch .auth-create-link{font-size:12px}
+.signup-auth-form .button{margin-top:1px}
+.signup-auth-form+.auth-divider{margin:9px 0 7px}
+.auth-legal{margin:8px auto 0;max-width:340px;text-align:center;color:#607b8a;font-size:11px;line-height:1.45}
+.auth-legal a{color:#087e69;font-weight:700;text-decoration:underline;text-underline-offset:2px}
+.account-content:has(.signin-auth-form) .auth-form{margin-top:0}
+.account-content:has(.signin-auth-form) .auth-divider{margin:12px 0 8px}
+@media(max-width:700px){
+  #accountOverlay .account-dialog{width:min(860px,100%);min-height:460px;max-height:calc(100dvh - 24px);display:grid;grid-template-columns:.82fr 1.18fr;border-radius:18px}
+  #accountOverlay .account-welcome{display:flex;padding:22px}
+  #accountOverlay .account-main{padding:19px 24px 20px;min-height:0}
+  #accountOverlay .account-content:has(.auth-form){overflow:visible}
+}
+@media(max-width:520px){
+  #accountOverlay .account-dialog{display:block;width:min(460px,100%);min-height:0;max-height:calc(100dvh - 24px);height:auto}
+  #accountOverlay .account-welcome{display:none}
+  #accountOverlay .account-main{padding:18px 20px 20px}
+  #accountOverlay .account-content:has(.auth-form){overflow:visible;padding-top:13px}
+  #accountOverlay .auth-form.signup-auth-form{gap:7px}
+}
