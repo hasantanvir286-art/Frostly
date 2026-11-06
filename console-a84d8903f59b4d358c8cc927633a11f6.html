@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=20261106-close-red-auth-wrap" />
+  <link rel="stylesheet" href="styles.css?v=20261106-centered-close-mfa-break" />
   <link rel="icon" type="image/png" href="/nawrah-emblem-champagne-ice.png?v=20261102-champagne-ice" />
   <style>
     :root{--admin-navy:#08253e;--admin-green:#07866d;--admin-ice:#f4f8fb;--admin-border:#e2ebf0;--admin-muted:#708397}
@@ -54,7 +54,7 @@
     .admin-profile-dialog button.button:disabled{opacity:.55;cursor:wait}
     #adminProfileMessage{padding:10px 12px;border-radius:9px;background:#edf8f5;color:#1a6d5c;font-size:12px;line-height:1.5}
     #adminProfileMessage.auth-error{background:#fff1f1;color:#a5353e}
-    .admin-profile-dialog .close{width:34px;height:34px;border:0;border-radius:50%;background:#eef5f8;color:#153b55;font-size:20px;cursor:pointer}
+    .admin-profile-dialog .close{position:relative;display:grid;place-items:center;width:34px;height:34px;padding:0;border:0;border-radius:50%;background:#dc2626;color:#fff;font-size:0;line-height:1;cursor:pointer}
     @media(max-width:600px){.admin-profile-dialog{width:100%;padding:18px;border-radius:16px}}
   </style>
   <style>
@@ -167,6 +167,6 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.118.0"></script>
   <script src="supabase-config.js"></script>
   <script src="supabase-proxy.js?v=20261106-account-profile-proxy-fix"></script>
-  <script src="admin-app.js?v=20261106-account-profile-proxy-fix"></script>
+  <script src="admin-app.js?v=20261106-mfa-label-break"></script>
 </body>
 </html>

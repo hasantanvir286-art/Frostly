@@ -405,6 +405,9 @@ html,body{width:100%;max-width:100%;overflow-x:clip}main,.wrap,.site-header,.nav
 .account-content:has(> .signin-auth-form){justify-content:flex-start;padding-top:24px}
 
 /* Requested close-button and verification-copy refinements. */
-.close,.chat-heading .close{display:grid;place-items:center;padding:0;line-height:1;background:#dc2626;color:#fff}
+.close,.chat-heading .close{position:relative;display:grid;place-items:center;padding:0;line-height:1;font-size:0;background:#dc2626;color:#fff}
+.close::before,.close::after,.chat-heading .close::before,.chat-heading .close::after{content:"";position:absolute;left:50%;top:50%;width:12px;height:2px;border-radius:2px;background:currentColor;transform-origin:center}
+.close::before,.chat-heading .close::before{transform:translate(-50%,-50%) rotate(45deg)}
+.close::after,.chat-heading .close::after{transform:translate(-50%,-50%) rotate(-45deg)}
 .account-content #authMessage{width:100%;min-width:0;overflow-wrap:anywhere;word-break:normal}
 .account-content #authMessage strong{overflow-wrap:anywhere;word-break:break-word}
