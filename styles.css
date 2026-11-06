@@ -435,3 +435,14 @@ html,body{width:100%;max-width:100%;overflow-x:clip}main,.wrap,.site-header,.nav
 .custom-content-section{padding-top:var(--section-space,44px)}.custom-content-panel{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center;gap:26px;padding:clamp(20px,4vw,42px);border:1px solid var(--border);border-radius:var(--card-radius,12px);background:linear-gradient(115deg,var(--ice),#fff);box-shadow:var(--shadow)}.custom-content-panel h2{margin:0 0 12px;color:var(--deep);font-size:clamp(22px,3vw,34px)}.custom-content-panel p{color:var(--muted);line-height:1.7;white-space:pre-line}.custom-content-panel img{width:100%;max-height:360px;aspect-ratio:4/3;object-fit:cover;border-radius:var(--card-radius,12px)}.custom-content-text .custom-content-panel{display:block;background:#fff}.custom-content-text .custom-content-panel p{max-width:75ch}@media(max-width:760px){.custom-content-panel{grid-template-columns:1fr;gap:16px}.custom-content-panel img{max-height:280px}}
 .account-content:has(#forgotPasswordForm){justify-content:flex-start;padding-top:24px}
 .account-content:has(#forgotPasswordForm) #forgotPasswordForm{margin-top:0}
+.dynamic-page{padding-top:clamp(28px,5vw,64px);padding-bottom:clamp(40px,6vw,80px);min-height:50vh}
+.dynamic-page>h1{margin:0 0 28px;color:var(--deep);font-size:clamp(30px,5vw,48px)}
+.dynamic-page-block{margin:0 0 var(--section-space,44px);padding:clamp(20px,4vw,36px);border:1px solid var(--border);border-radius:var(--card-radius,12px);background:#fff;box-shadow:var(--shadow)}
+.dynamic-page-block h2{margin:0 0 12px;color:var(--deep);font-size:clamp(21px,3vw,30px)}
+.dynamic-page-block p{color:var(--muted);line-height:1.75;white-space:pre-line}
+.dynamic-page-image-text{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center;gap:12px 24px;background:linear-gradient(115deg,var(--ice),#fff)}.dynamic-page-image-text h2{grid-column:1;grid-row:1}.dynamic-page-image-text p{grid-column:1;grid-row:2}.dynamic-page-image-text img{grid-column:2;grid-row:1/3}
+.dynamic-page-block img{display:block;width:100%;max-height:520px;object-fit:cover;border-radius:var(--card-radius,12px)}
+.dynamic-page-image img{max-height:680px;object-fit:contain;background:#f7fafb}
+.dynamic-page-faq details{padding:0;border:0;background:transparent;box-shadow:none}
+.dynamic-page-faq summary{font-size:18px;color:var(--deep)}
+@media(max-width:700px){.dynamic-page-image-text{grid-template-columns:1fr}.dynamic-page-image-text h2,.dynamic-page-image-text p,.dynamic-page-image-text img{grid-column:1;grid-row:auto}.dynamic-page-block{margin-bottom:24px;padding:18px}}
