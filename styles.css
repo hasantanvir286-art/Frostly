@@ -322,15 +322,32 @@ html,body{width:100%;max-width:100%;overflow-x:clip}main,.wrap,.site-header,.nav
 .product-info-panels p{margin:0;color:#50697a;font-size:12px;line-height:1.65;white-space:pre-line;overflow-wrap:anywhere}
 @media(max-width:700px){.product-info-panels{grid-template-columns:1fr;gap:7px}.product-info-panels article{padding:10px 12px}}
 
-/* Compact, numbered steps with strong directional cues. */
-#about .steps{grid-template-columns:minmax(0,1fr) 30px minmax(0,1fr) 30px minmax(0,1fr);gap:6px;padding:8px}
-#about .steps article.step-card{position:relative;min-width:0;min-height:128px;padding:12px 10px 8px;gap:5px}
-#about .steps .step-number{position:absolute;top:8px;left:8px;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:#e7f7f2;color:#087e68;font-size:13px;font-weight:800}
-#about .steps article>.step-icon{width:52px;height:52px;font-size:23px}
-#about .steps .step-icon svg{width:26px;height:26px}
-#about .steps article.step-card small{font-size:13px;line-height:1.45}
-#about .steps>.step-arrow{display:grid;place-items:center;color:#087e68;font-size:28px;font-style:normal;font-weight:900;line-height:1;text-shadow:0 1px 0 #087e6840}
-#about .steps>.step-arrow svg{width:25px;height:25px;fill:none;stroke:currentColor;stroke-width:2.8;stroke-linecap:round;stroke-linejoin:round}
 .trust-panels:not(.show-home-reviews){grid-template-columns:1fr}
 .trust-panels .reviews[hidden]{display:none!important}
-@media(max-width:680px){#about .steps{display:flex;grid-template-columns:none;flex-direction:column;align-items:stretch;justify-content:flex-start;gap:2px;padding:8px}#about .steps article.step-card{width:100%;min-height:70px;padding:8px 10px 8px 37px;grid-template-columns:46px minmax(0,1fr);grid-template-rows:auto auto;justify-items:start;text-align:left;column-gap:9px;row-gap:0}#about .steps .step-number{top:12px;left:6px;width:21px;height:21px;font-size:11px}#about .steps article>.step-icon{grid-row:1/3;width:42px;height:42px;border-radius:12px}#about .steps .step-icon svg{width:23px;height:23px}#about .steps article.step-card b,#about .steps article.step-card small{align-self:end}#about .steps article.step-card small{align-self:start}#about .steps>.step-arrow{align-self:center;transform:rotate(90deg);font-size:22px;padding:0}.social a[hidden]{display:none!important}}
+.social a[hidden]{display:none!important}
+
+/* Three clear ordering steps; the brand green is controlled by --green. */
+.nw-how{--nw-how-green:var(--green)}
+.nw-how__heading{margin-bottom:20px}
+.nw-how__heading h2{margin:0;color:var(--deep);font-size:clamp(26px,3vw,32px);line-height:1.25}
+.nw-how__heading>p{margin:7px 0 0;color:var(--muted);font-size:15px;line-height:1.5}
+.nw-how__steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:42px;margin:0;padding:0;list-style:none}
+.nw-how__card{position:relative;display:flex;min-width:0;min-height:236px;flex-direction:column;align-items:center;padding:22px 20px;border:1px solid var(--border);border-radius:16px;background:#fff;box-shadow:0 5px 18px #12374c08;text-align:center;transition:transform 200ms ease,border-color 200ms ease,box-shadow 200ms ease}
+.nw-how__card:hover{transform:translateY(-3px);border-color:var(--nw-how-green);box-shadow:0 9px 22px #087e6817}
+.nw-how__card:not(:last-child)::after{position:absolute;top:50%;right:-34px;color:var(--nw-how-green);content:"→";font-size:27px;font-weight:800;line-height:1;transform:translateY(-50%)}
+.nw-how__icon-wrap{position:relative;display:grid;width:60px;height:60px;flex:0 0 60px;place-items:center;border-radius:17px;background:#e8f7f2;background:color-mix(in srgb,var(--nw-how-green) 11%,white);color:var(--nw-how-green)}
+.nw-how__icon{width:30px;height:30px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.nw-how__number{position:absolute;top:-5px;right:-5px;display:grid;width:22px;height:22px;place-items:center;border:2px solid #fff;border-radius:50%;background:var(--nw-how-green);color:#fff;font-size:11px;font-weight:800}
+.nw-how__card h3{margin:17px 0 0;color:#102f46;font-size:17px;line-height:1.35}
+.nw-how__card>p{max-width:290px;margin:8px 0 0;color:#52687a;font-size:14px;line-height:1.5}
+.nw-how__actions{display:grid;justify-items:center;gap:13px;margin-top:20px}
+.nw-how__cta{min-height:48px;background:linear-gradient(120deg,var(--green),#008465)}
+.nw-how__cta svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.nw-how__trust{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 20px;margin:0;color:#52687a;font-size:13px;line-height:1.5}
+.nw-how__trust>span{display:inline-flex;align-items:center;gap:6px}
+.nw-how__trust svg{width:16px;height:16px;flex:0 0 16px;fill:none;stroke:var(--nw-how-green);stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.nw-how__card--pending{opacity:0;transform:translateY(12px);transition:opacity 450ms ease var(--reveal-delay,0ms),transform 450ms ease var(--reveal-delay,0ms),border-color 200ms ease,box-shadow 200ms ease}
+.nw-how__card--visible{opacity:1;transform:translateY(0)}
+.nw-how__card--visible:hover{transform:translateY(-3px)}
+@media(max-width:767px){.nw-how__steps{grid-template-columns:minmax(0,1fr);gap:28px}.nw-how__card{min-height:0;padding:18px 16px}.nw-how__card:not(:last-child)::after{top:auto;right:auto;bottom:-25px;left:50%;transform:translateX(-50%) rotate(90deg)}.nw-how__actions{width:100%}.nw-how__cta{width:100%}}
+@media(prefers-reduced-motion:reduce){.nw-how__card,.nw-how__card--pending{scroll-behavior:auto;transition:none;animation:none}.nw-how__card:hover,.nw-how__card--visible:hover{transform:none}.nw-how__card--pending{opacity:1;transform:none}}
