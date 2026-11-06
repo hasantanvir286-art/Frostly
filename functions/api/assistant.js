@@ -53,7 +53,11 @@ export async function onRequestPost({ request, env }) {
     const reply = typeof result?.response === 'string' ? result.response.trim() : '';
     if (!reply) return json({ error: 'The assistant returned an empty answer. Please try again.' }, 502);
     return json({ reply });
-  } catch {
+  } catch (error) {
+    console.error('Workers AI assistant inference failed', {
+      name: String(error?.name || 'Error').slice(0, 80),
+      message: String(error?.message || 'Unknown inference error').slice(0, 300),
+    });
     return json({ error: 'The AI assistant is temporarily unavailable. Please try again.' }, 503);
   }
 }
