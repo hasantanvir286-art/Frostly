@@ -411,3 +411,24 @@ html,body{width:100%;max-width:100%;overflow-x:clip}main,.wrap,.site-header,.nav
 .close::after,.chat-heading .close::after{transform:translate(-50%,-50%) rotate(-45deg)}
 .account-content #authMessage{width:100%;min-width:0;overflow-wrap:anywhere;word-break:normal}
 .account-content #authMessage strong{overflow-wrap:anywhere;word-break:break-word}
+
+
+/* Compact customer order references, status colors, and delivery progress. */
+.customer-order-ref>b{white-space:nowrap;overflow-wrap:normal}
+.customer-order .order-status{white-space:nowrap;padding:5px 10px;font-size:10px}
+.customer-order .status-pending{background:#fff3d8;color:#8b5a00}
+.customer-order .status-confirmed,.customer-order .status-on-way{background:#e5f2ff;color:#165c9b}
+.customer-order .status-delivered{background:#e2f6ed;color:#08785e}
+.customer-order .status-cancelled{background:#f1f3f5;color:#687581}
+.customer-order-progress{position:relative;margin:15px 5px 8px;padding-top:1px}
+.customer-order-progress::before,.customer-order-progress::after{content:"";position:absolute;left:12.5%;top:6px;height:2px;border-radius:2px}
+.customer-order-progress::before{right:12.5%;background:#dce8ec}
+.customer-order-progress::after{width:var(--order-progress);background:#17866d}
+.customer-order-progress ol{position:relative;z-index:1;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;margin:0;padding:0;list-style:none}
+.customer-order-progress li{display:grid;justify-items:center;align-content:start;gap:6px;min-width:0;color:#80919e;text-align:center;font-size:9px;line-height:1.25}
+.customer-order-progress .order-progress-dot{width:12px;height:12px;border:2px solid #c8d7dd;border-radius:50%;background:#fff}
+.customer-order-progress li.is-done,.customer-order-progress li.is-current{color:#176d60;font-weight:700}
+.customer-order-progress li.is-done .order-progress-dot,.customer-order-progress li.is-current .order-progress-dot{border-color:#17866d;background:#17866d}
+.customer-order-progress li.is-current .order-progress-dot{box-shadow:0 0 0 3px #e1f3ec}
+.customer-order-status-help{margin:0 0 10px;color:#80601b;font-size:11px;line-height:1.45}
+@media(max-width:420px){.customer-order-progress{margin-inline:0}.customer-order-progress li{font-size:8px}}
