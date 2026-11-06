@@ -403,3 +403,8 @@ html,body{width:100%;max-width:100%;overflow-x:clip}main,.wrap,.site-header,.nav
 .auth-label-row .auth-link-button:focus-visible{outline:2px solid #0b9a7a;outline-offset:3px;border-radius:3px}
 .auth-form input[type="password"]::-ms-reveal,.auth-form input[type="password"]::-ms-clear{display:none}
 .account-content:has(> .signin-auth-form){justify-content:flex-start;padding-top:24px}
+
+/* Requested close-button and verification-copy refinements. */
+.close,.chat-heading .close{display:grid;place-items:center;padding:0;line-height:1;background:#dc2626;color:#fff}
+.account-content #authMessage{width:100%;min-width:0;overflow-wrap:anywhere;word-break:normal}
+.account-content #authMessage strong{overflow-wrap:anywhere;word-break:break-word}
