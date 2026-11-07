@@ -14,7 +14,7 @@
 
     const safeRead = ['GET', 'HEAD'].includes(request.method);
     const safeRpc = request.method === 'POST' &&
-      /^\/rest\/v1\/rpc\/(admin_dashboard_metrics|superadmin_list_users)$/.test(target.pathname);
+      /^\/rest\/v1\/rpc\/(admin_dashboard_metrics|superadmin_list_users|set_default_delivery_address)$/.test(target.pathname);
     // These narrow RPCs enforce ownership/role checks and validation in
     // PostgreSQL. Retry them directly against Supabase only when the Pages
     // proxy itself fails, so orders and account actions survive proxy outages.
@@ -36,17 +36,22 @@
       target.pathname === '/rest/v1/product_wishlist';
     const customerStockAlertWrite = ['POST', 'PATCH'].includes(request.method) &&
       target.pathname === '/rest/v1/product_stock_alerts';
+    // Address updates are scoped by the signed-in user's user_id filter; the
+    // Supabase RLS policy remains the authority if a proxy retry is needed.
+    const customerAddressUpdate = request.method === 'PATCH' &&
+      target.pathname === '/rest/v1/addresses' &&
+      target.searchParams.getAll('user_id').some(value => /^eq\.[0-9a-f-]{36}$/i.test(value));
     // Product reviews are independently constrained by RLS to a delivered
     // order belonging to the signed-in customer.
     const verifiedReviewUpsert = request.method === 'POST' && target.pathname === '/rest/v1/product_reviews';
-    const mayFallback = safeRead || safeRpc || verifiedReviewUpsert || guardedWriteRpc || adminCategoryWrite || adminSettingsWrite || customerWishlistWrite || customerStockAlertWrite;
+    const mayFallback = safeRead || safeRpc || verifiedReviewUpsert || guardedWriteRpc || adminCategoryWrite || adminSettingsWrite || customerWishlistWrite || customerStockAlertWrite || customerAddressUpdate;
     const fallbackRequest = mayFallback ? request.clone() : null;
     const proxyUrl = new URL(`/api/supabase${target.pathname}${target.search}`, window.location.origin);
     return directFetch(new Request(proxyUrl, request)).then((response) => {
       if (response.status === 502 && mayFallback) return directFetch(fallbackRequest);
       return response;
     }).catch((error) => {
-      if (safeRead || safeRpc || verifiedReviewUpsert || guardedWriteRpc) return directFetch(fallbackRequest);
+      if (safeRead || safeRpc || verifiedReviewUpsert || guardedWriteRpc || customerAddressUpdate) return directFetch(fallbackRequest);
       throw error;
     });
   };
