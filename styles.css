@@ -456,3 +456,7 @@ html,body{width:100%;max-width:100%;overflow-x:clip}main,.wrap,.site-header,.nav
 /* Keep storefront category photos at a consistent, compact size. */
 #categoryGrid .category-card img{display:block;width:100%;height:clamp(150px,16vw,210px);aspect-ratio:auto;object-fit:cover}
 #all-products{scroll-margin-top:18px}
+
+/* Prevent similar-product thumbnails from inheriting tall source-image dimensions. */
+.similar-product-open img{display:block;height:220px;aspect-ratio:auto;object-fit:cover}
+@media(max-width:700px){.similar-product-open img{height:clamp(130px,42vw,180px)}}
