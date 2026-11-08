@@ -460,3 +460,9 @@ html,body{width:100%;max-width:100%;overflow-x:clip}main,.wrap,.site-header,.nav
 /* Prevent similar-product thumbnails from inheriting tall source-image dimensions. */
 .similar-product-open img{display:block;height:220px;aspect-ratio:auto;object-fit:cover}
 @media(max-width:700px){.similar-product-open img{height:clamp(130px,42vw,180px)}}
+
+/* Keep the two fixed contact actions clear of each other on phones. */
+@media(max-width:600px){
+  .floating-whatsapp{bottom:calc(68px + env(safe-area-inset-bottom, 0px))}
+  .floating-chat{bottom:calc(12px + env(safe-area-inset-bottom, 0px))}
+}
