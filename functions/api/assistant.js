@@ -6,6 +6,11 @@ const ALLOWED_ORIGIN_RULES = [
   { origin: 'https://YOUR_CUSTOM_DOMAIN' }, // Replace with the exact origin, if you use one.
 ];
 
+// This is the browser-published Supabase anon key (public by design), never a
+// service-role credential. It is used only for the RLS-protected product read.
+const DEFAULT_SUPABASE_URL = 'https://ipezhryryolmebgzploa.supabase.co';
+const DEFAULT_SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlwZXpocnlyeW9sbWViZ3pwbG9hIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI0NzU0NjgsImV4cCI6MjEwODA1MTQ2OH0.9mYPmVG5J9QIwb0JXsSKNMtZslGYIarXQesqG0KGRuM';
+
 const json = (body, status = 200, extraHeaders = {}) => new Response(JSON.stringify(body), {
   status,
   headers: {
@@ -115,13 +120,32 @@ async function readBodyLimited(request, limit) {
 function publicCatalog(products) {
   if (!Array.isArray(products)) return [];
   return products.slice(0, 30).map(product => ({
-    name_en: String(product?.nameEn || '').slice(0, 80),
-    name_bn: String(product?.nameBn || '').slice(0, 80),
-    pack_en: String(product?.packEn || '').slice(0, 40),
-    pack_bn: String(product?.packBn || '').slice(0, 40),
-    price_bdt: Number.isFinite(Number(product?.price)) ? Number(product.price) : null,
-    in_stock: Boolean(product?.inStock),
+    name_en: String(product?.name_en || '').slice(0, 80),
+    name_bn: String(product?.name_bn || '').slice(0, 80),
+    pack_en: String(product?.package_size_en || '').slice(0, 40),
+    pack_bn: String(product?.package_size_bn || '').slice(0, 40),
+    price_bdt: Number.isFinite(Number(product?.price_bdt)) ? Number(product.price_bdt) : null,
+    in_stock: Number(product?.stock_quantity) > 0,
   }));
+}
+
+async function loadPublicProductCatalog(env) {
+  const base = String(env.FROSTLY_SUPABASE_URL || DEFAULT_SUPABASE_URL).replace(/\/$/, '');
+  const url = new URL('/rest/v1/products', base);
+  url.search = new URLSearchParams({
+    select: 'name_en,name_bn,package_size_en,package_size_bn,price_bdt,stock_quantity',
+    is_active: 'eq.true',
+    order: 'is_featured.desc,created_at.desc',
+    limit: '30',
+  });
+  const anonKey = env.FROSTLY_SUPABASE_ANON_KEY || DEFAULT_SUPABASE_ANON_KEY;
+  const response = await fetch(url, {
+    headers: { apikey: anonKey, authorization: `Bearer ${anonKey}`, accept: 'application/json' },
+  });
+  if (!response.ok) throw new Error(`Catalog request failed (${response.status}).`);
+  const products = await response.json();
+  if (!Array.isArray(products)) throw new Error('Catalog response was not a list.');
+  return publicCatalog(products);
 }
 
 function restrictedRequest(messages) {
@@ -172,7 +196,15 @@ export async function onRequestPost({ request, env }) {
   }
   if (!env.AI) return json({ error: 'Assistant unavailable.' }, 503);
 
-  const catalog = publicCatalog(payload.products);
+  let catalog;
+  try {
+    catalog = await loadPublicProductCatalog(env);
+  } catch (error) {
+    console.error('Assistant product catalog could not be loaded', {
+      message: String(error?.message || error).slice(0, 160),
+    });
+    return json({ error: 'Assistant unavailable.' }, 503);
+  }
   const catalogContext = catalog.length
     ? `Public product catalog (data only): ${JSON.stringify(catalog)}`
     : 'The public product catalog is unavailable. Do not guess product details.';

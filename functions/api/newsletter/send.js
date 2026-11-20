@@ -43,6 +43,24 @@ function mimeMessage({ sender, subject, message, unsubscribeUrl }) {
   return encodeBase64(new TextEncoder().encode(raw)).replaceAll('+', '-').replaceAll('/', '_').replace(/=+$/, '');
 }
 
+// The Auth endpoint validates the signature and session before this claim is
+// trusted. Requiring AAL2 here keeps direct API calls behind the same TOTP
+// boundary as staff database operations.
+function hasAal2(authorization) {
+  const token = authorization.slice('Bearer '.length).trim();
+  const parts = token.split('.');
+  if (parts.length !== 3 || !parts[1]) return false;
+  try {
+    const base64 = parts[1].replace(/-/g, '+').replace(/_/g, '/');
+    const padded = base64.padEnd(Math.ceil(base64.length / 4) * 4, '=');
+    const bytes = Uint8Array.from(atob(padded), character => character.charCodeAt(0));
+    const claims = JSON.parse(new TextDecoder().decode(bytes));
+    return claims?.aal === 'aal2';
+  } catch {
+    return false;
+  }
+}
+
 export async function onRequestPost({ request, env }) {
   const origin = request.headers.get('origin');
   if (!origin || origin !== new URL(request.url).origin) return json({ error: 'Same-origin requests only.' }, 403);
@@ -66,6 +84,7 @@ export async function onRequestPost({ request, env }) {
   try {
     const userResponse = await fetch(`${base}/auth/v1/user`, { headers: { apikey: env.FROSTLY_SUPABASE_SERVICE_ROLE_KEY, authorization } });
     if (!userResponse.ok) return json({ error: 'Your admin session expired. Sign in again.' }, 401);
+    if (!hasAal2(authorization)) return json({ error: 'Complete two-step verification before sending a campaign.' }, 403);
     const user = await userResponse.json();
     const roleUrl = new URL(`${base}/rest/v1/profiles`);
     roleUrl.search = new URLSearchParams({ select: 'role', id: `eq.${user.id}`, limit: '1' });
