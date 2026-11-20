@@ -31,14 +31,16 @@
       ]);
       if(settingsError)throw settingsError;
       if(zonesError)throw zonesError;
+      applyStoredStorefrontTranslations(settings?.page_builder?.translations,language);
+      const localizedCopy=window.policyTranslations?.[language]?.[pageKey]||window.policyTranslations?.en?.[pageKey];
       const saved=settings?.policy_pages?.[pageKey]||{},localized=saved[language]||{};
       const custom={title:localized.title||saved[`title_${language}`]||(language==='en'?saved.title||'':''),intro:localized.intro||saved[`intro_${language}`]||(language==='en'?saved.intro||'':''),body:localized.body||saved[`body_${language}`]||(language==='en'?saved.body||'':'')};
       if(pageKey==='delivery'){
         const areas=zones||[],list=areas.map(zone=>`${zone.area_name}: ৳ ${Number(zone.delivery_fee_bdt).toLocaleString(language==='bn'?'bn-BD':'en-BD')}`).join(' · ');
         const operations=settings?.page_builder?.operations||{},eta=language==='bn'?(operations.delivery_eta_bn||operations.delivery_eta_en):(operations.delivery_eta_en||operations.delivery_eta_bn);
-        const deliveryIntro=eta||copy.intro;
-        renderSections({...copy,intro:deliveryIntro,sections:[[copy.sections[0][0],areas.length?list:(language==='bn'?'এই মুহূর্তে কোনো ডেলিভারি এলাকা চালু নেই।':'No delivery areas are currently available.'),],...copy.sections.slice(1)]},custom);
-      }else renderSections(copy,custom);
+        const deliveryIntro=eta||localizedCopy.intro;
+        renderSections({...localizedCopy,intro:deliveryIntro,sections:[[localizedCopy.sections[0][0],areas.length?list:(language==='bn'?'এই মুহূর্তে কোনো ডেলিভারি এলাকা চালু নেই।':'No delivery areas are currently available.'),],...localizedCopy.sections.slice(1)]},custom);
+      }else renderSections(localizedCopy,custom);
     }catch(error){console.warn('Could not load editable policy content:',error?.message||error)}
   }
   loadDynamic();
