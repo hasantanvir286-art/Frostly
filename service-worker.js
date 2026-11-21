@@ -1,12 +1,12 @@
-const CACHE_NAME = 'nawrah-shell-v6';
+const CACHE_NAME = 'nawrah-shell-v7';
 const SHELL_URLS = [
   '/',
   '/index.html',
   '/console-a84d8903f59b4d358c8cc927633a11f6.html',
   '/styles.css?v=20261104-how-it-works',
-  '/translations.js?v=20261121-order-status-fix',
-  '/app.js?v=20261121-order-status-fix',
-  '/admin-app.js?v=20261121-order-status-fix',
+  '/translations.js?v=20261121-cancellation-approval',
+  '/app.js?v=20261121-cancellation-approval',
+  '/admin-app.js?v=20261121-cancellation-approval',
   '/supabase-config.js',
   '/supabase-proxy.js?v=20261104-guarded-write-fallback',
   '/manifest.webmanifest',
