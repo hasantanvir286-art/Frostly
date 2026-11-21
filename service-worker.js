@@ -1,4 +1,4 @@
-const CACHE_NAME = 'nawrah-shell-v7';
+const CACHE_NAME = 'nawrah-shell-v8';
 const SHELL_URLS = [
   '/',
   '/index.html',
@@ -8,7 +8,7 @@ const SHELL_URLS = [
   '/app.js?v=20261121-cancellation-approval',
   '/admin-app.js?v=20261121-cancellation-approval',
   '/supabase-config.js',
-  '/supabase-proxy.js?v=20261104-guarded-write-fallback',
+  '/supabase-proxy.js?v=20261121-cancellation-rpc-fallback',
   '/manifest.webmanifest',
   '/pwa-install.js?v=20261104-android-pwa',
   '/icons/nawrah-gold-192.png',

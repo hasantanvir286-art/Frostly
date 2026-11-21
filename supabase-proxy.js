@@ -19,7 +19,7 @@
     // PostgreSQL. Retry them directly against Supabase only when the Pages
     // proxy itself fails, so orders and account actions survive proxy outages.
     const guardedWriteRpc = request.method === 'POST' &&
-      /^\/rest\/v1\/rpc\/(place_store_order|create_cod_order|customer_cancel_order|admin_set_order_status|admin_adjust_inventory|superadmin_delete_customer|superadmin_delete_staff)$/.test(target.pathname);
+      /^\/rest\/v1\/rpc\/(place_store_order|create_cod_order|customer_cancel_order|customer_request_order_cancellation|admin_review_order_cancellation|admin_set_order_status|admin_adjust_inventory|superadmin_delete_customer|superadmin_delete_staff)$/.test(target.pathname);
     // Category mutations are protected by the catalog-manager RLS policy. Allow a
     // narrowly scoped direct retry only when the Pages proxy returns its
     // explicit upstream 502; do not retry them on arbitrary proxy/network errors.
