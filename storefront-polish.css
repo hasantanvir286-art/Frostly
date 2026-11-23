@@ -179,6 +179,10 @@ body {
 .promo-ai > .promo-assistant-symbol { position: relative; right: auto; z-index: 1; width: 58px; height: 58px; margin-inline-start: auto; mask-image: none; }
 .chat-heading > .chat-assistant-symbol { width: 34px; height: 34px; }
 .floating-chat > .assistant-symbol { width: 22px; height: 22px; }
+@keyframes assistant-robot-float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
+.floating-chat > .assistant-symbol { animation: assistant-robot-float 2.4s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) { .floating-chat > .assistant-symbol { animation: none; } }
+
 .customer-order-cancel-form .cancel-request-help { display: block; margin: 0 0 8px; }
 
 /* Trust content, care guidance, and FAQ use a single quiet surface language. */
