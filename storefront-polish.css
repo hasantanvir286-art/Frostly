@@ -174,13 +174,11 @@ body {
 .robot { color: #39775f; }
 .robot svg { display: block; width: 58px; height: 58px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
 
-/* One consistent, human assistant mark in the promo, launcher, and chat. */
-.assistant-symbol { display: block; flex: none; fill: none; stroke: currentColor; stroke-width: 1.65; stroke-linecap: round; stroke-linejoin: round; }
-.promo-ai > .promo-assistant-symbol { display: grid; place-items: center; width: 58px; height: 58px; margin-inline-start: auto; color: #39775f; }
-.promo-ai > .promo-assistant-symbol svg { display: block; width: 56px; height: 56px; }
-.chat-heading > .chat-assistant-symbol { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 9px; background: #ffffff12; color: #eaf4ef; }
-.chat-heading > .chat-assistant-symbol svg { display: block; width: 26px; height: 26px; }
-.floating-chat > .assistant-symbol { width: 18px; height: 18px; }
+/* Use the supplied robot artwork consistently in every AI assistant icon. */
+.assistant-symbol { display: block; flex: none; object-fit: cover; border-radius: 50%; background: #fff; }
+.promo-ai > .promo-assistant-symbol { position: relative; right: auto; z-index: 1; width: 58px; height: 58px; margin-inline-start: auto; mask-image: none; }
+.chat-heading > .chat-assistant-symbol { width: 34px; height: 34px; }
+.floating-chat > .assistant-symbol { width: 22px; height: 22px; }
 .customer-order-cancel-form .cancel-request-help { display: block; margin: 0 0 8px; }
 
 /* Trust content, care guidance, and FAQ use a single quiet surface language. */
