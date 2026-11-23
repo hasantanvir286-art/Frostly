@@ -1,10 +1,10 @@
-const CACHE_NAME = 'nawrah-shell-v9';
+const CACHE_NAME = 'nawrah-shell-v10';
 const SHELL_URLS = [
   '/',
   '/index.html',
   '/console-a84d8903f59b4d358c8cc927633a11f6.html',
   '/styles.css?v=20261104-how-it-works',
-  '/storefront-polish.css?v=20261122-premium-pass',
+  '/storefront-polish.css?v=20261123-assistant-cancel-details',
   '/translations.js?v=20261121-cancellation-approval',
   '/app.js?v=20261121-cancellation-approval',
   '/admin-app.js?v=20261121-cancellation-approval',
