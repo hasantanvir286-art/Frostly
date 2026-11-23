@@ -466,3 +466,12 @@ html,body{width:100%;max-width:100%;overflow-x:clip}main,.wrap,.site-header,.nav
   .floating-whatsapp{bottom:calc(68px + env(safe-area-inset-bottom, 0px))}
   .floating-chat{bottom:calc(12px + env(safe-area-inset-bottom, 0px))}
 }
+
+/* Mobile hero: show the full-width image first and keep all copy beneath it. */
+@media(max-width:760px){
+  #home > .hero{display:grid!important;grid-template-columns:minmax(0,1fr)!important;grid-auto-flow:row}
+  #home > .hero > .hero-media-column{grid-column:1;grid-row:1;width:100%;min-width:0;padding:14px 14px 0}
+  #home > .hero .hero-photo{width:100%;height:clamp(240px,78vw,380px);min-height:0;flex:0 0 auto}
+  #home > .hero > .hero-content{grid-column:1;grid-row:2;width:100%;min-width:0;padding:24px 22px 21px}
+}
+@media(max-width:420px){#home > .hero > .hero-content{padding-inline:17px}}
