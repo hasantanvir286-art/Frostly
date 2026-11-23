@@ -179,9 +179,9 @@ body {
 .promo-ai > .promo-assistant-symbol { position: relative; right: auto; z-index: 1; width: 58px; height: 58px; margin-inline-start: auto; mask-image: none; }
 .chat-heading > .chat-assistant-symbol { width: 34px; height: 34px; }
 .floating-chat > .assistant-symbol { width: 22px; height: 22px; }
-@keyframes assistant-robot-float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
-.floating-chat > .assistant-symbol { animation: assistant-robot-float 2.4s ease-in-out infinite; }
-@media (prefers-reduced-motion: reduce) { .floating-chat > .assistant-symbol { animation: none; } }
+@keyframes assistant-hand-wave { 0%,100% { transform: rotate(0); } 18% { transform: rotate(18deg); } 36% { transform: rotate(-9deg); } 54% { transform: rotate(16deg); } 72% { transform: rotate(-5deg); } }
+.floating-chat > .assistant-wave-hand { position:absolute; top:-6px; left:27px; z-index:2; width:18px; height:18px; overflow:visible; fill:none; stroke:#fff; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; transform-origin:25% 82%; animation:assistant-hand-wave 1.8s ease-in-out infinite; pointer-events:none; }
+@media (prefers-reduced-motion: reduce) { .floating-chat > .assistant-wave-hand { animation:none; } }
 
 .customer-order-cancel-form .cancel-request-help { display: block; margin: 0 0 8px; }
 
