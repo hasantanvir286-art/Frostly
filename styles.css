@@ -475,3 +475,17 @@ html,body{width:100%;max-width:100%;overflow-x:clip}main,.wrap,.site-header,.nav
   #home > .hero > .hero-content{grid-column:1;grid-row:2;width:100%;min-width:0;padding:24px 22px 21px}
 }
 @media(max-width:420px){#home > .hero > .hero-content{padding-inline:17px}}
+
+/* Keep the mobile utility bar and header controls on separate, non-overlapping tracks. */
+@media(max-width:760px){
+  .announce{justify-content:flex-start;padding:0 8px 0 12px;gap:6px;overflow:hidden}
+  #announcementText{flex:1;min-width:0;margin-right:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:clamp(9px,2.7vw,11px)}
+  .announce-right{position:static;right:auto;display:flex;align-items:center;gap:5px;flex:none}
+  .site-header{min-height:134px;grid-template-columns:minmax(0,1fr) auto;grid-template-rows:42px 34px 38px;gap:4px 8px;padding:6px 12px}
+  .brand{grid-column:1;grid-row:1;min-width:0;max-width:100%}
+  .header-actions{grid-column:2;grid-row:1;min-width:0;max-width:100%;gap:5px}
+  .location{grid-column:1/-1;grid-row:2;width:100%;min-width:0;height:34px;white-space:nowrap}
+  .searchbox{grid-column:1/-1;grid-row:3;width:100%;min-width:0;height:38px;flex:none}
+  #nav.open{grid-template-columns:minmax(0,1fr)}
+}
+@media(max-width:420px){.site-header{min-height:130px;grid-template-rows:42px 32px 36px;gap:4px 6px;padding:6px 8px}.location{height:32px}.searchbox{height:36px}.header-actions{gap:3px}}
